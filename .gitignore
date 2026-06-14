@@ -1,0 +1,29 @@
+# Build & deps
+node_modules/
+dist/
+*.tsbuildinfo
+coverage/
+
+# Local config
+.env
+
+# Logs
+*.log
+*-debug.log*
+
+# Editors & OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+terraform.tfvars
+crash.log
+crash.*.log
+
+# Local scratch / AI thinking
+.ignored/
