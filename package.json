@@ -9,6 +9,7 @@
 		"pnpm": ">=11"
 	},
 	"scripts": {
+		"secrets": "secretlint '**/*'",
 		"lint": "biome check",
 		"format": "biome format --write",
 		"format:check": "biome format",
@@ -16,9 +17,12 @@
 		"compose:down": "docker compose down -v"
 	},
 	"lint-staged": {
+		"*": "secretlint",
 		"*.{ts,tsx,js,jsonc,md}": "biome check --write --no-errors-on-unmatched"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.4.6"
+		"@biomejs/biome": "2.4.6",
+		"@secretlint/secretlint-rule-preset-recommend": "13.0.2",
+		"secretlint": "13.0.2"
 	}
 }
