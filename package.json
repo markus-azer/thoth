@@ -9,8 +9,14 @@
 		"pnpm": ">=11"
 	},
 	"scripts": {
+		"dev": "pnpm -r --parallel dev",
+		"verify": "pnpm secrets && pnpm lint && pnpm typecheck && pnpm test && pnpm build",
 		"secrets": "secretlint '**/*'",
 		"lint": "biome check",
+		"typecheck": "pnpm -r typecheck",
+		"test": "pnpm -r test",
+		"test:integration": "pnpm -r test:integration",
+		"build": "pnpm -r build",
 		"format": "biome format --write",
 		"format:check": "biome format",
 		"compose:up": "docker compose up -d --wait",
