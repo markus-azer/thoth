@@ -16,6 +16,7 @@ module.exports = {
 				"style",
 				"build",
 				"ci",
+				"infra",
 				"revert",
 			],
 		],
