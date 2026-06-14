@@ -13,7 +13,7 @@ It must follow Conventional Commits. Linted on every PR and every local commit.
 
 ## Allowed types
 
-feat, fix, chore, docs, refactor, perf, style, test, build, ci, spec, revert.
+feat, fix, chore, docs, refactor, perf, style, test, build, ci, infra, spec, revert.
 
 Example: `feat(http): welcome route`.
 

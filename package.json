@@ -1,0 +1,39 @@
+{
+	"name": "@wadjet/monorepo",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"packageManager": "pnpm@11.0.9",
+	"engines": {
+		"node": ">=24",
+		"pnpm": ">=11"
+	},
+	"scripts": {
+		"dev": "pnpm -r --parallel dev",
+		"verify": "pnpm secrets && pnpm lint && pnpm typecheck && pnpm test && pnpm build",
+		"secrets": "secretlint '**/*'",
+		"lint": "biome check",
+		"typecheck": "pnpm -r typecheck",
+		"test": "pnpm -r test",
+		"test:integration": "pnpm -r test:integration",
+		"build": "pnpm -r build",
+		"format": "biome format --write",
+		"format:check": "biome format",
+		"compose:up": "docker compose up -d --wait",
+		"compose:down": "docker compose down -v",
+		"prepare": "husky"
+	},
+	"lint-staged": {
+		"*": "secretlint",
+		"*.{ts,tsx,js,jsonc,md}": "biome check --write --no-errors-on-unmatched"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.4.6",
+		"@commitlint/cli": "19.5.0",
+		"@commitlint/config-conventional": "19.5.0",
+		"@secretlint/secretlint-rule-preset-recommend": "13.0.2",
+		"husky": "9.1.6",
+		"lint-staged": "15.2.0",
+		"secretlint": "13.0.2"
+	}
+}
