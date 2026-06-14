@@ -1,0 +1,17 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.4.6/schema.json",
+	"files": {
+		"includes": [
+			"**",
+			// excludes
+			"!**/dist",
+			"!**/node_modules",
+			"!.ignored"
+		]
+	},
+	"linter": {
+		"rules": {
+			"recommended": true
+		}
+	}
+}
