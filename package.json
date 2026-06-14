@@ -1,0 +1,15 @@
+{
+	"name": "@wadjet/monorepo",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"packageManager": "pnpm@11.0.9",
+	"engines": {
+		"node": ">=24",
+		"pnpm": ">=11"
+	},
+	"scripts": {
+		"compose:up": "docker compose up -d --wait",
+		"compose:down": "docker compose down -v"
+	}
+}
