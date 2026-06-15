@@ -25,7 +25,8 @@
 	},
 	"lint-staged": {
 		"*": "secretlint",
-		"*.{ts,tsx,js,jsonc,md}": "biome check --write --no-errors-on-unmatched"
+		"*.{ts,tsx,js,jsonc,md}": "biome check --write --no-errors-on-unmatched",
+		"*.{tf,tfvars}": "terraform fmt -write=true"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.4.6",
