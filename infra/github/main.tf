@@ -38,6 +38,14 @@ resource "github_repository_dependabot_security_updates" "repo" {
 # Tracking: https://github.com/integrations/terraform-provider-github/pull/2969
 # Until then, enable manually in repo Settings → Code security.
 
+resource "github_issue_label" "size" {
+  for_each    = local.size_labels
+  repository  = github_repository.repo.name
+  name        = each.key
+  color       = each.value.color
+  description = each.value.description
+}
+
 resource "github_branch_protection" "main" {
   repository_id = github_repository.repo.node_id
   pattern       = "main"
