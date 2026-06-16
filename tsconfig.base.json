@@ -1,0 +1,35 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"compilerOptions": {
+		"target": "ES2022",
+		"lib": ["ES2022"],
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+
+		"strict": true,
+		"esModuleInterop": true,
+
+		// Stricter than `strict: true`.
+		"noUncheckedIndexedAccess": true, // arr[i] returns T | undefined
+		"exactOptionalPropertyTypes": true, // `?` doesn't auto-add undefined
+		"noImplicitOverride": true,
+		"noImplicitThis": true,
+		"noImplicitReturns": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"allowUnreachableCode": false,
+		"allowUnusedLabels": false,
+
+		// Forces explicit `import type` so bundlers can erase types.
+		"verbatimModuleSyntax": true,
+
+		"forceConsistentCasingInFileNames": true,
+		"skipLibCheck": true,
+
+		// For DI (Inversify): emit reflect-metadata at runtime.
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true
+	}
+}
