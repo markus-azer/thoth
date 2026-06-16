@@ -34,6 +34,10 @@ resource "github_repository_dependabot_security_updates" "repo" {
   enabled    = true
 }
 
+# TODO: enable private vulnerability reporting via Terraform once provider supports it.
+# Tracking: https://github.com/integrations/terraform-provider-github/pull/2969
+# Until then, enable manually in repo Settings → Code security.
+
 resource "github_branch_protection" "main" {
   repository_id = github_repository.repo.node_id
   pattern       = "main"
