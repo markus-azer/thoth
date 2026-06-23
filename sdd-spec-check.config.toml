@@ -1,0 +1,2 @@
+specs = ["{apps,packages}/*/spec/**/*.md"]
+tests = ["{apps,packages}/*/test/**/*.test.ts"]
