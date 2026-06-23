@@ -38,3 +38,8 @@ related: [other-spec]
 ## Template
 
 See [TEMPLATE.md](TEMPLATE.md).
+
+
+## Check
+
+Test-spec alignment is enforced by [`sdd-spec-check`](https://www.npmjs.com/package/sdd-spec-check), run via `pnpm spec-check`. Config lives in `sdd-spec-check.config.toml`.

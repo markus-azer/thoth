@@ -29,6 +29,9 @@ importers:
       lint-staged:
         specifier: 15.2.0
         version: 15.2.0
+      sdd-spec-check:
+        specifier: ^0.1.0
+        version: 0.1.0
       secretlint:
         specifier: 13.0.2
         version: 13.0.2
@@ -48,18 +51,6 @@ importers:
       tsx:
         specifier: 4.21.0
         version: 4.21.0
-      typescript:
-        specifier: 5.9.3
-        version: 5.9.3
-      vitest:
-        specifier: 4.1.9
-        version: 4.1.9(@types/node@25.3.5)(vite@8.0.16(@types/node@25.3.5)(esbuild@0.28.1)(jiti@2.6.1)(tsx@4.21.0))
-
-  packages/spec-check:
-    devDependencies:
-      '@types/node':
-        specifier: 25.3.5
-        version: 25.3.5
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -1532,6 +1523,11 @@ packages:
   safe-stable-stringify@2.5.0:
     resolution: {integrity: sha512-b3rppTKm9T+PsVCBEOUR46GWI7fdOs00VKZ1+9c1EWDaDMvjQc6tUwuFyIprgGgTcWoVHSKrU8H31ZHA2e0RHA==}
     engines: {node: '>=10'}
+
+  sdd-spec-check@0.1.0:
+    resolution: {integrity: sha512-HKroPL2/t2gxPG7bYMy4gMXvnxB61R9TUg33dP4MvFyTqLVr4wzwk9NWYUm0JpYd8UoTdhMDQjZaWRrsYaEWIg==}
+    engines: {node: '>=18'}
+    hasBin: true
 
   secretlint@13.0.2:
     resolution: {integrity: sha512-veYNpVC+Yw9H/EWzdGyEsYHqCFXgKOinGEMbRffvnkHoWnE0CongrCnWXZJ1bkYmirlhemq/gkiOZ5zdHcHCQg==}
@@ -3171,6 +3167,8 @@ snapshots:
       fsevents: 2.3.3
 
   safe-stable-stringify@2.5.0: {}
+
+  sdd-spec-check@0.1.0: {}
 
   secretlint@13.0.2:
     dependencies:

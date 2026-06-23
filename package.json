@@ -10,11 +10,12 @@
 	},
 	"scripts": {
 		"dev": "pnpm -r --parallel dev",
-		"verify": "pnpm secrets && pnpm lint && pnpm typecheck && pnpm test && pnpm build",
+		"verify": "pnpm secrets && pnpm lint && pnpm typecheck && pnpm spec-check && pnpm test && pnpm build",
 		"secrets": "secretlint '**/*'",
 		"lint": "biome check",
 		"typecheck": "pnpm -r typecheck",
 		"test": "pnpm -r test",
+		"spec-check": "sdd-spec-check",
 		"test:integration": "pnpm -r test:integration",
 		"build": "pnpm -r build",
 		"format": "biome format --write",
@@ -35,6 +36,7 @@
 		"@secretlint/secretlint-rule-preset-recommend": "13.0.2",
 		"husky": "9.1.6",
 		"lint-staged": "15.2.0",
+		"sdd-spec-check": "^0.1.0",
 		"secretlint": "13.0.2"
 	}
 }

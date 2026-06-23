@@ -3,5 +3,6 @@ packages:
   - packages/*
 allowBuilds:
   esbuild: true
+  sdd-spec-check: true
 overrides:
   esbuild: 0.28.1
