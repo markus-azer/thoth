@@ -15,11 +15,11 @@ jobs:
     # TODO: also flip to success on human approval so a real reviewer can override.
     if: >-
       github.event_name == 'pull_request' ||
-      github.event.action == 'dismissed' ||
-      (github.event.action == 'submitted' &&
-       github.event.review.user.type == 'Bot' &&
+      (github.event.review.user.type == 'Bot' &&
        github.event.review.user.login == 'copilot-pull-request-reviewer[bot]' &&
-       github.event.review.commit_id == github.event.pull_request.head.sha)
+       (github.event.action == 'dismissed' ||
+        (github.event.action == 'submitted' &&
+         github.event.review.commit_id == github.event.pull_request.head.sha)))
     runs-on: ubuntu-24.04
     timeout-minutes: 2
     steps:
