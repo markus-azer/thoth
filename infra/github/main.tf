@@ -16,8 +16,6 @@ resource "github_repository" "repo" {
   delete_branch_on_merge = true
   allow_auto_merge       = true
 
-  vulnerability_alerts = true
-
   # Free on public repos. Private requires GHAS.
   security_and_analysis {
     secret_scanning {
@@ -27,6 +25,11 @@ resource "github_repository" "repo" {
       status = "enabled"
     }
   }
+}
+
+resource "github_repository_vulnerability_alerts" "repo" {
+  repository = github_repository.repo.name
+  enabled    = true
 }
 
 resource "github_repository_dependabot_security_updates" "repo" {
@@ -57,5 +60,26 @@ resource "github_branch_protection" "main" {
   required_status_checks {
     strict   = true
     contexts = var.required_status_checks
+  }
+}
+
+resource "github_repository_ruleset" "copilot_review" {
+  repository  = github_repository.repo.name
+  name        = "copilot-review"
+  target      = "branch"
+  enforcement = "active"
+
+  conditions {
+    ref_name {
+      include = ["~DEFAULT_BRANCH"]
+      exclude = []
+    }
+  }
+
+  rules {
+    copilot_code_review {
+      review_on_push             = true
+      review_draft_pull_requests = false
+    }
   }
 }
