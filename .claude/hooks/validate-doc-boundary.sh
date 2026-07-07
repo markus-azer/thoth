@@ -22,6 +22,11 @@ if [[ -z "$file_path" || ! -f "$file_path" || "$file_path" != *.md ]]; then
   exit 0
 fi
 
+# Skip meta files that describe the folder rather than being an entry.
+if [[ "$file_path" == */README.md ]]; then
+  exit 0
+fi
+
 # --- Classify the file by path ---
 
 case "$file_path" in
