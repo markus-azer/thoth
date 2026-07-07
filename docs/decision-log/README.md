@@ -10,7 +10,8 @@ Records why each decision was made. Grouped by topic, one decision per file.
 - Group by topic. Cross-link related decisions.
 - Frontmatter: `title`, `status` (accepted | proposed | deprecated | superseded), `date`, `related`.
 - Be terse. Blank lines between sections. Periods end sentences.
-- End each decision with a one-line `Why: ...` so the motivation is never lost.
+- End each decision with a one-line `Why: ...` so the motivation is never lost. Name each alternative rejected and why.
+- Formal, impersonal voice. No first-person pronouns (`we`, `I`, `our`). Prefer "X was adopted" over "we chose X".
 
 
 ## Frontmatter
