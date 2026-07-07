@@ -11,21 +11,22 @@ permissions:
 
 jobs:
   gate:
-    # Run for PR events, review dismissals, or a Copilot review of the current head.
+    # Run for PR events or a Copilot review event.
     # TODO: also flip to success on human approval so a real reviewer can override.
     if: >-
       github.event_name == 'pull_request' ||
       (github.event.review.user.type == 'Bot' &&
-       github.event.review.user.login == 'copilot-pull-request-reviewer[bot]' &&
-       (github.event.action == 'dismissed' ||
-        (github.event.action == 'submitted' &&
-         github.event.review.commit_id == github.event.pull_request.head.sha)))
+       github.event.review.user.login == 'copilot-pull-request-reviewer[bot]')
     runs-on: ubuntu-24.04
     timeout-minutes: 2
     steps:
+      # Success only when Copilot submitted a review of the current head.
       - env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
           SHA: ${{ github.event.pull_request.head.sha }}
-          STATE: ${{ github.event.action == 'submitted' && 'success' || 'pending' }}
+          STATE: >-
+            ${{ (github.event.action == 'submitted' &&
+                 github.event.review.commit_id == github.event.pull_request.head.sha)
+                && 'success' || 'pending' }}
         run: gh api "repos/$REPO/statuses/$SHA" -f state="$STATE" -f context=copilot/reviewed -f description="Copilot review"
