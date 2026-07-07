@@ -2,4 +2,4 @@ owner                  = "markus-azer"
 repo_name              = "wadjet"
 description            = "Production-ready TypeScript monorepo with pnpm workspaces."
 visibility             = "private"
-required_status_checks = ["verify", "pr-title", "pr-size", "actionlint", "terraform-fmt", "zizmor"]
+required_status_checks = ["verify", "pr-title", "pr-size", "actionlint", "terraform-fmt", "zizmor", "copilot/reviewed"]
