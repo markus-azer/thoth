@@ -1,0 +1,28 @@
+name: Copilot Review Gate
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+  pull_request_review:
+    types: [submitted]
+
+permissions:
+  statuses: write
+
+jobs:
+  gate:
+    # Match the exact bot name. Stops a lookalike account from faking a review.
+    if: >-
+      github.event_name == 'pull_request' ||
+      (github.event.review.user.type == 'Bot' &&
+       github.event.review.user.login == 'copilot-pull-request-reviewer[bot]')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      # Read event fields from env vars so nothing user-typed runs as a shell command.
+      - env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+          STATE: ${{ github.event_name == 'pull_request_review' && 'success' || 'pending' }}
+        run: gh api "repos/$REPO/statuses/$SHA" -f state="$STATE" -f context=copilot/reviewed -f description="Copilot review"
