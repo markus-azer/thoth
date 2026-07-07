@@ -62,3 +62,24 @@ resource "github_branch_protection" "main" {
     contexts = var.required_status_checks
   }
 }
+
+resource "github_repository_ruleset" "copilot_review" {
+  repository  = github_repository.repo.name
+  name        = "copilot-review"
+  target      = "branch"
+  enforcement = "active"
+
+  conditions {
+    ref_name {
+      include = ["~DEFAULT_BRANCH"]
+      exclude = []
+    }
+  }
+
+  rules {
+    copilot_code_review {
+      review_on_push             = true
+      review_draft_pull_requests = false
+    }
+  }
+}
