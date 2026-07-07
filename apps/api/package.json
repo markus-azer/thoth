@@ -11,7 +11,8 @@
 		"build": "tsup"
 	},
 	"dependencies": {
-		"@wadjet/utils": "workspace:*"
+		"@wadjet/utils": "workspace:*",
+		"envalid": "8.2.0"
 	},
 	"devDependencies": {
 		"@types/node": "25.3.5",
