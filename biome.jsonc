@@ -4,9 +4,11 @@
 		"includes": [
 			"**",
 			// excludes
+			"!**/coverage",
 			"!**/dist",
 			"!**/node_modules",
-			"!.ignored"
+			"!.ignored",
+			"!.lavish"
 		]
 	},
 	"javascript": {

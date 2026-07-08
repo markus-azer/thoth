@@ -1,3 +1,4 @@
+// TODO: extract to @wadjet/utils package since its common.
 import { withTimeout } from "@wadjet/utils";
 import { log } from "~/logger";
 import type { Lifecycle } from "./lifecycle";

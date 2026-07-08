@@ -9,6 +9,7 @@ const _env = cleanEnv(process.env, {
 	METRICS_PORT: num(),
 	PORT: num(),
 	CORS_ORIGINS: str(),
+	DATABASE_URL: str(),
 });
 
 // NODE_ENV is validated at startup but intentionally hidden from consumers.
