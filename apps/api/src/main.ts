@@ -1,5 +1,5 @@
 // Keep main.ts minimal. Bootstrapping only. Move setup logic to dedicated utils.
-import "~/tracing"; // OpenTelemetry SDK, must load before instrumented modules
+import { tracing } from "~/tracing"; // OpenTelemetry SDK, must load before instrumented modules
 import "reflect-metadata";
 import { createContainer } from "~/di/index";
 import { Postgres } from "~/infrastructure/db/index";
@@ -9,7 +9,9 @@ import { LifecycleManager } from "~/lifecycle";
 const container = await createContainer();
 
 const lifecycle = new LifecycleManager();
-// Metrics first: observable during the rest of the boot.
+// Tracing stops last so shutdown-time spans still flush.
+lifecycle.register(tracing);
+// Metrics next: observable during the rest of the boot.
 lifecycle.register(container.get(MetricsServer));
 lifecycle.register(container.get(Postgres));
 lifecycle.register(container.get(HttpServer));
