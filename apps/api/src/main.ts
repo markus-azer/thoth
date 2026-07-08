@@ -1,4 +1,5 @@
 // Keep main.ts minimal. Bootstrapping only. Move setup logic to dedicated utils.
+import "~/tracing"; // OpenTelemetry SDK, must load before instrumented modules
 import "reflect-metadata";
 import { createContainer } from "~/di/index";
 import { Postgres } from "~/infrastructure/db/index";
