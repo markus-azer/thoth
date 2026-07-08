@@ -1,4 +1,4 @@
-import { cleanEnv, str } from "envalid";
+import { cleanEnv, num, str } from "envalid";
 
 // All variables are required. If any are missing the process exits at startup.
 const _env = cleanEnv(process.env, {
@@ -6,6 +6,7 @@ const _env = cleanEnv(process.env, {
 	LOG_LEVEL: str({
 		choices: ["trace", "debug", "info", "warn", "error", "fatal", "silent"],
 	}),
+	METRICS_PORT: num(),
 });
 
 // NODE_ENV is validated at startup but intentionally hidden from consumers.
