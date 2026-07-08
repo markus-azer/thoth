@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Postgres } from "~/infrastructure/db/postgres";
 
 const mockPool = {
@@ -14,6 +14,10 @@ vi.mock("pg", () => ({
 }));
 
 describe("Postgres", () => {
+	beforeEach(() => {
+		vi.clearAllMocks();
+	});
+
 	it("RULE-DB-001: `start()` runs `SELECT 1`. If it errors, start fails", async () => {
 		mockPool.query.mockResolvedValueOnce({ rows: [] });
 		const ok = new Postgres();

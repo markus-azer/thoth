@@ -6,7 +6,7 @@ import type { Lifecycle } from "~/lifecycle/index";
 
 @injectable()
 export class Postgres implements Lifecycle {
-	readonly pool = new Pool({ connectionString: env.DATABASE_URL });
+	private readonly pool = new Pool({ connectionString: env.DATABASE_URL });
 
 	async start(): Promise<void> {
 		await this.pool.query("SELECT 1");
