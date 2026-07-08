@@ -24,8 +24,9 @@ export class MetricsServer implements Lifecycle {
 			res.json({ status: "ok" });
 		});
 
-		await new Promise<void>((resolve) => {
+		await new Promise<void>((resolve, reject) => {
 			this.server = app.listen(env.METRICS_PORT, () => resolve());
+			this.server.once("error", reject);
 		});
 	}
 
