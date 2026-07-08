@@ -8,5 +8,11 @@ export {
 	Unauthorized,
 	UnprocessableEntity,
 } from "./errors";
-export { type CreateLoggerOpts, createLogger, type Log } from "./logger";
+export {
+	type CreateLoggerOpts,
+	createLogger,
+	type Log,
+	withRequestId,
+} from "./logger";
+export { parseOrigins } from "./parseOrigins";
 export { withTimeout } from "./withTimeout";

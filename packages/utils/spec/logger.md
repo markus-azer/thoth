@@ -16,3 +16,4 @@ related: []
 - [RULE-LOGGER-002] When `opts.prettyPrint` is true, output is pretty via `pino-pretty`.
 - [RULE-LOGGER-003] `pinoInstance` is returned alongside `log` for middleware like `pino-http`.
 - [RULE-LOGGER-004] `flush()` returns a promise that resolves when pino's buffer drains.
+- [RULE-LOGGER-005] `withRequestId(id, fn)` attaches `id` as `requestId` to every log emitted within `fn`.

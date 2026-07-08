@@ -1,6 +1,6 @@
 import pinoPretty from "pino-pretty";
 import { describe, expect, it, vi } from "vitest";
-import { createLogger } from "../src/logger";
+import { createLogger, withRequestId } from "../src/logger";
 
 vi.mock("pino-pretty", async () => {
 	const actual = await vi.importActual<{
@@ -58,5 +58,29 @@ describe("createLogger", () => {
 		const { log } = createLogger({ level: "silent" });
 		expect(() => log.info("hello", { user: "alice" })).not.toThrow();
 		expect(() => log.error("boom", { err: new Error("x") })).not.toThrow();
+	});
+
+	it("RULE-LOGGER-005: `withRequestId(id, fn)` attaches `id` as `requestId` to every log emitted within `fn`", async () => {
+		const cap = captureStdout();
+		const { log } = createLogger({ level: "info" });
+
+		withRequestId("req-42", () => {
+			log.info("inside");
+		});
+		log.info("outside");
+
+		await log.flush();
+		cap.restore();
+
+		const lines = cap.writes
+			.join("")
+			.split("\n")
+			.filter((s) => s.trim().length > 0)
+			.map((s) => JSON.parse(s));
+
+		const inside = lines.find((l) => l.msg === "inside");
+		const outside = lines.find((l) => l.msg === "outside");
+		expect(inside?.requestId).toBe("req-42");
+		expect(outside?.requestId).toBeUndefined();
 	});
 });

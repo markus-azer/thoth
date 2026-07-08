@@ -1,3 +1,4 @@
+import { AsyncLocalStorage } from "node:async_hooks";
 import pino, { type Logger } from "pino";
 import pinoPretty from "pino-pretty";
 
@@ -17,6 +18,11 @@ export type CreateLoggerOpts = {
 	prettyPrint?: boolean;
 };
 
+const logContext = new AsyncLocalStorage<{ requestId: string }>();
+
+export const withRequestId = <T>(id: string, fn: () => T): T =>
+	logContext.run({ requestId: id }, fn);
+
 export const createLogger = (
 	opts: CreateLoggerOpts,
 ): { log: Log; pinoInstance: Logger } => {
@@ -25,6 +31,7 @@ export const createLogger = (
 		{
 			level: opts.level,
 			timestamp: pino.stdTimeFunctions.isoTime,
+			mixin: () => logContext.getStore() ?? {},
 		},
 		stream,
 	);

@@ -31,6 +31,10 @@ export class MetricsServer implements Lifecycle {
 	}
 
 	async stop(): Promise<void> {
+		// HTTP keep-alive holds connections open after a request completes.
+		// closeIdleConnections() clears those without aborting in-flight scrapes.
+		this.server.closeIdleConnections();
+
 		await new Promise<void>((resolve, reject) =>
 			this.server.close((err) => (err ? reject(err) : resolve())),
 		);
