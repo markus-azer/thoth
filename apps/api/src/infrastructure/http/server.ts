@@ -31,7 +31,9 @@ export class HttpServer implements Lifecycle {
 		const openBefore = await this.openConnectionCount();
 		this.server.closeIdleConnections();
 		const openAfter = await this.openConnectionCount();
-		log.info("closed idle connections", { count: openBefore - openAfter });
+		log.info("closed idle connections", {
+			closed: Math.max(0, openBefore - openAfter),
+		});
 
 		await new Promise<void>((resolve, reject) =>
 			this.server.close((err) => (err ? reject(err) : resolve())),
