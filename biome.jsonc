@@ -9,6 +9,12 @@
 			"!.ignored"
 		]
 	},
+	"javascript": {
+		"parser": {
+			// Allow Inversify @inject() on constructor params
+			"unsafeParameterDecoratorsEnabled": true
+		}
+	},
 	"linter": {
 		"rules": {
 			"recommended": true
