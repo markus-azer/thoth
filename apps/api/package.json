@@ -12,7 +12,9 @@
 	},
 	"dependencies": {
 		"@wadjet/utils": "workspace:*",
-		"envalid": "8.2.0"
+		"envalid": "8.2.0",
+		"inversify": "8.1.2",
+		"reflect-metadata": "0.2.2"
 	},
 	"devDependencies": {
 		"@types/node": "25.3.5",
