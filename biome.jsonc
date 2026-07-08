@@ -67,8 +67,8 @@
 			}
 		},
 		{
-			// HTTP infrastructure may import the raw pino instance for pino-http config
-			"includes": ["**/src/infrastructure/http/**"],
+			// Only pino-http config may import the raw pino instance
+			"includes": ["**/src/infrastructure/http/pino-http-options.ts"],
 			"linter": {
 				"rules": {
 					"style": {
