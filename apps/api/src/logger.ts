@@ -1,7 +1,7 @@
 import { createLogger } from "@wadjet/utils";
+import { env } from "~/env";
 
 export const { log, pinoInstance } = createLogger({
-	// TODO: USE ENV config
-	level: process.env["LOG_LEVEL"] ?? "info",
-	prettyPrint: process.env["NODE_ENV"] === "development",
+	level: env.LOG_LEVEL,
+	prettyPrint: env.isDev,
 });

@@ -10,7 +10,7 @@
 	},
 	"scripts": {
 		"dev": "pnpm -r --parallel dev",
-		"verify": "pnpm secrets && pnpm lint && pnpm typecheck && pnpm spec-check && pnpm test && pnpm build",
+		"verify": "pnpm secrets && pnpm lint && pnpm typecheck && pnpm peers check && pnpm spec-check && pnpm test && pnpm build",
 		"secrets": "secretlint '**/*'",
 		"lint": "biome check",
 		"typecheck": "pnpm -r typecheck",
