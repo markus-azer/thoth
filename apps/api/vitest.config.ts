@@ -1,9 +1,12 @@
 import { readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { parseEnv } from "node:util";
 import { defineConfig } from "vitest/config";
 import { tsconfigAlias } from "./vitest.alias";
 
-const env = parseEnv(readFileSync(".env.test", "utf-8"));
+const configDir = dirname(fileURLToPath(import.meta.url));
+const env = parseEnv(readFileSync(resolve(configDir, ".env.test"), "utf-8"));
 
 export default defineConfig({
 	plugins: [tsconfigAlias()],
