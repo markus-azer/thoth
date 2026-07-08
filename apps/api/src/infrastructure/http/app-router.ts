@@ -21,8 +21,9 @@ export class AppRouter {
 		// CSP is enabled in prod. In dev/test it's disabled so the /docs Swagger UI works.
 		app.use(helmet({ contentSecurityPolicy: env.isProd }));
 		app.use(cors({ origin: parseOrigins(env.CORS_ORIGINS) }));
-		app.use(pinoHttp(pinoHttpOptions));
+		// requestContext before pino-http: pino's logs carry requestId.
 		app.use(requestContext);
+		app.use(pinoHttp(pinoHttpOptions));
 		app.use(createMiddleware({ app }));
 		app.use("/", this.welcomeRouter.routes);
 
