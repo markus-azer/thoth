@@ -19,7 +19,74 @@
 	},
 	"linter": {
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"suspicious": {
+				// No explicit any; use unknown and narrow
+				"noExplicitAny": "error",
+				// No console.* in source; use the log wrapper
+				"noConsole": "error",
+				// No @ts-ignore / @ts-nocheck; use ts-expect-error with a reason
+				"noTsIgnore": "error"
+			},
+			"correctness": {
+				// Cross-folder imports must go through the folder's index.ts
+				"noPrivateImports": "error"
+			},
+			"style": {
+				// Block direct process.env access; route through env.ts
+				"noProcessEnv": "error",
+				// Ban the non-null `!` assertion
+				"noNonNullAssertion": "error",
+				// Require `import type` for type-only imports (pairs with verbatimModuleSyntax)
+				"useImportType": "error",
+				// Restrict raw pino instance to HTTP infrastructure (pino-http config only)
+				"noRestrictedImports": {
+					"level": "error",
+					"options": {
+						"paths": {
+							"~/logger": {
+								"importNames": ["pinoInstance"],
+								"message": "Use `log` for application code. `pinoInstance` is reserved for pino-http config in apps/api/src/infrastructure/http/."
+							}
+						}
+					}
+				}
+			}
 		}
-	}
+	},
+	"overrides": [
+		{
+			// Only env.ts files may access process.env directly
+			"includes": ["**/src/env.ts"],
+			"linter": {
+				"rules": {
+					"style": {
+						"noProcessEnv": "off"
+					}
+				}
+			}
+		},
+		{
+			// HTTP infrastructure may import the raw pino instance for pino-http config
+			"includes": ["**/src/infrastructure/http/**"],
+			"linter": {
+				"rules": {
+					"style": {
+						"noRestrictedImports": "off"
+					}
+				}
+			}
+		},
+		{
+			// Scripts and tests may use console for output
+			"includes": ["**/scripts/**", "**/test/**", "**/*.spec.ts"],
+			"linter": {
+				"rules": {
+					"suspicious": {
+						"noConsole": "off"
+					}
+				}
+			}
+		}
+	]
 }
