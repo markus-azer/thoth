@@ -16,3 +16,4 @@ export {
 } from "./logger";
 export { parseOrigins } from "./parseOrigins";
 export { withTimeout } from "./withTimeout";
+export { z } from "./zod";
