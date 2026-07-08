@@ -1,4 +1,4 @@
-import { cleanEnv, num, str } from "envalid";
+import { bool, cleanEnv, num, str } from "envalid";
 
 // All variables are required. If any are missing the process exits at startup.
 const _env = cleanEnv(process.env, {
@@ -10,6 +10,7 @@ const _env = cleanEnv(process.env, {
 	PORT: num(),
 	CORS_ORIGINS: str(),
 	DATABASE_URL: str(),
+	OTEL_ENABLED: bool(),
 });
 
 // NODE_ENV is validated at startup but intentionally hidden from consumers.

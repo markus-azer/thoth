@@ -12,6 +12,8 @@
 		"build": "tsup"
 	},
 	"dependencies": {
+		"@opentelemetry/auto-instrumentations-node": "0.78.0",
+		"@opentelemetry/sdk-node": "0.220.0",
 		"@promster/express": "15.5.2",
 		"@wadjet/utils": "workspace:*",
 		"cors": "2.8.6",

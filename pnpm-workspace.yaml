@@ -3,6 +3,7 @@ packages:
   - packages/*
 allowBuilds:
   esbuild: true
+  protobufjs: false
   sdd-spec-check: true
 overrides:
   esbuild: 0.28.1
