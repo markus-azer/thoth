@@ -35,4 +35,16 @@ describe("HttpServer", () => {
 		const res = await request(base).get("/");
 		expect(res.headers["x-request-id"]).toMatch(/^[A-Za-z0-9_-]{1,128}$/);
 	});
+
+	it("RULE-OAS-001: serves the OpenAPI document at /openapi.json", async () => {
+		const res = await request(base).get("/openapi.json");
+		expect(res.status).toBe(200);
+		expect(res.body.openapi).toBe("3.1.0");
+	});
+
+	it("RULE-OAS-002: serves Swagger UI at /docs", async () => {
+		const res = await request(base).get("/docs/").redirects(1);
+		expect(res.status).toBe(200);
+		expect(res.text).toContain("swagger-ui");
+	});
 });
