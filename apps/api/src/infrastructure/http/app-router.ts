@@ -11,12 +11,14 @@ import { errorHandler } from "./error-handler";
 import { generateOpenApiDocument } from "./openapi/registry";
 import { pinoHttpOptions } from "./pino-http-options";
 import { requestContext } from "./request-context";
+import { HealthRouter } from "./routes/health.router";
 import { WelcomeRouter } from "./routes/welcome.router";
 
 @injectable()
 export class AppRouter {
 	constructor(
 		@inject(WelcomeRouter) private readonly welcomeRouter: WelcomeRouter,
+		@inject(HealthRouter) private readonly healthRouter: HealthRouter,
 	) {}
 
 	mount(app: Application): void {
@@ -28,6 +30,7 @@ export class AppRouter {
 		app.use(pinoHttp(pinoHttpOptions));
 		app.use(createMiddleware({ app }));
 		app.use("/", this.welcomeRouter.routes);
+		app.use("/health", this.healthRouter.routes);
 
 		if (!env.isProd) {
 			const spec = generateOpenApiDocument();
