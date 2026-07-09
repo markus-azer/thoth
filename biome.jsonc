@@ -28,11 +28,6 @@
 				// No @ts-ignore / @ts-nocheck; use ts-expect-error with a reason
 				"noTsIgnore": "error"
 			},
-			"correctness": {
-				// Enforces JSDoc @private/@package visibility on exports.
-				// Follow-up: set defaultVisibility: "package" and tag index.ts re-exports @public to force barrel imports.
-				"noPrivateImports": "error"
-			},
 			"style": {
 				// Block direct process.env access; route through env.ts
 				"noProcessEnv": "error",
@@ -40,16 +35,23 @@
 				"noNonNullAssertion": "error",
 				// Require `import type` for type-only imports (pairs with verbatimModuleSyntax)
 				"useImportType": "error",
-				// Restrict raw pino instance to HTTP infrastructure (pino-http config only)
 				"noRestrictedImports": {
 					"level": "error",
 					"options": {
+						// Reserve `pinoInstance` for pino-http config
 						"paths": {
 							"~/logger": {
 								"importNames": ["pinoInstance"],
-								"message": "Use `log` for application code. `pinoInstance` is reserved for pino-http config in apps/api/src/infrastructure/http/."
+								"message": "Use `log` for application code. `pinoInstance` is reserved for pino-http config."
 							}
-						}
+						},
+						// Force cross-folder imports through the folder's index.ts barrel
+						"patterns": [
+							{
+								"group": ["~/*/**", "!~/**/index"],
+								"message": "Cross-folder imports must go through the folder's index.ts barrel."
+							}
+						]
 					}
 				}
 			}
@@ -68,8 +70,13 @@
 			}
 		},
 		{
-			// Only pino-http config may import the raw pino instance
-			"includes": ["**/src/infrastructure/http/pino-http-options.ts"],
+			// Only pino-http config may import the raw pino instance.
+			// Tests may deep-import src for unit isolation.
+			"includes": [
+				"**/src/infrastructure/http/pino-http-options.ts",
+				"**/test/**",
+				"**/*.spec.ts"
+			],
 			"linter": {
 				"rules": {
 					"style": {
