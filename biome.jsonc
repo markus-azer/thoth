@@ -19,7 +19,82 @@
 	},
 	"linter": {
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"suspicious": {
+				// No explicit any; use unknown and narrow
+				"noExplicitAny": "error",
+				// No console.* in source; use the log wrapper
+				"noConsole": "error",
+				// No @ts-ignore / @ts-nocheck; use ts-expect-error with a reason
+				"noTsIgnore": "error"
+			},
+			"style": {
+				// Block direct process.env access; route through env.ts
+				"noProcessEnv": "error",
+				// Ban the non-null `!` assertion
+				"noNonNullAssertion": "error",
+				// Require `import type` for type-only imports (pairs with verbatimModuleSyntax)
+				"useImportType": "error",
+				"noRestrictedImports": {
+					"level": "error",
+					"options": {
+						// Reserve `pinoInstance` for pino-http config
+						"paths": {
+							"~/logger": {
+								"importNames": ["pinoInstance"],
+								"message": "Use `log` for application code. `pinoInstance` is reserved for pino-http config."
+							}
+						},
+						// Force cross-folder imports through the folder's index.ts barrel
+						"patterns": [
+							{
+								"group": ["~/*/**", "!~/**/index"],
+								"message": "Cross-folder imports must go through the folder's index.ts barrel."
+							}
+						]
+					}
+				}
+			}
 		}
-	}
+	},
+	"overrides": [
+		{
+			// Only env.ts files may access process.env directly
+			"includes": ["**/src/env.ts"],
+			"linter": {
+				"rules": {
+					"style": {
+						"noProcessEnv": "off"
+					}
+				}
+			}
+		},
+		{
+			// Only pino-http config may import the raw pino instance.
+			// Tests may deep-import src for unit isolation.
+			"includes": [
+				"**/src/infrastructure/http/pino-http-options.ts",
+				"**/test/**",
+				"**/*.spec.ts"
+			],
+			"linter": {
+				"rules": {
+					"style": {
+						"noRestrictedImports": "off"
+					}
+				}
+			}
+		},
+		{
+			// Scripts may use console for output.
+			"includes": ["**/scripts/**"],
+			"linter": {
+				"rules": {
+					"suspicious": {
+						"noConsole": "off"
+					}
+				}
+			}
+		}
+	]
 }
