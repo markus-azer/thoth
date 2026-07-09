@@ -29,7 +29,8 @@
 				"noTsIgnore": "error"
 			},
 			"correctness": {
-				// Cross-folder imports must go through the folder's index.ts
+				// Enforces JSDoc @private/@package visibility on exports.
+				// Follow-up: set defaultVisibility: "package" and tag index.ts re-exports @public to force barrel imports.
 				"noPrivateImports": "error"
 			},
 			"style": {
