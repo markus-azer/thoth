@@ -86,8 +86,8 @@
 			}
 		},
 		{
-			// Scripts and tests may use console for output
-			"includes": ["**/scripts/**", "**/test/**", "**/*.spec.ts"],
+			// Scripts may use console for output.
+			"includes": ["**/scripts/**"],
 			"linter": {
 				"rules": {
 					"suspicious": {
