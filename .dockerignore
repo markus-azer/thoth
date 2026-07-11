@@ -1,0 +1,19 @@
+# Build & deps
+**/node_modules
+**/dist
+**/coverage
+
+# Version control
+.git
+.github
+
+# Local scratch / AI thinking
+.claude
+.ignored
+
+# Out-of-scope for the image
+infra
+docs
+
+# Logs
+*.log

@@ -12,3 +12,28 @@ services:
       interval: 2s
       timeout: 5s
       retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+      target: dev
+    ports:
+      - "3002:3002"
+      - "9090:9090"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file: apps/api/.env
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/wadjet
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /app
+          ignore:
+            - "**/node_modules"
+            - "**/dist"
+        - action: rebuild
+          path: pnpm-lock.yaml
