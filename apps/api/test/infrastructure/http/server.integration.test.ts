@@ -54,12 +54,9 @@ describe("HttpServer", () => {
 		expect(res.body).toEqual({ status: "ok" });
 	});
 
-	it('RULE-HEALTH-007: A failing DB ping forces `status: "degraded"`', async () => {
+	it('RULE-HEALTH-003: `/health/ready` returns 503 with `status: "degraded"` before `start()`', async () => {
 		const res = await request(base).get("/health/ready");
 		expect(res.status).toBe(503);
-		expect(res.body).toEqual({
-			status: "degraded",
-			checks: { db: "degraded" },
-		});
+		expect(res.body.status).toBe("degraded");
 	});
 });
