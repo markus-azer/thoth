@@ -8,7 +8,7 @@ export class WelcomeRouter {
 
 		router.get("/", (_req, res) => {
 			res.json({
-				name: "@wadjet/api",
+				name: "@thoth/api",
 				status: "ok",
 			});
 		});

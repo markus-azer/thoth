@@ -1,5 +1,5 @@
 owner                  = "markus-azer"
-repo_name              = "wadjet"
-description            = "Production-ready TypeScript monorepo with pnpm workspaces."
-visibility             = "private"
+repo_name              = "thoth"
+description            = "Personal website and MCP server."
+visibility             = "public"
 required_status_checks = ["verify", "pr-title", "pr-size", "actionlint", "terraform-fmt", "zizmor"]

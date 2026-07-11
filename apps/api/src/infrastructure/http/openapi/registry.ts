@@ -14,7 +14,7 @@ export function generateOpenApiDocument(): OpenApiDocument {
 	return generator.generateDocument({
 		openapi: "3.1.0",
 		info: {
-			title: "@wadjet/api",
+			title: "@thoth/api",
 			// TODO: derive version from git tag or commit hash
 			version: "0.0.0",
 		},

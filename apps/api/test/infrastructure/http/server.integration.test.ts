@@ -21,7 +21,7 @@ describe("HttpServer", () => {
 	it("serves the welcome route on /", async () => {
 		const res = await request(base).get("/");
 		expect(res.status).toBe(200);
-		expect(res.body).toEqual({ name: "@wadjet/api", status: "ok" });
+		expect(res.body).toEqual({ name: "@thoth/api", status: "ok" });
 	});
 
 	it("echoes x-request-id back on the response", async () => {

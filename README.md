@@ -1,6 +1,6 @@
-# Wadjet
+# Thoth
 
-Production-ready TypeScript monorepo with pnpm workspaces.
+Personal website and MCP server.
 
 ## Layout
 

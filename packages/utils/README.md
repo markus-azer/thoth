@@ -1,4 +1,4 @@
-# @wadjet/utils
+# @thoth/utils
 
 Shared utilities. `createLogger` (pino facade), `withTimeout`.
 

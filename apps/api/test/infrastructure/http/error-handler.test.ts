@@ -1,4 +1,4 @@
-import { AppError, ErrorCode } from "@wadjet/utils";
+import { AppError, ErrorCode } from "@thoth/utils";
 import express from "express";
 import request from "supertest";
 import { describe, expect, it } from "vitest";

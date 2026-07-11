@@ -54,13 +54,13 @@
 								"importNames": ["pinoInstance"],
 								"message": "Use `log` for application code. `pinoInstance` is reserved for pino-http config."
 							},
-							// Force zod, pino, pino-pretty through the @wadjet/utils wrappers
+							// Force zod, pino, pino-pretty through the @thoth/utils wrappers
 							"zod": {
-								"message": "Use `z` from @wadjet/utils (has .openapi())."
+								"message": "Use `z` from @thoth/utils (has .openapi())."
 							},
-							"pino": { "message": "Use `log` from @wadjet/utils." },
+							"pino": { "message": "Use `log` from @thoth/utils." },
 							"pino-pretty": {
-								"message": "Wired inside @wadjet/utils createLogger; don't import directly."
+								"message": "Wired inside @thoth/utils createLogger; don't import directly."
 							}
 						},
 						"patterns": [
@@ -72,7 +72,7 @@
 							// Block relative parent imports that leave the current module
 							{
 								"group": ["../../**"],
-								"message": "Use `~/` (src) or `@wadjet/*` (workspaces) instead of `../../`."
+								"message": "Use `~/` (src) or `@thoth/*` (workspaces) instead of `../../`."
 							}
 						]
 					}

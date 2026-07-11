@@ -1,4 +1,4 @@
-# @wadjet/api
+# @thoth/api
 
 HTTP service with lifecycle-managed startup and shutdown.
 

@@ -1,4 +1,4 @@
-import { withRequestId } from "@wadjet/utils";
+import { withRequestId } from "@thoth/utils";
 import type { RequestHandler } from "express";
 import { v7 as uuidv7 } from "uuid";
 

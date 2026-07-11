@@ -1,4 +1,4 @@
-// TODO: extract to @wadjet/postgres package since its common.
+// TODO: extract to @thoth/postgres package since its common.
 import { injectable } from "inversify";
 import { Pool, type QueryResultRow } from "pg";
 import { env } from "~/env";

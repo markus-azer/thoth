@@ -1,7 +1,7 @@
 ---
 name: new-router
 description: |
-  Expose a wadjet API module via HTTP. Creates the injectable router, wires DI, exports through the http barrel, and mounts in app-router. Use when the user asks to "wire a router", "expose HTTP routes", or "new router".
+  Expose a thoth API module via HTTP. Creates the injectable router, wires DI, exports through the http barrel, and mounts in app-router. Use when the user asks to "wire a router", "expose HTTP routes", or "new router".
 ---
 
 # New Router
