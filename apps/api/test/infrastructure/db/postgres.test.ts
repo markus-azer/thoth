@@ -44,4 +44,15 @@ describe("Postgres", () => {
 		expect(result).toBe(rows);
 		expect(mockPool.query).toHaveBeenCalledWith("SELECT id FROM t", [1]);
 	});
+
+	it("RULE-DB-004: `ping()` returns `true` when `SELECT 1` succeeds, `false` on any error", async () => {
+		const pg = new Postgres();
+
+		mockPool.query.mockResolvedValueOnce({ rows: [] });
+		await expect(pg.ping()).resolves.toBe(true);
+		expect(mockPool.query).toHaveBeenLastCalledWith("SELECT 1");
+
+		mockPool.query.mockRejectedValueOnce(new Error("boom"));
+		await expect(pg.ping()).resolves.toBe(false);
+	});
 });

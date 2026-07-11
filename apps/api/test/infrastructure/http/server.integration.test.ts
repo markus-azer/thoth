@@ -47,4 +47,16 @@ describe("HttpServer", () => {
 		expect(res.status).toBe(200);
 		expect(res.text).toContain("swagger-ui");
 	});
+
+	it('RULE-HEALTH-001: `/health/live` returns 200 with `{ status: "ok" }`', async () => {
+		const res = await request(base).get("/health/live");
+		expect(res.status).toBe(200);
+		expect(res.body).toEqual({ status: "ok" });
+	});
+
+	it('RULE-HEALTH-003: `/health/ready` returns 503 with `status: "degraded"` before `start()`', async () => {
+		const res = await request(base).get("/health/ready");
+		expect(res.status).toBe(503);
+		expect(res.body.status).toBe("degraded");
+	});
 });
