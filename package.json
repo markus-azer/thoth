@@ -37,7 +37,7 @@
 		"@secretlint/secretlint-rule-preset-recommend": "13.0.2",
 		"husky": "9.1.6",
 		"lint-staged": "17.0.8",
-		"sdd-spec-check": "^0.1.1",
+		"sdd-spec-check": "0.1.1",
 		"secretlint": "13.0.2"
 	}
 }

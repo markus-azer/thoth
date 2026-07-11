@@ -15,5 +15,8 @@
 infra
 docs
 
+# Env files (never bake secrets into image layers)
+**/.env
+
 # Logs
 *.log

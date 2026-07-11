@@ -1,5 +1,5 @@
 # base: Node + pnpm, shared by all stages
-FROM node:24-alpine AS base
+FROM node:24.15.0-alpine AS base
 RUN corepack enable
 WORKDIR /app
 
@@ -25,7 +25,7 @@ RUN pnpm --filter @wadjet/api build \
  && pnpm --filter @wadjet/api deploy --prod /prod/api
 
 # runner: slim production image
-FROM node:24-alpine AS runner
+FROM node:24.15.0-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
