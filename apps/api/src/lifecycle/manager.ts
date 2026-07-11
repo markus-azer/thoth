@@ -34,7 +34,7 @@ export class LifecycleManager {
 	// Last-resort trap for escaped errors. Node won't await this, that's fine.
 	trapFatals(): void {
 		const fatal = (kind: string) => async (err: unknown) => {
-			log.error(kind, { err });
+			log.error("fatal", { kind, err });
 			await log.flush();
 			process.exit(1);
 		};
