@@ -5,7 +5,7 @@ WORKDIR /app
 
 # fetch: download all deps to pnpm store using only the lockfile
 FROM base AS fetch
-COPY pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm fetch
 
 # deps: install from store after full source copy (scales to new packages)
