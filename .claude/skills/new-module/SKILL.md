@@ -1,6 +1,14 @@
+---
+name: new-module
+description: |
+  Scaffold a wadjet API module from a spec. Creates domain/application/interface files, DI bindings, and test stubs. Use when the user asks to "scaffold a module", "new module", or "add a feature module".
+---
+
 # New Module
 
 Scaffold a module or feature from a spec.
+
+`[name]` in this doc is a placeholder. Substitute the actual module name (e.g. `auth`) everywhere it appears.
 
 ## Ask
 
