@@ -7,6 +7,7 @@
 - Plan only for non-trivial changes.
 - Write self-explanatory code.
 - Split long sentences for readability.
+- Enforce rules with biome or GritQL plugins. Markdown rules docs only when a lint can't express it.
 
 **Don't**
 - Be verbose.
