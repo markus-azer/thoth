@@ -1,5 +1,5 @@
-// TODO: extract to @wadjet/utils package since its common.
-import { withTimeout } from "@wadjet/utils";
+// TODO: extract to @thoth/utils package since its common.
+import { withTimeout } from "@thoth/utils";
 import { log } from "~/logger";
 import type { Lifecycle } from "./lifecycle";
 

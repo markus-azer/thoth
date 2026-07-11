@@ -50,7 +50,7 @@ importers:
       '@promster/express':
         specifier: 15.5.2
         version: 15.5.2(prom-client@15.1.3)
-      '@wadjet/utils':
+      '@thoth/utils':
         specifier: workspace:*
         version: link:../../packages/utils
       cors:

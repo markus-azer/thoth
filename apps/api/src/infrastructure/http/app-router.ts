@@ -1,5 +1,5 @@
 import { createMiddleware } from "@promster/express";
-import { parseOrigins } from "@wadjet/utils";
+import { parseOrigins } from "@thoth/utils";
 import cors from "cors";
 import type { Application } from "express";
 import helmet from "helmet";
@@ -40,7 +40,7 @@ export class AppRouter {
 			app.use(
 				"/docs",
 				...swaggerUi.serve,
-				swaggerUi.setup(spec, { customSiteTitle: "@wadjet/api" }),
+				swaggerUi.setup(spec, { customSiteTitle: "@thoth/api" }),
 			);
 		}
 

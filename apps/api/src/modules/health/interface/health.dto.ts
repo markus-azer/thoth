@@ -1,4 +1,4 @@
-import { z } from "@wadjet/utils";
+import { z } from "@thoth/utils";
 
 const StatusSchema = z.enum(["ok", "degraded"]);
 

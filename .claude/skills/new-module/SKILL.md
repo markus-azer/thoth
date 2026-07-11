@@ -1,7 +1,7 @@
 ---
 name: new-module
 description: |
-  Scaffold a wadjet API module from a spec. Creates domain/application/interface files, DI bindings, and test stubs. Use when the user asks to "scaffold a module", "new module", or "add a feature module".
+  Scaffold a thoth API module from a spec. Creates domain/application/interface files, DI bindings, and test stubs. Use when the user asks to "scaffold a module", "new module", or "add a feature module".
 ---
 
 # New Module
@@ -29,7 +29,7 @@ Placeholders in this doc:
 **New module** (`apps/api/src/modules/[name]/` doesn't exist):
 - `domain/[name].ts` — pure TS types from spec outputs
 - `application/[name].service.ts` — service stub per spec
-- `interface/[name].dto.ts` — Zod schemas via `@wadjet/utils` `z` (has `.openapi()`)
+- `interface/[name].dto.ts` — Zod schemas via `@thoth/utils` `z` (has `.openapi()`)
 - `interface/[name].controller.ts` — Express controller stub
 - `index.ts` — exports service, controller, DTOs only
 

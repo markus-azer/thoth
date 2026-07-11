@@ -1,7 +1,7 @@
 ---
 name: pr-opening
 description: |
-  Open a PR in wadjet. Branch from main, stage explicitly, commit with Conventional Commits subject, push, then `gh pr create` with a HEREDOC body. Use when the user asks to "open a PR", "push and PR", "make a PR", or similar.
+  Open a PR in thoth. Branch from main, stage explicitly, commit with Conventional Commits subject, push, then `gh pr create` with a HEREDOC body. Use when the user asks to "open a PR", "push and PR", "make a PR", or similar.
 ---
 
 # Opening a PR
