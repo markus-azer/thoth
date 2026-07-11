@@ -8,7 +8,10 @@ description: |
 
 Scaffold a module or feature from a spec.
 
-`[name]` in this doc is a placeholder. Substitute the actual module name (e.g. `auth`) everywhere it appears.
+Placeholders in this doc:
+- `[name]` — module name, lowercase (e.g. `auth`).
+- `[Name]` — PascalCase form (e.g. `Auth`).
+- `[NAME]` — uppercase form for rule IDs (e.g. `AUTH`).
 
 ## Ask
 
@@ -31,12 +34,13 @@ Scaffold a module or feature from a spec.
 - `index.ts` — exports service, controller, DTOs only
 
 **DI** (`apps/api/src/di/index.ts`):
-- If `// [name] module` comment exists → add bindings under it.
-- If not → create `// [name] module` comment and bind service and controller below it.
+- Under `// [name] module`, bind the controller, then the service.
+- If the comment is not there, add it first.
+- When `new-router` runs later, it puts the router on top. Final order: Router, Controller, Service. Same as health.
 
 **Tests** (`apps/api/test/modules/[name]/`):
 - One `application/[name].service.test.ts` covering the spec rules.
-- `it("RULE-[NAME]-NNN: <verbatim rule text>")` — one per rule.
+- `it('RULE-[NAME]-NNN: <verbatim rule text>')` — one per rule. Use single quotes to match the health tests.
 
 **Existing module** (e.g. adding `logout` to `auth`):
 - Add methods to existing service.

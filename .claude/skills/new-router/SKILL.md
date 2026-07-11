@@ -8,7 +8,11 @@ description: |
 
 Expose a module via HTTP.
 
-`[name]` in this doc is a placeholder. Substitute the actual module name (e.g. `auth`) everywhere it appears. Run `new-module` first if the module doesn't exist yet.
+Placeholders in this doc:
+- `[name]` — module name, lowercase (e.g. `auth`).
+- `[Name]` — PascalCase form (e.g. `Auth`).
+
+Run `new-module` first if the module doesn't exist yet.
 
 ## Ask
 
@@ -25,9 +29,8 @@ Expose a module via HTTP.
 - Add `export { [Name]Router } from "./routes/[name].router";` alongside the existing router exports.
 
 **DI** (`apps/api/src/di/index.ts`):
-- Bind router under the existing `// [name] module` comment.
-- If the comment is absent (module bootstrapped without `new-module`) → create it first, then bind.
-- Service and controller are already bound by `new-module`.
+- Under `// [name] module`, bind the router first, above the controller and service. Final order: Router, Controller, Service. Same as health.
+- If the comment is not there (module was set up by hand), add it first, then bind.
 
 **App router** (`apps/api/src/infrastructure/http/app-router.ts`):
 - Inject new router in constructor.
