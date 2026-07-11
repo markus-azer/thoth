@@ -1,0 +1,8 @@
+language js
+
+`(await $_)` where {
+  register_diagnostic(
+    span = $match,
+    message = "Don't wrap `await` in parens. Assign to a variable first."
+  )
+}

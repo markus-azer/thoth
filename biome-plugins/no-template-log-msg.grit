@@ -1,0 +1,9 @@
+language js
+
+`log.$_($msg, $...)` where {
+  $msg <: not JsStringLiteralExpression(),
+  register_diagnostic(
+    span = $msg,
+    message = "log msg must be a static string literal."
+  )
+}

@@ -1,5 +1,9 @@
 {
 	"$schema": "https://biomejs.dev/schemas/2.4.6/schema.json",
+	"plugins": [
+		"./biome-plugins/no-parens-await.grit",
+		"./biome-plugins/no-template-log-msg.grit"
+	],
 	"files": {
 		"includes": [
 			"**",
@@ -8,7 +12,8 @@
 			"!**/dist",
 			"!**/node_modules",
 			"!.ignored",
-			"!.lavish"
+			"!.lavish",
+			"!biome-plugins"
 		]
 	},
 	"javascript": {
@@ -35,21 +40,39 @@
 				"noNonNullAssertion": "error",
 				// Require `import type` for type-only imports (pairs with verbatimModuleSyntax)
 				"useImportType": "error",
+				// Filenames: kebab-case or camelCase, no PascalCase
+				"useFilenamingConvention": {
+					"level": "error",
+					"options": { "filenameCases": ["kebab-case", "camelCase"] }
+				},
 				"noRestrictedImports": {
 					"level": "error",
 					"options": {
-						// Reserve `pinoInstance` for pino-http config
 						"paths": {
+							// Reserve `pinoInstance` for pino-http config
 							"~/logger": {
 								"importNames": ["pinoInstance"],
 								"message": "Use `log` for application code. `pinoInstance` is reserved for pino-http config."
+							},
+							// Force zod, pino, pino-pretty through the @wadjet/utils wrappers
+							"zod": {
+								"message": "Use `z` from @wadjet/utils (has .openapi())."
+							},
+							"pino": { "message": "Use `log` from @wadjet/utils." },
+							"pino-pretty": {
+								"message": "Wired inside @wadjet/utils createLogger; don't import directly."
 							}
 						},
-						// Force cross-folder imports through the folder's index.ts barrel
 						"patterns": [
+							// Force cross-folder imports through the folder's index.ts barrel
 							{
 								"group": ["~/*/**", "!~/**/index"],
 								"message": "Cross-folder imports must go through the folder's index.ts barrel."
+							},
+							// Block relative parent imports that leave the current module
+							{
+								"group": ["../../**"],
+								"message": "Use `~/` (src) or `@wadjet/*` (workspaces) instead of `../../`."
 							}
 						]
 					}
@@ -59,8 +82,9 @@
 	},
 	"overrides": [
 		{
-			// Only env.ts files may access process.env directly
+			// Only env.ts files may access process.env directly, and no envalid defaults
 			"includes": ["**/src/env.ts"],
+			"plugins": ["./biome-plugins/no-envalid-default.grit"],
 			"linter": {
 				"rules": {
 					"style": {
@@ -70,10 +94,11 @@
 			}
 		},
 		{
-			// Only pino-http config may import the raw pino instance.
+			// Only wrapper implementation sites may import raw zod/pino.
 			// Tests may deep-import src for unit isolation.
 			"includes": [
 				"**/src/infrastructure/http/pino-http-options.ts",
+				"**/packages/utils/src/**",
 				"**/test/**",
 				"**/*.spec.ts"
 			],
