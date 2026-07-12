@@ -12,6 +12,7 @@ import { generateOpenApiDocument } from "./openapi/registry";
 import { pinoHttpOptions } from "./pino-http-options";
 import { requestContext } from "./request-context";
 import { HealthRouter } from "./routes/health.router";
+import { McpRouter } from "./routes/mcp.router";
 import { WelcomeRouter } from "./routes/welcome.router";
 
 @injectable()
@@ -19,6 +20,7 @@ export class AppRouter {
 	constructor(
 		@inject(WelcomeRouter) private readonly welcomeRouter: WelcomeRouter,
 		@inject(HealthRouter) private readonly healthRouter: HealthRouter,
+		@inject(McpRouter) private readonly mcpRouter: McpRouter,
 	) {}
 
 	mount(app: Application): void {
@@ -31,6 +33,7 @@ export class AppRouter {
 		app.use(createMiddleware({ app }));
 		app.use("/", this.welcomeRouter.routes);
 		app.use("/health", this.healthRouter.routes);
+		app.use("/mcp", this.mcpRouter.routes);
 
 		if (!env.isProd) {
 			const spec = generateOpenApiDocument();

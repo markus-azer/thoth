@@ -4,6 +4,7 @@ import {
 	AppRouter,
 	HealthRouter,
 	HttpServer,
+	McpRouter,
 	MetricsServer,
 	WelcomeRouter,
 } from "~/infrastructure/http/index";
@@ -18,6 +19,7 @@ export async function createContainer(): Promise<Container> {
 	container.bind(HttpServer).toSelf().inSingletonScope();
 	container.bind(AppRouter).toSelf().inSingletonScope();
 	container.bind(WelcomeRouter).toSelf().inSingletonScope();
+	container.bind(McpRouter).toSelf().inSingletonScope();
 
 	// health module
 	container.bind(HealthRouter).toSelf().inSingletonScope();
