@@ -13,6 +13,7 @@
 	},
 	"dependencies": {
 		"@asteasolutions/zod-to-openapi": "8.5.0",
+		"@modelcontextprotocol/sdk": "1.29.0",
 		"@opentelemetry/auto-instrumentations-node": "0.78.0",
 		"@opentelemetry/sdk-node": "0.220.0",
 		"@promster/express": "15.5.2",
