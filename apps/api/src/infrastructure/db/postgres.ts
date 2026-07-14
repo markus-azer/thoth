@@ -1,6 +1,6 @@
 // TODO: extract to @thoth/postgres package since its common.
 import { injectable } from "inversify";
-import { Pool, type QueryResultRow } from "pg";
+import { Pool, type PoolClient, type QueryResultRow } from "pg";
 import { env } from "~/env";
 import type { Lifecycle } from "~/lifecycle/index";
 
@@ -30,6 +30,21 @@ export class Postgres implements Lifecycle {
 			return true;
 		} catch {
 			return false;
+		}
+	}
+
+	async transaction<T>(fn: (tx: PoolClient) => Promise<T>): Promise<T> {
+		const client = await this.pool.connect();
+		try {
+			await client.query("BEGIN");
+			const result = await fn(client);
+			await client.query("COMMIT");
+			return result;
+		} catch (err) {
+			await client.query("ROLLBACK");
+			throw err;
+		} finally {
+			client.release();
 		}
 	}
 }
