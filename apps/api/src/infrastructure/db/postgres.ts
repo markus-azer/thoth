@@ -3,6 +3,7 @@ import { injectable } from "inversify";
 import { Pool, type PoolClient, type QueryResultRow } from "pg";
 import { env } from "~/env";
 import type { Lifecycle } from "~/lifecycle/index";
+import { log } from "~/logger";
 
 @injectable()
 export class Postgres implements Lifecycle {
@@ -41,7 +42,11 @@ export class Postgres implements Lifecycle {
 			await client.query("COMMIT");
 			return result;
 		} catch (err) {
-			await client.query("ROLLBACK");
+			await client
+				.query("ROLLBACK")
+				.catch((rollbackErr) =>
+					log.error("rollback failed", { err: rollbackErr }),
+				);
 			throw err;
 		} finally {
 			client.release();
