@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres:17
+    image: postgres:17.10
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -13,6 +13,19 @@ services:
       timeout: 5s
       retries: 10
 
+  flyway:
+    image: flyway/flyway:11.20.3
+    command: -connectRetries=10 migrate
+    environment:
+      FLYWAY_URL: jdbc:postgresql://postgres:5432/thoth
+      FLYWAY_USER: postgres
+      FLYWAY_PASSWORD: postgres
+    volumes:
+      - ./apps/api/sql:/flyway/sql:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+
   api:
     build:
       context: .
@@ -24,6 +37,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      flyway:
+        condition: service_completed_successfully
     env_file: apps/api/.env
     environment:
       DATABASE_URL: postgres://postgres:postgres@postgres:5432/thoth
