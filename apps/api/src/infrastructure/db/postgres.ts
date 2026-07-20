@@ -36,23 +36,21 @@ export class Postgres implements Lifecycle {
 
 	async transaction<T>(fn: (tx: PoolClient) => Promise<T>): Promise<T> {
 		const client = await this.pool.connect();
-		let poisoned = false;
 		try {
 			await client.query("BEGIN");
 			const result = await fn(client);
 			await client.query("COMMIT");
+			client.release();
 			return result;
 		} catch (err) {
-			poisoned = await client
-				.query("ROLLBACK")
-				.then(() => false)
-				.catch((rollbackErr) => {
+			await client.query("ROLLBACK").then(
+				() => client.release(),
+				(rollbackErr) => {
 					log.error("rollback failed", { err: rollbackErr });
-					return true;
-				});
+					client.release(true);
+				},
+			);
 			throw err;
-		} finally {
-			client.release(poisoned);
 		}
 	}
 }
