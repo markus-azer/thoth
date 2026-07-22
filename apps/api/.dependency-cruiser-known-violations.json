@@ -1,0 +1,19 @@
+[
+  {
+    "type": "dependency",
+    "from": "src/modules/health/application/health.service.ts",
+    "to": "src/infrastructure/db/index.ts",
+    "unresolvedTo": "~/infrastructure/db/index",
+    "dependencyTypes": [
+      "aliased",
+      "aliased-tsconfig",
+      "aliased-tsconfig-paths",
+      "local",
+      "import"
+    ],
+    "rule": {
+      "severity": "error",
+      "name": "application-depends-inward"
+    }
+  }
+]
