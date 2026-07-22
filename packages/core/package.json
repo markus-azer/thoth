@@ -1,0 +1,25 @@
+{
+	"name": "@thoth/core",
+	"version": "0.0.0",
+	"private": true,
+	"license": "MIT",
+	"type": "module",
+	"exports": {
+		".": "./src/index.ts"
+	},
+	"scripts": {
+		"typecheck": "tsc --noEmit",
+		"test": "vitest run --passWithNoTests",
+		"arch": "depcruise src"
+	},
+	"dependencies": {
+		"inversify": "8.1.2",
+		"uuid": "14.0.1"
+	},
+	"devDependencies": {
+		"dependency-cruiser": "18.1.0",
+		"reflect-metadata": "0.2.2",
+		"typescript": "5.9.3",
+		"vitest": "4.1.10"
+	}
+}
