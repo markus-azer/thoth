@@ -10,10 +10,11 @@
 	},
 	"scripts": {
 		"dev": "pnpm -r --parallel dev",
-		"verify": "pnpm secrets && pnpm lint && pnpm typecheck && pnpm peers check && pnpm spec-check && pnpm test && pnpm build",
+		"verify": "pnpm secrets && pnpm lint && pnpm typecheck && pnpm arch && pnpm peers check && pnpm spec-check && pnpm test && pnpm build",
 		"secrets": "secretlint '**/*'",
 		"lint": "biome check",
 		"typecheck": "pnpm -r typecheck",
+		"arch": "pnpm -r arch",
 		"test": "pnpm -r test",
 		"spec-check": "sdd-spec-check",
 		"test:integration": "pnpm -r test:integration",
