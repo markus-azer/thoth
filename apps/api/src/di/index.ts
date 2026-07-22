@@ -1,3 +1,4 @@
+import { IdGenerator, UuidGenerator } from "@thoth/core";
 import { Container } from "inversify";
 import { Postgres } from "~/infrastructure/db/index";
 import {
@@ -15,6 +16,7 @@ export async function createContainer(): Promise<Container> {
 
 	// infrastructure
 	container.bind(Postgres).toSelf().inSingletonScope();
+	container.bind(IdGenerator).to(UuidGenerator).inSingletonScope();
 	container.bind(MetricsServer).toSelf().inSingletonScope();
 	container.bind(HttpServer).toSelf().inSingletonScope();
 	container.bind(AppRouter).toSelf().inSingletonScope();
