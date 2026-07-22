@@ -1,11 +1,10 @@
 import "reflect-metadata";
 import { describe, expect, it, vi } from "vitest";
-import type { Postgres } from "~/infrastructure/db/index";
 import { HealthService } from "~/modules/health/index";
 
 const setup = () => {
 	const ping = vi.fn().mockResolvedValue(true);
-	return { service: new HealthService({ ping } as unknown as Postgres), ping };
+	return { service: new HealthService({ ping }), ping };
 };
 
 describe("HealthService", () => {

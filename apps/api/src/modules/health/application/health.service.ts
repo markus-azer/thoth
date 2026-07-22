@@ -1,13 +1,13 @@
 import { inject, injectable } from "inversify";
-import { Postgres } from "~/infrastructure/db/index";
 import type { Lifecycle } from "~/lifecycle/index";
 import type { LiveStatus, ReadyStatus, Status } from "../domain/health";
+import { DbProbe } from "./health.probe";
 
 @injectable()
 export class HealthService implements Lifecycle {
 	private isReady = false;
 
-	constructor(@inject(Postgres) private readonly db: Postgres) {}
+	constructor(@inject(DbProbe) private readonly db: DbProbe) {}
 
 	// Manual override for drain and backpressure.
 	setReady(value: boolean): void {

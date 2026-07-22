@@ -10,7 +10,7 @@
 		"test": "vitest run --coverage",
 		"test:integration": "vitest run --project integration",
 		"build": "tsup",
-		"arch": "depcruise src --ignore-known"
+		"arch": "depcruise src"
 	},
 	"dependencies": {
 		"@asteasolutions/zod-to-openapi": "8.5.0",

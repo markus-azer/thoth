@@ -9,7 +9,12 @@ import {
 	MetricsServer,
 	WelcomeRouter,
 } from "~/infrastructure/http/index";
-import { HealthController, HealthService } from "~/modules/health/index";
+import {
+	DbProbe,
+	HealthController,
+	HealthService,
+	PostgresDbProbe,
+} from "~/modules/health/index";
 
 export async function createContainer(): Promise<Container> {
 	const container = new Container();
@@ -26,6 +31,7 @@ export async function createContainer(): Promise<Container> {
 	// health module
 	container.bind(HealthRouter).toSelf().inSingletonScope();
 	container.bind(HealthController).toSelf().inSingletonScope();
+	container.bind(DbProbe).to(PostgresDbProbe).inSingletonScope();
 	container.bind(HealthService).toSelf().inSingletonScope();
 
 	return container;
