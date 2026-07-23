@@ -66,10 +66,6 @@ For a volatile dependency like a database or external service:
 
 dependency-cruiser guards the layering. It keeps the domain pure, the application pointing inward, the barrel free of domain, and cross-module imports going through barrels. Run `pnpm arch`. biome covers import hygiene, like using the `z` and `log` wrappers and importing through a folder's index.
 
-## Before writing
-
-Show the plan and wait for approval.
-
 ## Reference
 
 See `apps/api/src/modules/health/` for the port and adapter pattern via `DbProbe`, and `apps/api/spec/health.md`.
