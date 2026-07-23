@@ -66,6 +66,15 @@ module.exports = {
 				],
 			},
 		},
+
+		{
+			// A module's barrel is its public API. Keep the domain internal.
+			name: "barrel-excludes-domain",
+			comment: "The module barrel (index.ts) must not export the domain.",
+			severity: "error",
+			from: { path: "src/modules/[^/]+/index\\.ts$" },
+			to: { path: "src/modules/[^/]+/domain/" },
+		},
 	],
 
 	options: {

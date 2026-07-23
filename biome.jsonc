@@ -122,53 +122,6 @@
 			}
 		},
 		{
-			// Clean-arch dependency rule: domain and application are inner layers
-			// and must never import infrastructure. Depend on a port instead.
-			"includes": [
-				"**/src/modules/*/domain/**",
-				"**/src/modules/*/application/**"
-			],
-			"linter": {
-				"rules": {
-					"style": {
-						"noRestrictedImports": {
-							"level": "error",
-							"options": {
-								"patterns": [
-									{
-										"group": ["**/infrastructure/**"],
-										"message": "Clean arch: domain/application must not import infrastructure. Depend on a port (interface) instead."
-									}
-								]
-							}
-						}
-					}
-				}
-			}
-		},
-		{
-			// The module barrel is the public API. It must not re-export the
-			// domain: those types stay internal to the module.
-			"includes": ["**/src/modules/*/index.ts"],
-			"linter": {
-				"rules": {
-					"style": {
-						"noRestrictedImports": {
-							"level": "error",
-							"options": {
-								"patterns": [
-									{
-										"group": ["./domain/**"],
-										"message": "Clean arch: the barrel must not export the domain. Keep domain types internal to the module."
-									}
-								]
-							}
-						}
-					}
-				}
-			}
-		},
-		{
 			// DI may import barrels and infrastructure adapters, nothing else in a module.
 			"includes": ["**/src/di/**"],
 			"linter": {
