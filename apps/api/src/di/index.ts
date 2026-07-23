@@ -13,8 +13,8 @@ import {
 	DbProbe,
 	HealthController,
 	HealthService,
-	PostgresDbProbe,
 } from "~/modules/health/index";
+import { PostgresDbProbe } from "~/modules/health/infrastructure/health.pg-probe";
 
 export async function createContainer(): Promise<Container> {
 	const container = new Container();
