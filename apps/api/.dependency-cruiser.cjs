@@ -20,7 +20,8 @@ module.exports = {
 		{
 			// The domain is the center, so it must not reach any outer layer.
 			name: "domain-is-pure",
-			comment: "Domain must not import application, interface, or infrastructure.",
+			comment:
+				"Domain must not import application, interface, or infrastructure.",
 			severity: "error",
 			from: { path: "src/modules/[^/]+/domain/" },
 			to: {
@@ -52,7 +53,8 @@ module.exports = {
 			// `$1` is the importing module's name, so its own files are fine,
 			// and any module's index.ts is fine. Reaching inner files is not.
 			name: "no-cross-module-internals",
-			comment: "Import other modules through their index.ts, not their internals.",
+			comment:
+				"Import other modules through their index.ts, not their internals.",
 			severity: "error",
 			from: { path: "src/modules/([^/]+)/" },
 			to: {
