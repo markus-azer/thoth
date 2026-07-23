@@ -44,6 +44,7 @@ module.exports = {
 				path: [
 					"src/modules/[^/]+/(interface|infrastructure)/",
 					"^src/infrastructure/",
+					"^src/di/",
 				],
 			},
 		},
