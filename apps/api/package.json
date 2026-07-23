@@ -9,7 +9,8 @@
 		"typecheck": "tsc --noEmit",
 		"test": "vitest run --coverage",
 		"test:integration": "vitest run --project integration",
-		"build": "tsup"
+		"build": "tsup",
+		"arch": "depcruise src"
 	},
 	"dependencies": {
 		"@asteasolutions/zod-to-openapi": "8.5.0",
@@ -17,6 +18,7 @@
 		"@opentelemetry/auto-instrumentations-node": "0.78.0",
 		"@opentelemetry/sdk-node": "0.220.0",
 		"@promster/express": "15.5.2",
+		"@thoth/core": "workspace:*",
 		"@thoth/utils": "workspace:*",
 		"cors": "2.8.6",
 		"envalid": "8.2.0",
@@ -38,6 +40,7 @@
 		"@types/supertest": "7.2.0",
 		"@types/swagger-ui-express": "4.1.8",
 		"@vitest/coverage-v8": "4.1.10",
+		"dependency-cruiser": "18.1.0",
 		"supertest": "7.2.2",
 		"tsup": "8.5.1",
 		"tsx": "4.21.0",

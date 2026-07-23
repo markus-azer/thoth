@@ -120,6 +120,31 @@
 					}
 				}
 			}
+		},
+		{
+			// DI may import barrels and infrastructure adapters, nothing else in a module.
+			"includes": ["**/src/di/**"],
+			"linter": {
+				"rules": {
+					"style": {
+						"noRestrictedImports": {
+							"level": "error",
+							"options": {
+								"patterns": [
+									{
+										"group": [
+											"~/*/**",
+											"!~/**/index",
+											"!~/modules/*/infrastructure/**"
+										],
+										"message": "DI may import barrels and infrastructure adapters only."
+									}
+								]
+							}
+						}
+					}
+				}
+			}
 		}
 	]
 }
