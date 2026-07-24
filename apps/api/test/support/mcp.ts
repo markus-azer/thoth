@@ -1,9 +1,10 @@
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
+import { onTestFinished } from "vitest";
 import { createMcpServer, type McpTool } from "~/infrastructure/http/index";
 
 // Spin up an MCP server with the given tools and return a client wired to it
-// over an in-memory transport. Use in any MCP tool test.
+// over an in-memory transport. The connection closes itself when the test ends.
 export const connectMcp = async (...tools: McpTool[]): Promise<Client> => {
 	const server = createMcpServer();
 	for (const tool of tools) {
@@ -18,5 +19,6 @@ export const connectMcp = async (...tools: McpTool[]): Promise<Client> => {
 		client.connect(clientTransport),
 	]);
 
+	onTestFinished(() => client.close());
 	return client;
 };

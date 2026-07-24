@@ -46,6 +46,7 @@ describe("FeedbackTool", () => {
 		});
 
 		expect(result.isError).toBe(true);
+		expect(JSON.stringify(result.content)).toMatch(/message/i);
 		expect(submit).not.toHaveBeenCalled();
 	});
 
@@ -59,6 +60,7 @@ describe("FeedbackTool", () => {
 		});
 
 		expect(result.isError).toBe(true);
+		expect(JSON.stringify(result.content)).toMatch(/email/i);
 		expect(submit).not.toHaveBeenCalled();
 	});
 });
