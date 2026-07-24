@@ -6,9 +6,16 @@ import {
 	HealthRouter,
 	HttpServer,
 	McpRouter,
+	McpTool,
 	MetricsServer,
 	WelcomeRouter,
 } from "~/infrastructure/http/index";
+import {
+	FeedbackRepository,
+	FeedbackService,
+	FeedbackTool,
+} from "~/modules/feedback/index";
+import { PostgresFeedbackRepository } from "~/modules/feedback/infrastructure/feedback.pg-repository";
 import {
 	DbProbe,
 	HealthController,
@@ -33,6 +40,14 @@ export async function createContainer(): Promise<Container> {
 	container.bind(HealthController).toSelf().inSingletonScope();
 	container.bind(DbProbe).to(PostgresDbProbe).inSingletonScope();
 	container.bind(HealthService).toSelf().inSingletonScope();
+
+	// feedback module
+	container.bind(McpTool).to(FeedbackTool).inSingletonScope();
+	container
+		.bind(FeedbackRepository)
+		.to(PostgresFeedbackRepository)
+		.inSingletonScope();
+	container.bind(FeedbackService).toSelf().inSingletonScope();
 
 	return container;
 }
