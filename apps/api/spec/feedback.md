@@ -20,8 +20,10 @@ A public MCP tool that lets a visitor leave a freeform message for the site owne
 
 ## Outputs
 
-- ACKNOWLEDGED
-- INVALID_INPUT
+Semantic states, not the literal MCP response.
+
+- ACKNOWLEDGED. The tool returns a text confirmation.
+- INVALID_INPUT. Schema validation rejects the call before the handler runs.
 
 
 ## Rules
