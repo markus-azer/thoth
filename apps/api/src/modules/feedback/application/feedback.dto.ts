@@ -2,10 +2,10 @@ import { z } from "@thoth/utils";
 
 export const NewFeedbackSchema = z
 	.object({
-		message: z.string().min(1),
-		name: z.string().optional(),
-		topic: z.string().optional(),
-		email: z.email().optional(),
+		message: z.string().trim().min(1).max(5000),
+		name: z.string().trim().max(100).optional(),
+		topic: z.string().trim().max(100).optional(),
+		email: z.email().max(254).optional(),
 	})
 	.openapi("NewFeedback");
 
