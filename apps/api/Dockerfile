@@ -22,7 +22,7 @@ CMD ["pnpm", "dev"]
 # build: compile the api app, then flatten workspace deps for prod
 FROM deps AS build
 RUN pnpm --filter @thoth/api build \
- && pnpm --filter @thoth/api deploy --prod /prod/api
+ && pnpm --filter @thoth/api deploy --prod --legacy /prod/api
 
 # runner: slim production image
 FROM node:24.15.0-alpine AS runner
