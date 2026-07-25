@@ -6,4 +6,5 @@ export default defineConfig({
 	outDir: "dist",
 	clean: true,
 	sourcemap: true,
+	noExternal: [/^@thoth\//], // bundle source-only workspace packages
 });
