@@ -8,3 +8,6 @@ allowBuilds:
   sdd-spec-check: true
 overrides:
   esbuild: 0.28.1
+auditConfig:
+  ignoreGhsas:
+    - GHSA-mh99-v99m-4gvg # brace-expansion DoS: otel gcp-detector only, not attacker-facing, otel disabled
