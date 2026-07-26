@@ -5,9 +5,15 @@
 	"license": "MIT",
 	"type": "module",
 	"exports": {
-		".": "./src/index.ts"
+		".": {
+			"types": "./src/index.ts",
+			"development": "./src/index.ts",
+			"default": "./dist/index.js"
+		}
 	},
+	"files": ["dist"],
 	"scripts": {
+		"build": "tsup",
 		"typecheck": "tsc --noEmit",
 		"test": "vitest run --passWithNoTests",
 		"arch": "depcruise src"
@@ -19,6 +25,7 @@
 	"devDependencies": {
 		"dependency-cruiser": "18.1.0",
 		"reflect-metadata": "0.2.2",
+		"tsup": "8.5.1",
 		"typescript": "5.9.3",
 		"vitest": "4.1.10"
 	}
