@@ -1,6 +1,7 @@
 [build]
 builder = "dockerfile"
 dockerfilePath = "flyway/Dockerfile"
+watchPatterns = ["/apps/**/sql/**", "/flyway/**"]
 
 [deploy]
 restartPolicyType = "never"
