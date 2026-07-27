@@ -17,4 +17,9 @@ locals {
     CORS_ORIGINS = "https://$${{RAILWAY_PUBLIC_DOMAIN}}"
     DATABASE_URL = "$${{Postgres.DATABASE_URL}}"
   }
+
+  # service name -> its SQL dir. Add a line to onboard another service.
+  migrations = {
+    api = "apps/api/sql"
+  }
 }
