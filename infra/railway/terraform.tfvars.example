@@ -9,7 +9,6 @@ db = {
 }
 
 api = {
-  port      = 3002
-  subdomain = "thoth-api"
-  domain    = null # or "api.example.com"
+  port   = 3002
+  domain = null # or "api.example.com"
 }

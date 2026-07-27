@@ -14,8 +14,7 @@ variable "db" {
 
 variable "api" {
   type = object({
-    port      = number
-    subdomain = string
-    domain    = string # null for the free *.up.railway.app URL
+    port   = number
+    domain = string # null for the free *.up.railway.app URL
   })
 }
