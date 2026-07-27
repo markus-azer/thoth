@@ -1,6 +1,6 @@
 # Railway
 
-Provisions the API service + Postgres from a GitHub repo.
+Provisions the Railway project and its services from a GitHub repo.
 
 ```sh
 cp terraform.tfvars.example terraform.tfvars # set the required vars
