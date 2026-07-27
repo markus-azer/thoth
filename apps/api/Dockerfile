@@ -21,7 +21,7 @@ CMD ["pnpm", "dev"]
 
 # build: compile the api app, then flatten workspace deps for prod
 FROM deps AS build
-RUN pnpm --filter @thoth/api build \
+RUN pnpm -r build \
  && pnpm --filter @thoth/api deploy --prod --legacy /prod/api
 
 # runner: slim production image
@@ -40,4 +40,4 @@ COPY --from=build /prod/api/package.json ./
 USER node
 EXPOSE 3002 9090
 ENTRYPOINT ["/sbin/tini", "--"]
-CMD ["node", "dist/main.js"]
+CMD ["node", "--conditions=production", "dist/main.js"]
