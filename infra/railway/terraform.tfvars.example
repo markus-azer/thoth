@@ -1,0 +1,14 @@
+project = {
+  name   = "thoth"
+  repo   = "markus-azer/thoth"
+  branch = "main"
+}
+
+db = {
+  name = "thoth"
+}
+
+api = {
+  port   = 3002
+  domain = null # or "api.example.com"
+}
