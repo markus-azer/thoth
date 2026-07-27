@@ -7,3 +7,9 @@ project = {
 db = {
   name = "thoth"
 }
+
+api = {
+  port      = 3002
+  subdomain = "thoth-api"
+  domain    = null # or "api.example.com"
+}

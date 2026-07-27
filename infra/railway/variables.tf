@@ -11,3 +11,11 @@ variable "db" {
     name = string
   })
 }
+
+variable "api" {
+  type = object({
+    port      = number
+    subdomain = string
+    domain    = string # null for the free *.up.railway.app URL
+  })
+}
