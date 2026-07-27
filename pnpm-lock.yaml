@@ -36,7 +36,7 @@ importers:
         specifier: 13.0.2
         version: 13.0.2
       turbo:
-        specifier: ^2.10.7
+        specifier: 2.10.7
         version: 2.10.7
 
   apps/api:
