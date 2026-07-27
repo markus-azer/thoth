@@ -1,4 +1,17 @@
 {
+	"extraKnownMarketplaces": {
+		"ponytail": {
+			"source": { "source": "github", "repo": "DietrichGebert/ponytail" }
+		},
+		"headroom-marketplace": {
+			"source": { "source": "github", "repo": "headroomlabs-ai/headroom" }
+		}
+	},
+	"enabledPlugins": {
+		"superpowers@claude-plugins-official": true,
+		"ponytail@ponytail": true,
+		"headroom@headroom-marketplace": true
+	},
 	"hooks": {
 		"PostToolUse": [
 			{
