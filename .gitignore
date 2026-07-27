@@ -29,3 +29,4 @@ crash.*.log
 # Local scratch / AI thinking
 .ignored/
 .lavish/
+graphify-out/

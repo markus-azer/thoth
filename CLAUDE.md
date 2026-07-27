@@ -21,3 +21,11 @@
 - `apps/*/spec/`, `packages/*/spec/` — what (SDD rules)
 - `.claude/skills/` — how (Claude Code skills)
 - See [doc-types](docs/decision-log/doc-types.md) for the boundary.
+
+## graphify
+
+Knowledge graph in `graphify-out/` (gitignored, auto-rebuilt on commit).
+Setup once: `uv tool install "graphifyy[terraform,sql]"`.
+
+- Ask the graph before grepping: `graphify query "<q>"` (also `path`, `explain`).
+- Architecture overview: `graphify-out/GRAPH_REPORT.md`.

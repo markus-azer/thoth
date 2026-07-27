@@ -1,0 +1,4 @@
+#!/bin/sh
+# Rebuild the graphify graph after switching branches ($3=1 means branch switch).
+[ "$3" = "1" ] || exit 0
+graphify update . >/dev/null 2>&1 &
