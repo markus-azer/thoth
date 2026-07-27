@@ -3,3 +3,7 @@ project = {
   repo   = "markus-azer/thoth"
   branch = "main"
 }
+
+db = {
+  name = "thoth"
+}

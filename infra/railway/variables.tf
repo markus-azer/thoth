@@ -5,3 +5,9 @@ variable "project" {
     branch = string
   })
 }
+
+variable "db" {
+  type = object({
+    name = string
+  })
+}
