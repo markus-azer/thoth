@@ -25,7 +25,7 @@
 ## graphify
 
 Knowledge graph in `graphify-out/` (gitignored, auto-rebuilt on commit).
-Setup once: `uv tool install "graphifyy[terraform,sql]"`.
+Setup once: `uv tool install "graphifyy[terraform,sql]==0.9.28"`, then `graphify update .` to build.
 
 - Ask the graph before grepping: `graphify query "<q>"` (also `path`, `explain`).
 - Architecture overview: `graphify-out/GRAPH_REPORT.md`.
