@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Block git commands that use --no-verify (it bypasses git hooks).
+# Block git commit/push that skips hooks (--no-verify or its -n short form).
 
-if grep -qE 'git.*--no-verify'; then
-  echo 'Blocked: --no-verify bypasses git hooks. Fix the check instead.' >&2
+if grep -qE 'git (commit|push).* (--no-verify|-n)'; then
+  echo 'Blocked: skipping git hooks is not allowed. Fix the check instead.' >&2
   exit 2
 fi
