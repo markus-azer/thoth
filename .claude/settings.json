@@ -1,4 +1,19 @@
 {
+	"permissions": {
+		"allow": [
+			"Bash(graphify:*)",
+			"Bash(git add:*)",
+			"Bash(git commit:*)",
+			"Bash(terraform validate:*)",
+			"Bash(terraform providers:*)",
+			"Bash(terraform plan:*)",
+			"mcp__railway__search-docs",
+			"mcp__railway__list-services",
+			"mcp__railway__list-domains",
+			"mcp__railway__get-logs",
+			"mcp__railway__list-projects"
+		]
+	},
 	"extraKnownMarketplaces": {
 		"ponytail": {
 			"source": { "source": "github", "repo": "DietrichGebert/ponytail" }
@@ -28,6 +43,10 @@
 			{
 				"matcher": "Bash",
 				"hooks": [
+					{
+						"type": "command",
+						"command": "bash $CLAUDE_PROJECT_DIR/.claude/hooks/block-no-verify.sh"
+					},
 					{
 						"type": "command",
 						"command": "graphify hook-guard search 2>/dev/null || true"
