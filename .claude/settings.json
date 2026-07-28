@@ -45,6 +45,10 @@
 				"hooks": [
 					{
 						"type": "command",
+						"command": "bash $CLAUDE_PROJECT_DIR/.claude/hooks/block-no-verify.sh"
+					},
+					{
+						"type": "command",
 						"command": "graphify hook-guard search 2>/dev/null || true"
 					}
 				]
