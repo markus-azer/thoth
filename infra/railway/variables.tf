@@ -18,3 +18,12 @@ variable "api" {
     domain = string # null for the free *.up.railway.app URL
   })
 }
+
+# The GitHub OAuth app thoth federates login to.
+variable "github" {
+  type = object({
+    client_id     = string
+    client_secret = string
+  })
+  sensitive = true
+}

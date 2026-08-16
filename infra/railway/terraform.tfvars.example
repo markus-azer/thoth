@@ -12,3 +12,9 @@ api = {
   port   = 3002
   domain = null # or "api.example.com"
 }
+
+# From the GitHub OAuth app. Callback: https://<domain>/api/auth/callback/github
+github = {
+  client_id     = ""
+  client_secret = ""
+}
