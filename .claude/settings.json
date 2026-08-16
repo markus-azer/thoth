@@ -20,12 +20,16 @@
 		},
 		"headroom-marketplace": {
 			"source": { "source": "github", "repo": "headroomlabs-ai/headroom" }
+		},
+		"aiguide": {
+			"source": { "source": "github", "repo": "timescale/pg-aiguide" }
 		}
 	},
 	"enabledPlugins": {
 		"superpowers@claude-plugins-official": true,
 		"ponytail@ponytail": true,
-		"headroom@headroom-marketplace": true
+		"headroom@headroom-marketplace": true,
+		"pg@aiguide": true
 	},
 	"hooks": {
 		"PostToolUse": [
