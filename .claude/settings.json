@@ -4,6 +4,12 @@
 			"Bash(graphify:*)",
 			"Bash(git add:*)",
 			"Bash(git commit:*)",
+			"Bash(pnpm test:*)",
+			"Bash(pnpm typecheck:*)",
+			"Bash(pnpm arch:*)",
+			"Bash(pnpm lint:*)",
+			"Bash(pnpm spec-check:*)",
+			"Bash(pnpm format:*)",
 			"Bash(terraform validate:*)",
 			"Bash(terraform providers:*)",
 			"Bash(terraform plan:*)",
@@ -20,12 +26,16 @@
 		},
 		"headroom-marketplace": {
 			"source": { "source": "github", "repo": "headroomlabs-ai/headroom" }
+		},
+		"aiguide": {
+			"source": { "source": "github", "repo": "timescale/pg-aiguide" }
 		}
 	},
 	"enabledPlugins": {
 		"superpowers@claude-plugins-official": true,
 		"ponytail@ponytail": true,
-		"headroom@headroom-marketplace": true
+		"headroom@headroom-marketplace": true,
+		"pg@aiguide": true
 	},
 	"hooks": {
 		"PostToolUse": [
@@ -41,11 +51,24 @@
 		],
 		"PreToolUse": [
 			{
+				"matcher": "Edit|Write|MultiEdit|Grep",
+				"hooks": [
+					{
+						"type": "command",
+						"command": "bash $CLAUDE_PROJECT_DIR/.claude/hooks/block-secrets.sh"
+					}
+				]
+			},
+			{
 				"matcher": "Bash",
 				"hooks": [
 					{
 						"type": "command",
 						"command": "bash $CLAUDE_PROJECT_DIR/.claude/hooks/block-no-verify.sh"
+					},
+					{
+						"type": "command",
+						"command": "bash $CLAUDE_PROJECT_DIR/.claude/hooks/block-secrets.sh"
 					},
 					{
 						"type": "command",
@@ -59,6 +82,10 @@
 					{
 						"type": "command",
 						"command": "graphify hook-guard read 2>/dev/null || true"
+					},
+					{
+						"type": "command",
+						"command": "bash $CLAUDE_PROJECT_DIR/.claude/hooks/block-secrets.sh"
 					}
 				]
 			}
