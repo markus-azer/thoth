@@ -76,6 +76,20 @@ describe("mcpAuthMiddleware", () => {
 		expect(verify).toHaveBeenCalledWith("good");
 	});
 
+	it("accepts a lowercase bearer scheme", async () => {
+		const verify = vi.fn().mockResolvedValue({ userId: "u1" });
+		const server = app(verify);
+		const body = call("remember");
+
+		const res = await request(server)
+			.post("/mcp")
+			.set("authorization", "bearer good")
+			.send(body);
+
+		expect(res.status).toBe(200);
+		expect(verify).toHaveBeenCalledWith("good");
+	});
+
 	it("401s a private tool call when the token fails to verify", async () => {
 		const verify = vi.fn().mockResolvedValue(undefined);
 		const server = app(verify);

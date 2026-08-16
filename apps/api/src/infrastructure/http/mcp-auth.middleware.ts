@@ -1,7 +1,5 @@
 import type { Request, RequestHandler } from "express";
 
-const BEARER_PREFIX = "Bearer ";
-
 // A JSON-RPC body is one message or a batch array. Collect every tools/call
 // name so a private tool hidden inside a batch still gets gated.
 const calledTools = (body: unknown): string[] =>
@@ -11,12 +9,9 @@ const calledTools = (body: unknown): string[] =>
 		.map((m) => m.params?.name)
 		.filter((name): name is string => !!name);
 
-const bearerToken = (req: Request): string | undefined => {
-	const header = req.headers.authorization;
-	return header?.startsWith(BEARER_PREFIX)
-		? header.slice(BEARER_PREFIX.length)
-		: undefined;
-};
+// Bearer scheme is case-insensitive (RFC 6750).
+const bearerToken = (req: Request): string | undefined =>
+	req.headers.authorization?.match(/^Bearer (.+)$/i)?.[1];
 
 // Gates private MCP tools: a tools/call for a private tool without a valid
 // bearer gets 401, so the client runs the sign-in flow and retries. Every
