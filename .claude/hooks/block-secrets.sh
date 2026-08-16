@@ -2,7 +2,8 @@
 # Block any tool from touching secret files. Greps the raw hook payload on
 # stdin, so it catches Read(file_path), Bash(cat .env), git add .env, alike.
 
-secret_files='\.env\b|\.pem\b|\.key\b|/secrets/|\.tfstate\b|\.tfvars\b'
+boundary='($|[^A-Za-z0-9_])'
+secret_files="\\.env$boundary|\\.pem$boundary|\\.key$boundary|/secrets/|\\.tfstate$boundary|\\.tfvars$boundary"
 safe_variants='(\.env\.(test|example|sample)|\.tfvars\.example)([^A-Za-z0-9]|$)'
 
 # Drop the safe, conventionally-tracked variants before matching secrets.
