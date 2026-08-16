@@ -10,12 +10,16 @@ locals {
   }
 
   api_env = {
-    PORT         = tostring(var.api.port)
-    METRICS_PORT = "9090"
-    LOG_LEVEL    = "info"
-    OTEL_ENABLED = "false"
-    CORS_ORIGINS = "https://$${{RAILWAY_PUBLIC_DOMAIN}}"
-    DATABASE_URL = "$${{Postgres.DATABASE_URL}}"
+    PORT                 = tostring(var.api.port)
+    METRICS_PORT         = "9090"
+    LOG_LEVEL            = "info"
+    OTEL_ENABLED         = "false"
+    CORS_ORIGINS         = "https://$${{RAILWAY_PUBLIC_DOMAIN}}"
+    DATABASE_URL         = "$${{Postgres.DATABASE_URL}}"
+    GITHUB_CLIENT_ID     = var.github.client_id
+    GITHUB_CLIENT_SECRET = var.github.client_secret
+    BETTER_AUTH_URL      = "https://$${{RAILWAY_PUBLIC_DOMAIN}}"
+    BETTER_AUTH_SECRET   = random_password.better_auth.result
   }
 
   # service name -> its SQL dir. Add a line to onboard another service.
