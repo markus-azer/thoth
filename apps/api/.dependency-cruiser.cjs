@@ -68,6 +68,16 @@ module.exports = {
 		},
 
 		{
+			// A second pool doubles the connections and nothing closes it.
+			name: "one-pg-pool",
+			comment: "Only the Postgres wrapper may import pg.",
+			severity: "error",
+			from: { pathNot: "src/infrastructure/db/postgres\\.ts$" },
+			// A type-only import resolves to @types/pg.
+			to: { path: "node_modules/(@types/)?pg/" },
+		},
+
+		{
 			// A module's barrel is its public API. Keep the domain internal.
 			name: "barrel-excludes-domain",
 			comment: "The module barrel (index.ts) must not export the domain.",
