@@ -9,6 +9,10 @@ import { CONSENT_PAGE, SIGN_IN_PAGE } from "./auth.pages";
 const BASE_PATH = "/api/auth";
 const AUTH_SERVER = `${env.BETTER_AUTH_URL}${BASE_PATH}`;
 
+// The stub pages use inline script and style. Nonce them once the real frontend lands.
+const PAGE_CSP =
+	"default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'";
+
 @injectable()
 export class AuthController {
 	private readonly resourceClient: ReturnType<
@@ -44,10 +48,16 @@ export class AuthController {
 	};
 
 	signIn = (_req: Request, res: Response): void => {
-		res.type("html").send(SIGN_IN_PAGE);
+		res
+			.type("html")
+			.set("Content-Security-Policy", PAGE_CSP)
+			.send(SIGN_IN_PAGE);
 	};
 
 	consent = (_req: Request, res: Response): void => {
-		res.type("html").send(CONSENT_PAGE);
+		res
+			.type("html")
+			.set("Content-Security-Policy", PAGE_CSP)
+			.send(CONSENT_PAGE);
 	};
 }

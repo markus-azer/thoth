@@ -21,7 +21,7 @@ const STYLE = `<style>
 		background:#1f0d0d; border:1px solid #7f1d1d; border-radius:8px; color:#fca5a5 }
 </style>`;
 
-export const SIGN_IN_PAGE = `<!doctype html><meta charset="utf8"><title>Sign in · thoth</title>${STYLE}
+export const SIGN_IN_PAGE = `<!doctype html><meta charset="utf-8"><title>Sign in · thoth</title>${STYLE}
 
 <div class="card">
 	<h1>THOTH</h1>
@@ -58,7 +58,7 @@ async function signIn() {
 }
 </script>`;
 
-export const CONSENT_PAGE = `<!doctype html><meta charset="utf8"><title>Authorize · thoth</title>${STYLE}
+export const CONSENT_PAGE = `<!doctype html><meta charset="utf-8"><title>Authorize · thoth</title>${STYLE}
 
 <div class="card">
 	<h1>THOTH</h1>
