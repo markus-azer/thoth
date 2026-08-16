@@ -12,6 +12,8 @@ export function createAuth(pool: Pool) {
 		baseURL: env.BETTER_AUTH_URL,
 		secret: env.BETTER_AUTH_SECRET,
 		database: pool,
+		// Disable the jwt session /token endpoint. MCP tokens come only from OAuth.
+		disabledPaths: ["/token"],
 		socialProviders: {
 			github: {
 				clientId: env.GITHUB_CLIENT_ID,
@@ -19,7 +21,7 @@ export function createAuth(pool: Pool) {
 			},
 		},
 		plugins: [
-			jwt(),
+			jwt({ disableSettingJwtHeader: true }),
 			oauthProvider({
 				loginPage: "/auth/sign-in",
 				consentPage: "/auth/consent",
