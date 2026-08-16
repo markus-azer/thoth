@@ -6,6 +6,9 @@ export interface McpTool {
 	register(server: McpServer): void;
 }
 
+// The set of tool names that require auth. Each module registers its own.
+export const PrivateToolNames = Symbol("PrivateToolNames");
+
 // Fresh server per request. Tools are layered on by McpRouter.
 export function createMcpServer(): McpServer {
 	return new McpServer(
