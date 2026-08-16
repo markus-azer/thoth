@@ -11,6 +11,10 @@ const _env = cleanEnv(process.env, {
 	CORS_ORIGINS: str(),
 	DATABASE_URL: str(),
 	OTEL_ENABLED: bool(),
+	GITHUB_CLIENT_ID: str(),
+	GITHUB_CLIENT_SECRET: str(),
+	BETTER_AUTH_URL: str(),
+	BETTER_AUTH_SECRET: str(),
 });
 
 // NODE_ENV is validated at startup but intentionally hidden from consumers.

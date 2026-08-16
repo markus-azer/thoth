@@ -3,13 +3,22 @@ import { Container } from "inversify";
 import { Postgres } from "~/infrastructure/db/index";
 import {
 	AppRouter,
+	AuthRouter,
 	HealthRouter,
 	HttpServer,
 	McpRouter,
 	McpTool,
 	MetricsServer,
+	PrivateToolNames,
 	WelcomeRouter,
 } from "~/infrastructure/http/index";
+import {
+	Auth,
+	AuthController,
+	AuthPort,
+	BetterAuthVerifier,
+	createAuth,
+} from "~/modules/auth/index";
 import {
 	FeedbackRepository,
 	FeedbackService,
@@ -48,6 +57,17 @@ export async function createContainer(): Promise<Container> {
 		.to(PostgresFeedbackRepository)
 		.inSingletonScope();
 	container.bind(FeedbackService).toSelf().inSingletonScope();
+
+	// auth module
+	container
+		.bind(Auth)
+		.toResolvedValue((pg: Postgres) => createAuth(pg.pool), [Postgres])
+		.inSingletonScope();
+	container.bind(AuthPort).to(BetterAuthVerifier).inSingletonScope();
+	container.bind(AuthController).toSelf().inSingletonScope();
+	container.bind(AuthRouter).toSelf().inSingletonScope();
+	// The tool names that require auth. Each module registers its own.
+	container.bind(PrivateToolNames).toConstantValue(new Set<string>());
 
 	return container;
 }
