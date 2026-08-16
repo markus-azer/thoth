@@ -1,12 +1,13 @@
 import "reflect-metadata";
 import request from "supertest";
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 import { createContainer } from "~/di/index";
 import { env } from "~/env";
-import { McpTool } from "~/infrastructure/http/index";
+import { McpTool, PrivateToolNames } from "~/infrastructure/http/index";
 import { HttpServer } from "~/infrastructure/http/server";
 
 const container = await createContainer();
+
 // Bind a dummy tool through the DI to prove tools/list end-to-end.
 const testTool: McpTool = {
 	register: (mcp) => {
@@ -18,6 +19,7 @@ const testTool: McpTool = {
 	},
 };
 container.bind(McpTool).toConstantValue(testTool);
+
 const server = container.get(HttpServer);
 const base = `http://localhost:${env.PORT}`;
 
@@ -32,6 +34,7 @@ describe("HttpServer", () => {
 
 	it("serves the welcome route on /", async () => {
 		const res = await request(base).get("/");
+
 		expect(res.status).toBe(200);
 		expect(res.body).toEqual({ name: "@thoth/api", status: "ok" });
 	});
@@ -40,36 +43,51 @@ describe("HttpServer", () => {
 		const res = await request(base)
 			.get("/")
 			.set("x-request-id", "test-request-42");
+
 		expect(res.headers["x-request-id"]).toBe("test-request-42");
 	});
 
 	it("generates x-request-id when client does not send one", async () => {
 		const res = await request(base).get("/");
+
 		expect(res.headers["x-request-id"]).toMatch(/^[A-Za-z0-9_-]{1,128}$/);
 	});
 
 	it("RULE-OAS-001: serves the OpenAPI document at /openapi.json", async () => {
 		const res = await request(base).get("/openapi.json");
+
 		expect(res.status).toBe(200);
 		expect(res.body.openapi).toBe("3.1.0");
 	});
 
 	it("RULE-OAS-002: serves Swagger UI at /docs", async () => {
 		const res = await request(base).get("/docs/").redirects(1);
+
 		expect(res.status).toBe(200);
 		expect(res.text).toContain("swagger-ui");
 	});
 
 	it('RULE-HEALTH-001: `/health/live` returns 200 with `{ status: "ok" }`', async () => {
 		const res = await request(base).get("/health/live");
+
 		expect(res.status).toBe(200);
 		expect(res.body).toEqual({ status: "ok" });
 	});
 
 	it('RULE-HEALTH-003: `/health/ready` returns 503 with `status: "degraded"` before `start()`', async () => {
 		const res = await request(base).get("/health/ready");
+
 		expect(res.status).toBe(503);
 		expect(res.body.status).toBe("degraded");
+	});
+
+	it("serves oauth protected-resource metadata for MCP discovery", async () => {
+		const res = await request(base).get(
+			"/.well-known/oauth-protected-resource",
+		);
+
+		expect(res.status).toBe(200);
+		expect(res.body.resource).toBeDefined();
 	});
 
 	describe("MCP", () => {
@@ -85,6 +103,11 @@ describe("HttpServer", () => {
 				clientInfo: { name: "test", version: "1.0" },
 			},
 		};
+
+		afterEach(() => {
+			const privateTools = container.get<Set<string>>(PrivateToolNames);
+			privateTools.delete("remember");
+		});
 
 		it("RULE-MCP-001: Mounts at `POST /mcp`", async () => {
 			const res = await request(base)
@@ -120,10 +143,43 @@ describe("HttpServer", () => {
 				.post("/mcp")
 				.set("Accept", accept)
 				.send({ jsonrpc: "2.0", id: 2, method: "tools/list", params: {} });
+
 			const names = res.body.result.tools.map((t: { name: string }) => t.name);
 
 			expect(res.status).toBe(200);
 			expect(names).toContain("test-ping");
+		});
+
+		it("calls a public tool anonymously", async () => {
+			const res = await request(base)
+				.post("/mcp")
+				.set("Accept", accept)
+				.send({
+					jsonrpc: "2.0",
+					id: 3,
+					method: "tools/call",
+					params: { name: "test-ping", arguments: {} },
+				});
+
+			expect(res.status).toBe(200);
+			expect(res.body.result.content[0].text).toBe("pong");
+		});
+
+		it("401s a private tool call with no token", async () => {
+			// The middleware holds this Set instance, so mutate it in place.
+			const privateTools = container.get<Set<string>>(PrivateToolNames);
+			privateTools.add("remember");
+
+			const res = await request(base)
+				.post("/mcp")
+				.send({
+					jsonrpc: "2.0",
+					id: 4,
+					method: "tools/call",
+					params: { name: "remember" },
+				});
+
+			expect(res.status).toBe(401);
 		});
 	});
 });
