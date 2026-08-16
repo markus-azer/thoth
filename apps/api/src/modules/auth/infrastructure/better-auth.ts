@@ -1,8 +1,8 @@
 import { oauthProvider } from "@better-auth/oauth-provider";
 import { betterAuth } from "better-auth";
 import { jwt } from "better-auth/plugins";
-import type { Pool } from "pg";
 import { env } from "~/env";
+import type { Pool } from "~/infrastructure/db/index";
 
 // DI token for the Better Auth instance.
 export const Auth = Symbol("Auth");

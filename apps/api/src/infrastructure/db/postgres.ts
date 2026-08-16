@@ -5,6 +5,9 @@ import { env } from "~/env";
 import type { Lifecycle } from "~/lifecycle/index";
 import { log } from "~/logger";
 
+// Re-exported so nothing else has to import `pg`.
+export type { Pool } from "pg";
+
 @injectable()
 export class Postgres implements Lifecycle {
 	// Public so adapters share this pool instead of opening a new one.
