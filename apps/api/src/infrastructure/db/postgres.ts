@@ -7,7 +7,8 @@ import { log } from "~/logger";
 
 @injectable()
 export class Postgres implements Lifecycle {
-	private readonly pool = new Pool({ connectionString: env.DATABASE_URL });
+	// Public so adapters share this pool instead of opening a new one.
+	readonly pool = new Pool({ connectionString: env.DATABASE_URL });
 
 	async start(): Promise<void> {
 		await this.pool.query("SELECT 1");
