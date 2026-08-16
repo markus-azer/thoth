@@ -1,7 +1,7 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import type { Transport } from "@modelcontextprotocol/sdk/shared/transport.js";
-import express, { type Request, type Response, Router } from "express";
+import { type Request, type Response, Router } from "express";
 import { injectable, multiInject, optional } from "inversify";
 import { createMcpServer, McpTool } from "../mcp";
 
@@ -13,9 +13,10 @@ export class McpRouter {
 		private readonly tools: McpTool[] = [],
 	) {}
 
+	// Body is parsed upstream in AppRouter.
 	get routes(): Router {
 		const router = Router();
-		router.post("/", express.json(), this.handle);
+		router.post("/", this.handle);
 		return router;
 	}
 
