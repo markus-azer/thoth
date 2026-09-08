@@ -15,7 +15,7 @@ export class BioTool implements McpTool {
 		server.registerTool(
 			"get_bio",
 			{
-				description: "Who this site is about: name, headline, and bio.",
+				description: "Who this site is about: name, headline, and about.",
 			},
 			async () => {
 				const bio = await this.service.get();
