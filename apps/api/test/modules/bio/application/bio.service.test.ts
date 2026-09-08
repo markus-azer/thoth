@@ -21,7 +21,7 @@ const sampleBio = new Bio({
 });
 
 describe("BioService", () => {
-	it("RULE-BIO-002: The tenant is fixed. No selection input exists yet", async () => {
+	it("RULE-BIO-002: The tenant is fixed. No selection input exists yet.", async () => {
 		const { service, get } = setup();
 		get.mockResolvedValue(sampleBio);
 
@@ -29,7 +29,7 @@ describe("BioService", () => {
 		expect(get).toHaveBeenCalledWith("markus");
 	});
 
-	it("RULE-BIO-003: NOT_FOUND throws a `NotFound` domain error (`ErrorCode.BIO_NOT_FOUND`)", async () => {
+	it("RULE-BIO-003: NOT_FOUND throws a `NotFound` domain error (`ErrorCode.BIO_NOT_FOUND`).", async () => {
 		const { service, get } = setup();
 		get.mockResolvedValue(null);
 

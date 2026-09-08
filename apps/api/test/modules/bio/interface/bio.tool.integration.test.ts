@@ -31,7 +31,7 @@ describe("BioTool", () => {
 		expect(tools.map((t) => t.name)).toContain("get_bio");
 	});
 
-	it("RULE-BIO-001: FOUND includes the name, headline, and about", async () => {
+	it("RULE-BIO-001: FOUND includes the name, headline, and about.", async () => {
 		const { tool } = setup();
 		const client = await connectMcp(tool);
 
