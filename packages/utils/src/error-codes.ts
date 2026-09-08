@@ -2,4 +2,7 @@
 export enum ErrorCode {
 	// System
 	INTERNAL_ERROR = "INTERNAL_ERROR",
+
+	// Bio
+	BIO_NOT_FOUND = "BIO_NOT_FOUND",
 }
