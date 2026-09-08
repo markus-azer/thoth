@@ -19,6 +19,8 @@ import {
 	BetterAuthVerifier,
 	createAuth,
 } from "~/modules/auth/index";
+import { BioRepository, BioService, BioTool } from "~/modules/bio/index";
+import { PostgresBioRepository } from "~/modules/bio/infrastructure/bio.pg-repository";
 import {
 	FeedbackRepository,
 	FeedbackService,
@@ -57,6 +59,11 @@ export async function createContainer(): Promise<Container> {
 		.to(PostgresFeedbackRepository)
 		.inSingletonScope();
 	container.bind(FeedbackService).toSelf().inSingletonScope();
+
+	// bio module
+	container.bind(McpTool).to(BioTool).inSingletonScope();
+	container.bind(BioRepository).to(PostgresBioRepository).inSingletonScope();
+	container.bind(BioService).toSelf().inSingletonScope();
 
 	// auth module
 	container
