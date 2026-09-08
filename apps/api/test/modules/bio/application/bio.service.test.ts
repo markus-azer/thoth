@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { NotFound } from "@thoth/utils";
+import { ErrorCode, NotFound } from "@thoth/utils";
 import { describe, expect, it, vi } from "vitest";
 import { BioService } from "~/modules/bio/application/bio.service";
 import { Bio } from "~/modules/bio/domain/bio";
@@ -33,7 +33,11 @@ describe("BioService", () => {
 		const { service, get } = setup();
 		get.mockResolvedValue(null);
 
-		await expect(service.get()).rejects.toThrow(NotFound);
-		await expect(service.get()).rejects.toThrow(/markus/);
+		await expect(service.get()).rejects.toSatisfy((err: NotFound) => {
+			expect(err).toBeInstanceOf(NotFound);
+			expect(err.code).toBe(ErrorCode.BIO_NOT_FOUND);
+			expect(err.message).toMatch(/markus/);
+			return true;
+		});
 	});
 });
