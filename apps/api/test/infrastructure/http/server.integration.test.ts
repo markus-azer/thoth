@@ -214,6 +214,22 @@ describe("HttpServer", () => {
 			expect(res.status).toBe(401);
 		});
 
+		it("RULE-MCP-006: A private tool call on `/mcp/:identifier` → 404", async () => {
+			const privateTools = container.get<Set<string>>(PrivateToolNames);
+			privateTools.add("remember");
+
+			const res = await request(base)
+				.post("/mcp/markus-azer")
+				.send({
+					jsonrpc: "2.0",
+					id: 9,
+					method: "tools/call",
+					params: { name: "remember" },
+				});
+
+			expect(res.status).toBe(404);
+		});
+
 		it("RULE-MCP-009: A tool call, success or tool-level error → 200", async () => {
 			const res = await request(base)
 				.post("/mcp")
