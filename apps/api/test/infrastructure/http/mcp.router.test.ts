@@ -40,33 +40,36 @@ describe("McpRouter", () => {
 	it("RULE-MCP-003: `:identifier`, when present, passes through to the public tool unchanged", async () => {
 		const { tool, context } = capturingTool();
 
-		await request(appWith(tool))
+		const res = await request(appWith(tool))
 			.post("/mcp/markus-azer")
 			.set("Accept", accept)
 			.send(initialize);
 
+		expect(res.status).toBe(200);
 		expect(context()?.identifier).toBe("markus-azer");
 	});
 
 	it("RULE-MCP-004: Bare `/mcp` → no `:identifier`", async () => {
 		const { tool, context } = capturingTool();
 
-		await request(appWith(tool))
+		const res = await request(appWith(tool))
 			.post("/mcp")
 			.set("Accept", accept)
 			.send(initialize);
 
+		expect(res.status).toBe(200);
 		expect(context()?.identifier).toBeUndefined();
 	});
 
 	it("RULE-MCP-005: Empty `:identifier` segment (`/mcp/`) → same as bare `/mcp`", async () => {
 		const { tool, context } = capturingTool();
 
-		await request(appWith(tool))
+		const res = await request(appWith(tool))
 			.post("/mcp/")
 			.set("Accept", accept)
 			.send(initialize);
 
+		expect(res.status).toBe(200);
 		expect(context()?.identifier).toBeUndefined();
 	});
 
@@ -83,8 +86,12 @@ describe("McpRouter", () => {
 		});
 		app.use("/mcp", router.routes);
 
-		await request(app).post("/mcp").set("Accept", accept).send(initialize);
+		const res = await request(app)
+			.post("/mcp")
+			.set("Accept", accept)
+			.send(initialize);
 
+		expect(res.status).toBe(200);
 		expect(context()?.principal).toEqual(principal);
 	});
 });
