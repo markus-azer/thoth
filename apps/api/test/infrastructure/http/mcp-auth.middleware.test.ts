@@ -13,7 +13,9 @@ const app = (verify = vi.fn().mockResolvedValue(undefined)) => {
 			new Set(["remember"]),
 			"https://thoth/.well-known/oauth-protected-resource",
 		),
-		(_req, res) => res.json({ ok: true }),
+		(_req, res) => {
+			res.json({ ok: true, principal: res.locals["principal"] });
+		},
 	);
 	return a;
 };
@@ -63,8 +65,9 @@ describe("mcpAuthMiddleware", () => {
 		expect(res.status).toBe(200);
 	});
 
-	it("allows a private tool call when the token verifies", async () => {
-		const verify = vi.fn().mockResolvedValue({ userId: "u1" });
+	it("RULE-MCP-008: A private tool call on bare `/mcp`, valid bearer → runs", async () => {
+		const principal = { userId: "u1", scopes: [] };
+		const verify = vi.fn().mockResolvedValue(principal);
 		const server = app(verify);
 		const body = call("remember");
 
@@ -74,11 +77,12 @@ describe("mcpAuthMiddleware", () => {
 			.send(body);
 
 		expect(res.status).toBe(200);
+		expect(res.body.principal).toEqual(principal);
 		expect(verify).toHaveBeenCalledWith("good");
 	});
 
 	it("accepts a lowercase bearer scheme", async () => {
-		const verify = vi.fn().mockResolvedValue({ userId: "u1" });
+		const verify = vi.fn().mockResolvedValue({ userId: "u1", scopes: [] });
 		const server = app(verify);
 		const body = call("remember");
 

@@ -1,4 +1,5 @@
 import type { Request, RequestHandler } from "express";
+import type { McpPrincipal } from "./mcp";
 
 // A JSON-RPC body is one message or a batch array. Collect every tools/call
 // name so a private tool hidden inside a batch still gets gated.
@@ -18,7 +19,7 @@ const bearerToken = (req: Request): string | undefined =>
 const hasIdentifier = (req: Request): boolean => req.path !== "/";
 
 export const mcpAuthMiddleware = (
-	verify: (token: string) => Promise<unknown>,
+	verify: (token: string) => Promise<McpPrincipal | undefined>,
 	privateTools: Set<string>,
 	resourceMetadataUrl: string,
 ): RequestHandler => {
@@ -36,7 +37,10 @@ export const mcpAuthMiddleware = (
 
 		const token = bearerToken(req);
 		const principal = token ? await verify(token) : undefined;
-		if (principal) return next();
+		if (principal) {
+			res.locals["principal"] = principal;
+			return next();
+		}
 
 		// No valid bearer: 401 so the client can sign in and retry.
 		res
