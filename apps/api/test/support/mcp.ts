@@ -9,7 +9,7 @@ import { createMcpServer } from "~/infrastructure/http/mcp";
 export const connectMcp = async (...tools: McpTool[]): Promise<Client> => {
 	const server = createMcpServer();
 	for (const tool of tools) {
-		tool.register(server);
+		tool.register(server, {});
 	}
 
 	const [clientTransport, serverTransport] =
