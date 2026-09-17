@@ -7,13 +7,16 @@ const app = (verify = vi.fn().mockResolvedValue(undefined)) => {
 	const a = express();
 	a.use(express.json());
 	a.use(
+		"/mcp",
 		mcpAuthMiddleware(
 			verify,
 			new Set(["remember"]),
 			"https://thoth/.well-known/oauth-protected-resource",
 		),
+		(_req, res) => {
+			res.json({ ok: true, principal: res.locals["principal"] });
+		},
 	);
-	a.post("/mcp", (_req, res) => res.json({ ok: true }));
 	return a;
 };
 
@@ -34,7 +37,7 @@ describe("mcpAuthMiddleware", () => {
 		expect(res.status).toBe(200);
 	});
 
-	it("401s a private tool call with no token", async () => {
+	it("RULE-MCP-007: A private tool call on bare `/mcp`, no valid bearer → 401", async () => {
 		const server = app();
 		const body = call("remember");
 
@@ -62,8 +65,9 @@ describe("mcpAuthMiddleware", () => {
 		expect(res.status).toBe(200);
 	});
 
-	it("allows a private tool call when the token verifies", async () => {
-		const verify = vi.fn().mockResolvedValue({ userId: "u1" });
+	it("RULE-MCP-008: A private tool call on bare `/mcp`, valid bearer → runs", async () => {
+		const principal = { userId: "u1", scopes: [] };
+		const verify = vi.fn().mockResolvedValue(principal);
 		const server = app(verify);
 		const body = call("remember");
 
@@ -73,11 +77,12 @@ describe("mcpAuthMiddleware", () => {
 			.send(body);
 
 		expect(res.status).toBe(200);
+		expect(res.body.principal).toEqual(principal);
 		expect(verify).toHaveBeenCalledWith("good");
 	});
 
 	it("accepts a lowercase bearer scheme", async () => {
-		const verify = vi.fn().mockResolvedValue({ userId: "u1" });
+		const verify = vi.fn().mockResolvedValue({ userId: "u1", scopes: [] });
 		const server = app(verify);
 		const body = call("remember");
 
@@ -101,5 +106,34 @@ describe("mcpAuthMiddleware", () => {
 			.send(body);
 
 		expect(res.status).toBe(401);
+	});
+
+	it("RULE-MCP-005: Empty `:identifier` segment (`/mcp/`) → same as bare `/mcp`", async () => {
+		const server = app();
+		const body = call("remember");
+
+		const res = await request(server).post("/mcp/").send(body);
+
+		expect(res.status).toBe(401);
+	});
+
+	it("RULE-MCP-006: A private tool call on `/mcp/:identifier` → 404", async () => {
+		const server = app();
+		const body = call("remember");
+
+		const res = await request(server).post("/mcp/markus-azer").send(body);
+
+		expect(res.status).toBe(404);
+	});
+
+	it("does not require a bearer to produce the 404 on `/mcp/:identifier`", async () => {
+		const verify = vi.fn();
+		const server = app(verify);
+		const body = call("remember");
+
+		const res = await request(server).post("/mcp/markus-azer").send(body);
+
+		expect(res.status).toBe(404);
+		expect(verify).not.toHaveBeenCalled();
 	});
 });

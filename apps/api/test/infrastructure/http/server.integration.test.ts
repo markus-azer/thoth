@@ -20,6 +20,27 @@ const testTool: McpTool = {
 };
 container.bind(McpTool).toConstantValue(testTool);
 
+let capturedContext: { identifier?: string } | undefined;
+const contextProbeTool: McpTool = {
+	register: (_mcp, context) => {
+		capturedContext = context;
+	},
+};
+container.bind(McpTool).toConstantValue(contextProbeTool);
+
+const throwingTool: McpTool = {
+	register: (mcp) => {
+		mcp.registerTool(
+			"test-throw",
+			{ description: "integration test tool that always fails" },
+			() => {
+				throw new Error("boom");
+			},
+		);
+	},
+};
+container.bind(McpTool).toConstantValue(throwingTool);
+
 const server = container.get(HttpServer);
 const base = `http://localhost:${env.PORT}`;
 
@@ -109,13 +130,18 @@ describe("HttpServer", () => {
 			privateTools.delete("remember");
 		});
 
-		it("RULE-MCP-001: Mounts at `POST /mcp`", async () => {
-			const res = await request(base)
+		it("RULE-MCP-001: Mounts at `POST /mcp` and `POST /mcp/:identifier`", async () => {
+			const bare = await request(base)
 				.post("/mcp")
 				.set("Accept", accept)
 				.send(initialize);
+			const withIdentifier = await request(base)
+				.post("/mcp/markus-azer")
+				.set("Accept", accept)
+				.send(initialize);
 
-			expect(res.status).toBe(200);
+			expect(bare.status).toBe(200);
+			expect(withIdentifier.status).toBe(200);
 		});
 
 		it("RULE-MCP-002: Transport is MCP streamable HTTP", async () => {
@@ -129,13 +155,19 @@ describe("HttpServer", () => {
 			expect(res.body.result.serverInfo.name).toBe("@thoth/api");
 		});
 
-		it("RULE-MCP-003: No authentication required", async () => {
-			const res = await request(base)
-				.post("/mcp")
+		it("RULE-MCP-003: `:identifier`, when present, passes through to the public tool unchanged", async () => {
+			await request(base)
+				.post("/mcp/markus-azer")
 				.set("Accept", accept)
 				.send(initialize);
 
-			expect(res.status).toBe(200);
+			expect(capturedContext?.identifier).toBe("markus-azer");
+		});
+
+		it("RULE-MCP-005: Empty `:identifier` segment (`/mcp/`) → same as bare `/mcp`", async () => {
+			await request(base).post("/mcp/").set("Accept", accept).send(initialize);
+
+			expect(capturedContext?.identifier).toBeUndefined();
 		});
 
 		it("lists registered tools via tools/list", async () => {
@@ -180,6 +212,37 @@ describe("HttpServer", () => {
 				});
 
 			expect(res.status).toBe(401);
+		});
+
+		it("RULE-MCP-006: A private tool call on `/mcp/:identifier` → 404", async () => {
+			const privateTools = container.get<Set<string>>(PrivateToolNames);
+			privateTools.add("remember");
+
+			const res = await request(base)
+				.post("/mcp/markus-azer")
+				.send({
+					jsonrpc: "2.0",
+					id: 9,
+					method: "tools/call",
+					params: { name: "remember" },
+				});
+
+			expect(res.status).toBe(404);
+		});
+
+		it("RULE-MCP-009: A tool call, success or tool-level error → 200", async () => {
+			const res = await request(base)
+				.post("/mcp")
+				.set("Accept", accept)
+				.send({
+					jsonrpc: "2.0",
+					id: 10,
+					method: "tools/call",
+					params: { name: "test-throw", arguments: {} },
+				});
+
+			expect(res.status).toBe(200);
+			expect(res.body.result.isError).toBe(true);
 		});
 	});
 });
