@@ -56,6 +56,15 @@ describe("mcpAuthMiddleware", () => {
 		expect(verify).not.toHaveBeenCalled();
 	});
 
+	it("RULE-MCP-011: A malformed message in a batch → skipped, the rest still gate", async () => {
+		const server = app();
+		const body = [null, "nope", call("remember")];
+
+		const res = await request(server).post("/mcp").send(body);
+
+		expect(res.status).toBe(401);
+	});
+
 	it("RULE-MCP-007: A private tool call on bare `/mcp`, no valid bearer → 401", async () => {
 		const server = app();
 		const body = call("remember");

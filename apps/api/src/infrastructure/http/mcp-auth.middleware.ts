@@ -3,11 +3,11 @@ import type { McpPrincipal } from "./mcp";
 
 // A JSON-RPC body is one message or a batch array. Collect every tools/call
 // name so a private tool hidden inside a batch still gets gated.
-// No body, as on the SSE `GET /mcp`, is no messages.
-const calledTools = (body: unknown = []): string[] =>
+const calledTools = (body: unknown): string[] =>
 	(Array.isArray(body) ? body : [body])
 		.map((m) => m as { method?: string; params?: { name?: string } })
-		.filter((m) => m.method === "tools/call")
+		// Guards a missing body, as on the SSE `GET /mcp`, and a nullish entry.
+		.filter((m) => m?.method === "tools/call")
 		.map((m) => m.params?.name)
 		.filter((name): name is string => !!name);
 
