@@ -56,8 +56,6 @@ describe("mcpAuthMiddleware", () => {
 		expect(verify).not.toHaveBeenCalled();
 	});
 
-	// The verb that crashed in production. No route serves it, so the 404 is
-	// Express falling through the POST-only router.
 	it("does not gate or crash on a bodyless GET", async () => {
 		const verify = vi.fn();
 		const server = app(verify);
