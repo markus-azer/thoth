@@ -37,6 +37,14 @@ describe("mcpAuthMiddleware", () => {
 		expect(res.status).toBe(200);
 	});
 
+	it("RULE-MCP-010: A request with no tool call → no gate", async () => {
+		const server = app();
+
+		const res = await request(server).get("/mcp");
+
+		expect(res.status).toBe(200);
+	});
+
 	it("RULE-MCP-007: A private tool call on bare `/mcp`, no valid bearer → 401", async () => {
 		const server = app();
 		const body = call("remember");
