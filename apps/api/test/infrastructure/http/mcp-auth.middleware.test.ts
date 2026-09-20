@@ -56,6 +56,18 @@ describe("mcpAuthMiddleware", () => {
 		expect(verify).not.toHaveBeenCalled();
 	});
 
+	// The verb that crashed in production. No route serves it, so the 404 is
+	// Express falling through the POST-only router.
+	it("does not gate or crash on a bodyless GET", async () => {
+		const verify = vi.fn();
+		const server = app(verify);
+
+		const res = await request(server).get("/mcp");
+
+		expect(res.status).toBe(404);
+		expect(verify).not.toHaveBeenCalled();
+	});
+
 	it("RULE-MCP-011: A malformed message in a batch → skipped, the rest still gate", async () => {
 		const server = app();
 		const body = [null, "nope", call("remember")];
