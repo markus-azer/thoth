@@ -6,7 +6,8 @@ import type { McpPrincipal } from "./mcp";
 const calledTools = (body: unknown): string[] =>
 	(Array.isArray(body) ? body : [body])
 		.map((m) => m as { method?: string; params?: { name?: string } })
-		.filter((m) => m.method === "tools/call")
+		// Guards an unparsed body and a nullish entry, both undefined here.
+		.filter((m) => m?.method === "tools/call")
 		.map((m) => m.params?.name)
 		.filter((name): name is string => !!name);
 

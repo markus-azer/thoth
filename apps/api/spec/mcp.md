@@ -28,3 +28,5 @@ MCP over streamable HTTP. Auth is per tool call, not per mount.
 - [RULE-MCP-007] A private tool call on bare `/mcp`, no valid bearer → 401.
 - [RULE-MCP-008] A private tool call on bare `/mcp`, valid bearer → runs.
 - [RULE-MCP-009] A tool call, success or tool-level error → 200.
+- [RULE-MCP-010] A request with no tool call → no gate.
+- [RULE-MCP-011] A malformed message in a batch → skipped, the rest still gate.

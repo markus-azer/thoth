@@ -3,6 +3,17 @@ import request from "supertest";
 import { describe, expect, it, vi } from "vitest";
 import { mcpAuthMiddleware } from "~/infrastructure/http/mcp-auth.middleware";
 
+// Mirrors McpRouter: POST only, behind the `/mcp` prefix mount.
+const routes = () => {
+	const r = express.Router();
+	const handle: express.RequestHandler = (_req, res) => {
+		res.json({ ok: true, principal: res.locals["principal"] });
+	};
+	r.post("/", handle);
+	r.post("/:identifier", handle);
+	return r;
+};
+
 const app = (verify = vi.fn().mockResolvedValue(undefined)) => {
 	const a = express();
 	a.use(express.json());
@@ -13,9 +24,7 @@ const app = (verify = vi.fn().mockResolvedValue(undefined)) => {
 			new Set(["remember"]),
 			"https://thoth/.well-known/oauth-protected-resource",
 		),
-		(_req, res) => {
-			res.json({ ok: true, principal: res.locals["principal"] });
-		},
+		routes(),
 	);
 	return a;
 };
@@ -35,6 +44,35 @@ describe("mcpAuthMiddleware", () => {
 		const res = await request(server).post("/mcp").send(body);
 
 		expect(res.status).toBe(200);
+	});
+
+	it("RULE-MCP-010: A request with no tool call → no gate", async () => {
+		const verify = vi.fn();
+		const server = app(verify);
+
+		const res = await request(server).post("/mcp");
+
+		expect(res.status).toBe(200);
+		expect(verify).not.toHaveBeenCalled();
+	});
+
+	it("does not gate or crash on a bodyless GET", async () => {
+		const verify = vi.fn();
+		const server = app(verify);
+
+		const res = await request(server).get("/mcp");
+
+		expect(res.status).toBe(404);
+		expect(verify).not.toHaveBeenCalled();
+	});
+
+	it("RULE-MCP-011: A malformed message in a batch → skipped, the rest still gate", async () => {
+		const server = app();
+		const body = [null, "nope", call("remember")];
+
+		const res = await request(server).post("/mcp").send(body);
+
+		expect(res.status).toBe(401);
 	});
 
 	it("RULE-MCP-007: A private tool call on bare `/mcp`, no valid bearer → 401", async () => {
