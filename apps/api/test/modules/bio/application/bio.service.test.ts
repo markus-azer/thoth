@@ -56,7 +56,9 @@ describe("BioService", () => {
 
 		await expect(service.get("ghost")).rejects.toMatchObject({
 			code: ErrorCode.BIO_NOT_FOUND,
+			message: expect.stringContaining("ghost"),
 		});
+		expect(findByHandle).toHaveBeenCalledWith("ghost");
 	});
 
 	it("create() inserts under the caller's userId with a freshly generated id", async () => {
