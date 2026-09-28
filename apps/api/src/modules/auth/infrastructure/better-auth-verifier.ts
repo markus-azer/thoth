@@ -4,7 +4,7 @@ import { inject, injectable } from "inversify";
 import { log } from "~/logger";
 import type { AuthPort } from "../application/auth.port";
 import type { Principal } from "../domain/principal";
-import { Auth, authAudience, authIssuer } from "./better-auth";
+import { Auth, authAudiences, authIssuer } from "./better-auth";
 
 @injectable()
 export class BetterAuthVerifier implements AuthPort {
@@ -25,7 +25,7 @@ export class BetterAuthVerifier implements AuthPort {
 		try {
 			// Both default to the bare origin, which matches neither claim.
 			const payload = await this.resourceClient.verifyAccessToken(token, {
-				verifyOptions: { issuer: authIssuer, audience: authAudience },
+				verifyOptions: { issuer: authIssuer, audience: authAudiences },
 			});
 			if (typeof payload.sub !== "string") return undefined;
 

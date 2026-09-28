@@ -8,14 +8,16 @@ import type { Pool } from "~/infrastructure/db/index";
 export const Auth = Symbol("Auth");
 
 // What tokens are stamped with. The verifier expects exactly these.
-export const authIssuer = `${env.BETTER_AUTH_URL}/api/auth`;
-export const authAudience = `${env.BETTER_AUTH_URL}/`;
+// The resource is echoed into `aud` verbatim, so accept both spellings.
+const authBasePath = "/api/auth";
+export const authIssuer = `${env.BETTER_AUTH_URL}${authBasePath}`;
+export const authAudiences = [env.BETTER_AUTH_URL, `${env.BETTER_AUTH_URL}/`];
 
 export function createAuth(pool: Pool) {
 	return betterAuth({
 		baseURL: env.BETTER_AUTH_URL,
 		// The resource client builds the jwks url from this raw option.
-		basePath: "/api/auth",
+		basePath: authBasePath,
 		secret: env.BETTER_AUTH_SECRET,
 		database: pool,
 		// Disable the jwt session /token endpoint. MCP tokens come only from OAuth.
@@ -33,7 +35,7 @@ export function createAuth(pool: Pool) {
 				consentPage: "/auth/consent",
 				// The MCP resource is this origin, with a trailing slash. The default
 				// audience is the /api/auth path, which it won't match.
-				validAudiences: [env.BETTER_AUTH_URL, authAudience],
+				validAudiences: authAudiences,
 				allowDynamicClientRegistration: true,
 				// MCP clients register without credentials. Slated for deprecation upstream.
 				allowUnauthenticatedClientRegistration: true,
