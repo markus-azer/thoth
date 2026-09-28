@@ -97,12 +97,15 @@ describe("BioTool", () => {
 		const { tool, create } = setup();
 		const client = await connectMcp({ principal }, tool);
 
-		const result = await client.callTool({
-			name: "create_bio",
-			arguments: { ...input, handle: "" },
-		});
+		for (const field of ["handle", "name", "headline", "about"] as const) {
+			const result = await client.callTool({
+				name: "create_bio",
+				arguments: { ...input, [field]: "" },
+			});
 
-		expect(result.isError).toBe(true);
+			expect(result.isError).toBe(true);
+		}
+
 		expect(create).not.toHaveBeenCalled();
 	});
 
