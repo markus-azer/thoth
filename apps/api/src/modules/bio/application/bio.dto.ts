@@ -5,7 +5,6 @@ export const BioInputSchema = z
 		handle: z
 			.string()
 			.trim()
-			.toLowerCase()
 			.min(1)
 			.max(60)
 			.regex(/^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/),

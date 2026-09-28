@@ -14,7 +14,7 @@ Three MCP tools. `get_bio` (public) answers who a bio belongs to. `create_bio` a
 
 `create_bio` and `update_bio`:
 
-- `handle: string`, max 60 characters, lowercase letters, digits, and hyphens only
+- `handle: string`, max 60 characters, lowercase letters and digits, with hyphens only between them (not leading or trailing)
 - `name: string`, max 100 characters
 - `headline: string`, max 200 characters
 - `about: string`, max 5000 characters
@@ -59,4 +59,4 @@ Semantic states, not the literal MCP response.
 - [RULE-BIO-009] `update_bio`, no existing bio for the caller → NOT_FOUND.
 - [RULE-BIO-010] A `handle` already owned by a different user → HANDLE_TAKEN.
 - [RULE-BIO-011] Empty `handle`, `name`, `headline`, or `about` → INVALID_INPUT.
-- [RULE-BIO-012] A `handle` outside lowercase letters, digits, and hyphens → INVALID_INPUT.
+- [RULE-BIO-012] A `handle` that isn't a lowercase, hyphen-separated slug → INVALID_INPUT.

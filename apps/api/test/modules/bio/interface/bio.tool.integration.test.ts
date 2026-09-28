@@ -109,13 +109,13 @@ describe("BioTool", () => {
 		expect(create).not.toHaveBeenCalled();
 	});
 
-	it("RULE-BIO-012: A `handle` outside lowercase letters, digits, and hyphens → INVALID_INPUT.", async () => {
+	it("RULE-BIO-012: A `handle` that isn't a lowercase, hyphen-separated slug → INVALID_INPUT.", async () => {
 		const { tool, create } = setup();
 		const client = await connectMcp({ principal }, tool);
 
 		const result = await client.callTool({
 			name: "create_bio",
-			arguments: { ...input, handle: "Markus Azer!" },
+			arguments: { ...input, handle: "MARKUS-AZER" },
 		});
 
 		expect(result.isError).toBe(true);
