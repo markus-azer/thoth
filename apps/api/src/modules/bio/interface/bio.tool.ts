@@ -1,6 +1,7 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { inject, injectable } from "inversify";
 import type { McpRequestContext, McpTool } from "~/infrastructure/http/index";
+import { BioInputSchema } from "../application/bio.dto";
 import { BioService } from "../application/bio.service";
 import type { Bio } from "../domain/bio";
 
@@ -19,6 +20,30 @@ export class BioTool implements McpTool {
 				return this.reply(bio);
 			},
 		);
+
+		server.registerTool(
+			"create_bio",
+			{
+				description: "Create the caller's own bio.",
+				inputSchema: BioInputSchema.shape,
+			},
+			async (args) => {
+				const bio = await this.service.create(this.callerId(context), args);
+				return this.reply(bio);
+			},
+		);
+
+		server.registerTool(
+			"update_bio",
+			{
+				description: "Update the caller's own bio.",
+				inputSchema: BioInputSchema.shape,
+			},
+			async (args) => {
+				const bio = await this.service.update(this.callerId(context), args);
+				return this.reply(bio);
+			},
+		);
 	}
 
 	private reply(bio: Bio) {
@@ -30,5 +55,14 @@ export class BioTool implements McpTool {
 				},
 			],
 		};
+	}
+
+	// PrivateToolNames gates the write tools: only a verified bearer reaches here.
+	private callerId(context: McpRequestContext): string {
+		if (!context.principal) {
+			throw new Error("writing a bio requires a verified principal");
+		}
+
+		return context.principal.userId;
 	}
 }

@@ -244,5 +244,23 @@ describe("HttpServer", () => {
 			expect(res.status).toBe(200);
 			expect(res.body.result.isError).toBe(true);
 		});
+
+		it("RULE-BIO-005: `create_bio` and `update_bio` are private.", async () => {
+			const call = (name: string, path: string) =>
+				request(base).post(path).send({
+					jsonrpc: "2.0",
+					id: 20,
+					method: "tools/call",
+					params: { name },
+				});
+
+			for (const name of ["create_bio", "update_bio"]) {
+				const onIdentifier = await call(name, "/mcp/markus-azer");
+				const onBareNoToken = await call(name, "/mcp");
+
+				expect(onIdentifier.status).toBe(404);
+				expect(onBareNoToken.status).toBe(401);
+			}
+		});
 	});
 });
