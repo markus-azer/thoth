@@ -4,7 +4,7 @@ import { inject, injectable } from "inversify";
 import { log } from "~/logger";
 import type { AuthPort } from "../application/auth.port";
 import type { Principal } from "../domain/principal";
-import { Auth } from "./better-auth";
+import { Auth, authAudiences, authIssuer } from "./better-auth";
 
 @injectable()
 export class BetterAuthVerifier implements AuthPort {
@@ -23,8 +23,10 @@ export class BetterAuthVerifier implements AuthPort {
 
 	async verifyBearer(token: string): Promise<Principal | undefined> {
 		try {
-			// audience, issuer and jwksUrl are derived from the auth config.
-			const payload = await this.resourceClient.verifyAccessToken(token);
+			// Both default to the bare origin, which matches neither claim.
+			const payload = await this.resourceClient.verifyAccessToken(token, {
+				verifyOptions: { issuer: authIssuer, audience: authAudiences },
+			});
 			if (typeof payload.sub !== "string") return undefined;
 
 			const userId = payload.sub;
