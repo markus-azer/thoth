@@ -14,7 +14,7 @@ const setup = () => {
 describe("FeedbackTool", () => {
 	it("registers submit_feedback", async () => {
 		const { tool } = setup();
-		const client = await connectMcp(tool);
+		const client = await connectMcp({}, tool);
 
 		const { tools } = await client.listTools();
 		expect(tools.map((t) => t.name)).toContain("submit_feedback");
@@ -22,7 +22,7 @@ describe("FeedbackTool", () => {
 
 	it("ACKNOWLEDGED: a valid call persists via the service", async () => {
 		const { tool, submit } = setup();
-		const client = await connectMcp(tool);
+		const client = await connectMcp({}, tool);
 
 		const result = await client.callTool({
 			name: "submit_feedback",
@@ -38,7 +38,7 @@ describe("FeedbackTool", () => {
 
 	it("RULE-FB-001: Empty `message` → INVALID_INPUT", async () => {
 		const { tool, submit } = setup();
-		const client = await connectMcp(tool);
+		const client = await connectMcp({}, tool);
 
 		const result = await client.callTool({
 			name: "submit_feedback",
@@ -52,7 +52,7 @@ describe("FeedbackTool", () => {
 
 	it("RULE-FB-002: When present, an invalid `email` → INVALID_INPUT", async () => {
 		const { tool, submit } = setup();
-		const client = await connectMcp(tool);
+		const client = await connectMcp({}, tool);
 
 		const result = await client.callTool({
 			name: "submit_feedback",

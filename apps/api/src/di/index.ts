@@ -73,8 +73,11 @@ export async function createContainer(): Promise<Container> {
 	container.bind(AuthPort).to(BetterAuthVerifier).inSingletonScope();
 	container.bind(AuthController).toSelf().inSingletonScope();
 	container.bind(AuthRouter).toSelf().inSingletonScope();
+
 	// The tool names that require auth. Each module registers its own.
-	container.bind(PrivateToolNames).toConstantValue(new Set<string>());
+	container
+		.bind(PrivateToolNames)
+		.toConstantValue(new Set<string>(["create_bio", "update_bio"]));
 
 	return container;
 }
