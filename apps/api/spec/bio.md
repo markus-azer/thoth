@@ -14,10 +14,12 @@ Three MCP tools. `get_bio` (public) answers who a bio belongs to. `create_bio` a
 
 `create_bio` and `update_bio`:
 
-- `handle: string`
-- `name: string`
-- `headline: string`
-- `about: string`
+- `handle: string`, max 60 characters, lowercase letters, digits, and hyphens only
+- `name: string`, max 100 characters
+- `headline: string`, max 200 characters
+- `about: string`, max 5000 characters
+
+Each field is trimmed before checks.
 
 
 ## Outputs
