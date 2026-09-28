@@ -2,7 +2,13 @@ import { z } from "@thoth/utils";
 
 export const BioInputSchema = z
 	.object({
-		handle: z.string().trim().min(1).max(60),
+		handle: z
+			.string()
+			.trim()
+			.toLowerCase()
+			.min(1)
+			.max(60)
+			.regex(/^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/),
 		name: z.string().trim().min(1).max(100),
 		headline: z.string().trim().min(1).max(200),
 		about: z.string().trim().min(1).max(5000),

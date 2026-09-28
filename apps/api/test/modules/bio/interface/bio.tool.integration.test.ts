@@ -106,6 +106,19 @@ describe("BioTool", () => {
 		expect(create).not.toHaveBeenCalled();
 	});
 
+	it("RULE-BIO-012: A `handle` outside lowercase letters, digits, and hyphens → INVALID_INPUT.", async () => {
+		const { tool, create } = setup();
+		const client = await connectMcp({ principal }, tool);
+
+		const result = await client.callTool({
+			name: "create_bio",
+			arguments: { ...input, handle: "Markus Azer!" },
+		});
+
+		expect(result.isError).toBe(true);
+		expect(create).not.toHaveBeenCalled();
+	});
+
 	it("surfaces HANDLE_TAKEN as a tool-level error", async () => {
 		const { tool, create } = setup();
 		create.mockRejectedValue(
