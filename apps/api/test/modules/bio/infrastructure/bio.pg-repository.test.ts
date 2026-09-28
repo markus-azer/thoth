@@ -91,11 +91,18 @@ describe("PostgresBioRepository", () => {
 		await expect(repo.update("u1", fields)).resolves.toBeNull();
 	});
 
-	it("throws HandleTaken when the handle belongs to a different user", async () => {
+	it("throws HandleTaken when update hits another user's handle", async () => {
 		const { repo, query } = setup();
 		query.mockRejectedValue({ code: "23505", constraint: "bio_handle_key" });
 
 		await expect(repo.update("u2", fields)).rejects.toBeInstanceOf(HandleTaken);
+	});
+
+	it("throws HandleTaken when insert hits another user's handle", async () => {
+		const { repo, query } = setup();
+		query.mockRejectedValue({ code: "23505", constraint: "bio_handle_key" });
+
+		await expect(repo.insert("u2", newBio)).rejects.toBeInstanceOf(HandleTaken);
 	});
 
 	it("does not treat a unique violation on a different constraint as HandleTaken", async () => {
