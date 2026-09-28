@@ -8,9 +8,10 @@ import type { Pool } from "~/infrastructure/db/index";
 export const Auth = Symbol("Auth");
 
 // What tokens are stamped with. The verifier expects exactly these.
-// The resource is echoed into `aud` verbatim, so accept both spellings.
 const authBasePath = "/api/auth";
 export const authIssuer = `${env.BETTER_AUTH_URL}${authBasePath}`;
+
+// The requested resource is echoed into `aud` verbatim, so accept both spellings.
 export const authAudiences = [env.BETTER_AUTH_URL, `${env.BETTER_AUTH_URL}/`];
 
 export function createAuth(pool: Pool) {
