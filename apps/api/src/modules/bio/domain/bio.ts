@@ -16,6 +16,11 @@ export class Bio {
 		createdAt: Date;
 		updatedAt: Date;
 	}) {
+		Bio.requireNonBlank(props.handle, "handle");
+		Bio.requireNonBlank(props.name, "name");
+		Bio.requireNonBlank(props.headline, "headline");
+		Bio.requireNonBlank(props.about, "about");
+
 		this.id = props.id;
 		this.handle = props.handle;
 		this.name = props.name;
@@ -23,5 +28,9 @@ export class Bio {
 		this.about = props.about;
 		this.createdAt = props.createdAt;
 		this.updatedAt = props.updatedAt;
+	}
+
+	private static requireNonBlank(value: string, field: string): void {
+		if (!value.trim()) throw new Error(`Bio ${field} must not be blank`);
 	}
 }
