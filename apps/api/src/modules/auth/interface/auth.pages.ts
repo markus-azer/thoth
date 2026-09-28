@@ -75,10 +75,10 @@ async function consent() {
 		body: JSON.stringify({ accept: true, oauth_query: location.search.slice(1) }),
 	});
 
-	// redirect_uri carries the code back to the client. Absent means no pending request.
-	const { redirect_uri } = await res.json();
-	if (redirect_uri) {
-		location.href = redirect_uri;
+	// url carries the code back to the client. Absent means no pending request.
+	const { url } = await res.json();
+	if (url) {
+		location.href = url;
 		return;
 	}
 
