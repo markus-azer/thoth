@@ -5,6 +5,7 @@ import { Bio } from "../domain/bio";
 
 type BioRow = {
 	id: string;
+	userId: string;
 	handle: string;
 	name: string;
 	headline: string;
@@ -19,7 +20,8 @@ export class PostgresBioRepository implements BioRepository {
 
 	async findByHandle(handle: string): Promise<Bio | null> {
 		const [row] = await this.db.query<BioRow>(
-			`SELECT id, handle, name, headline, about, created_at AS "createdAt", updated_at AS "updatedAt"
+			`SELECT id, user_id AS "userId", handle, name, headline, about,
+				created_at AS "createdAt", updated_at AS "updatedAt"
 				FROM bio
 				WHERE handle = $1`,
 			[handle],

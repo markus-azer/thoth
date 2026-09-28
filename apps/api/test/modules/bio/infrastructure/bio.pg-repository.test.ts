@@ -6,6 +6,7 @@ import { PostgresBioRepository } from "~/modules/bio/infrastructure/bio.pg-repos
 
 const row = {
 	id: "018e5e9a-79c1-7c3e-8b1a-000000000001",
+	userId: "u1",
 	handle: "markus-azer",
 	name: "Markus Azer",
 	headline: "Software Engineer",

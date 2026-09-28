@@ -3,6 +3,7 @@ import { Bio } from "~/modules/bio/domain/bio";
 
 const validProps = {
 	id: "018e5e9a-79c1-7c3e-8b1a-000000000001",
+	userId: "u1",
 	handle: "markus-azer",
 	name: "Markus Azer",
 	headline: "Software Engineer",

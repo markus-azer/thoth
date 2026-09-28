@@ -1,6 +1,7 @@
 export class Bio {
 	readonly id: string;
 	readonly handle: string;
+	readonly userId: string;
 	readonly name: string;
 	readonly headline: string;
 	readonly about: string;
@@ -10,6 +11,7 @@ export class Bio {
 	constructor(props: {
 		id: string;
 		handle: string;
+		userId: string;
 		name: string;
 		headline: string;
 		about: string;
@@ -23,6 +25,7 @@ export class Bio {
 
 		this.id = props.id;
 		this.handle = props.handle;
+		this.userId = props.userId;
 		this.name = props.name;
 		this.headline = props.headline;
 		this.about = props.about;
