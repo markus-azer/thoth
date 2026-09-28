@@ -5,7 +5,7 @@ import { Bio } from "../domain/bio";
 
 type BioRow = {
 	id: string;
-	tenant: string;
+	handle: string;
 	name: string;
 	headline: string;
 	about: string;
@@ -17,23 +17,14 @@ type BioRow = {
 export class PostgresBioRepository implements BioRepository {
 	constructor(@inject(Postgres) private readonly db: Postgres) {}
 
-	async get(tenant: string): Promise<Bio | null> {
-		const [bioRow] = await this.db.query<BioRow>(
-			`SELECT id, tenant, name, headline, about, created_at AS "createdAt", updated_at AS "updatedAt"
+	async findByHandle(handle: string): Promise<Bio | null> {
+		const [row] = await this.db.query<BioRow>(
+			`SELECT id, handle, name, headline, about, created_at AS "createdAt", updated_at AS "updatedAt"
 				FROM bio
-				WHERE tenant = $1`,
-			[tenant],
+				WHERE handle = $1`,
+			[handle],
 		);
-		if (!bioRow) return null;
 
-		return new Bio({
-			id: bioRow.id,
-			tenant: bioRow.tenant,
-			name: bioRow.name,
-			headline: bioRow.headline,
-			about: bioRow.about,
-			createdAt: bioRow.createdAt,
-			updatedAt: bioRow.updatedAt,
-		});
+		return row ? new Bio(row) : null;
 	}
 }

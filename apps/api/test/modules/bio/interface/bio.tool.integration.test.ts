@@ -7,7 +7,7 @@ import { connectMcp } from "../../../support/mcp";
 
 const sampleBio = new Bio({
 	id: "018e5e9a-79c1-7c3e-8b1a-000000000001",
-	tenant: "markus",
+	handle: "markus-azer",
 	name: "Markus Azer",
 	headline: "Software Engineer",
 	about: "Builds things.",
@@ -16,8 +16,8 @@ const sampleBio = new Bio({
 });
 
 // A BioTool backed by a stubbed service, so we test the tool, not the service.
-const setup = (bio: Bio = sampleBio) => {
-	const get = vi.fn().mockResolvedValue(bio);
+const setup = () => {
+	const get = vi.fn().mockResolvedValue(sampleBio);
 	const tool = new BioTool({ get } as unknown as BioService);
 	return { tool, get };
 };
@@ -25,15 +25,17 @@ const setup = (bio: Bio = sampleBio) => {
 describe("BioTool", () => {
 	it("registers get_bio", async () => {
 		const { tool } = setup();
-		const client = await connectMcp(tool);
+		const client = await connectMcp({}, tool);
 
 		const { tools } = await client.listTools();
-		expect(tools.map((t) => t.name)).toContain("get_bio");
+		expect(tools.map((t) => t.name)).toEqual(
+			expect.arrayContaining(["get_bio"]),
+		);
 	});
 
 	it("RULE-BIO-001: FOUND includes the name, headline, and about.", async () => {
 		const { tool } = setup();
-		const client = await connectMcp(tool);
+		const client = await connectMcp({ identifier: "markus-azer" }, tool);
 
 		const result = await client.callTool({ name: "get_bio", arguments: {} });
 
@@ -41,5 +43,14 @@ describe("BioTool", () => {
 		expect(JSON.stringify(result.content)).toMatch(/Markus Azer/);
 		expect(JSON.stringify(result.content)).toMatch(/Software Engineer/);
 		expect(JSON.stringify(result.content)).toMatch(/Builds things\./);
+	});
+
+	it("get_bio passes the identifier through as the handle", async () => {
+		const { tool, get } = setup();
+		const client = await connectMcp({ identifier: "markus-azer" }, tool);
+
+		await client.callTool({ name: "get_bio", arguments: {} });
+
+		expect(get).toHaveBeenCalledWith("markus-azer");
 	});
 });
