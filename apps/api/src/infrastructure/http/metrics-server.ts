@@ -1,4 +1,5 @@
 import type { Server } from "node:http";
+import { promisify } from "node:util";
 import { getContentType, getSummary } from "@promster/express";
 import express from "express";
 import { injectable } from "inversify";
@@ -35,8 +36,6 @@ export class MetricsServer implements Lifecycle {
 		// closeIdleConnections() clears those without aborting in-flight scrapes.
 		this.server.closeIdleConnections();
 
-		await new Promise<void>((resolve, reject) =>
-			this.server.close((err) => (err ? reject(err) : resolve())),
-		);
+		await promisify(this.server.close.bind(this.server))();
 	}
 }
