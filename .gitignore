@@ -31,3 +31,4 @@ crash.*.log
 .lavish/
 .superpowers/
 graphify-out/
+.claude/worktrees/
