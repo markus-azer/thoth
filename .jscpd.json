@@ -1,0 +1,10 @@
+{
+	"path": ["apps", "packages"],
+	"format": ["typescript"],
+	"ignore": ["**/test/**"],
+	"minLines": 5,
+	"minTokens": 40,
+	"threshold": 0,
+	"reporters": ["consoleFull"],
+	"noTips": true
+}

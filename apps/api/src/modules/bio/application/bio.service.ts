@@ -27,22 +27,10 @@ export class BioService {
 	}
 
 	async create(userId: string, input: BioInputDTO): Promise<Bio> {
-		try {
-			const bio = await this.repo.insert(userId, {
-				id: this.ids.next(),
-				...input,
-			});
-			if (bio) return bio;
-		} catch (err) {
-			if (err instanceof HandleTaken) {
-				throw new Conflict(
-					ErrorCode.BIO_HANDLE_TAKEN,
-					`Handle "${input.handle}" is already taken`,
-				);
-			}
-
-			throw err;
-		}
+		const bio = await this.rejectTakenHandle(input.handle, () =>
+			this.repo.insert(userId, { id: this.ids.next(), ...input }),
+		);
+		if (bio) return bio;
 
 		throw new Conflict(
 			ErrorCode.BIO_ALREADY_EXISTS,
@@ -51,23 +39,32 @@ export class BioService {
 	}
 
 	async update(userId: string, input: BioInputDTO): Promise<Bio> {
-		try {
-			const bio = await this.repo.update(userId, input);
-			if (bio) return bio;
-		} catch (err) {
-			if (err instanceof HandleTaken) {
-				throw new Conflict(
-					ErrorCode.BIO_HANDLE_TAKEN,
-					`Handle "${input.handle}" is already taken`,
-				);
-			}
-
-			throw err;
-		}
+		const bio = await this.rejectTakenHandle(input.handle, () =>
+			this.repo.update(userId, input),
+		);
+		if (bio) return bio;
 
 		throw new NotFound(
 			ErrorCode.BIO_NOT_FOUND,
 			"You have no bio yet. Create it first.",
 		);
+	}
+
+	private async rejectTakenHandle<T>(
+		handle: string,
+		write: () => Promise<T>,
+	): Promise<T> {
+		try {
+			return await write();
+		} catch (err) {
+			if (err instanceof HandleTaken) {
+				throw new Conflict(
+					ErrorCode.BIO_HANDLE_TAKEN,
+					`Handle "${handle}" is already taken`,
+				);
+			}
+
+			throw err;
+		}
 	}
 }

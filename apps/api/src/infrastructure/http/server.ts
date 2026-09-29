@@ -1,4 +1,5 @@
 import type { Server } from "node:http";
+import { promisify } from "node:util";
 import express, { type Application } from "express";
 import { inject, injectable } from "inversify";
 import { env } from "~/env";
@@ -35,9 +36,7 @@ export class HttpServer implements Lifecycle {
 			closed: Math.max(0, openBefore - openAfter),
 		});
 
-		await new Promise<void>((resolve, reject) =>
-			this.server.close((err) => (err ? reject(err) : resolve())),
-		);
+		await promisify(this.server.close.bind(this.server))();
 	}
 
 	private openConnectionCount(): Promise<number> {
