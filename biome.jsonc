@@ -1,5 +1,10 @@
 {
 	"$schema": "https://biomejs.dev/schemas/2.4.6/schema.json",
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
+		}
+	},
 	"plugins": [
 		"./biome-plugins/no-parens-await.grit",
 		"./biome-plugins/no-template-log-msg.grit"
