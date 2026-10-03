@@ -16,7 +16,7 @@ export class BioTool implements McpTool {
 				description: "Who a handle's bio is about: name, headline, and about.",
 			},
 			async () => {
-				const bio = await this.service.get(context.identifier);
+				const bio = await this.service.get(context.handle);
 				return this.reply(bio);
 			},
 		);

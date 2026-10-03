@@ -10,7 +10,7 @@ const routes = () => {
 		res.json({ ok: true, principal: res.locals["principal"] });
 	};
 	r.post("/", handle);
-	r.post("/:identifier", handle);
+	r.post("/:handle", handle);
 	return r;
 };
 
@@ -146,7 +146,7 @@ describe("mcpAuthMiddleware", () => {
 		expect(res.status).toBe(401);
 	});
 
-	it("RULE-MCP-005: Empty `:identifier` segment (`/mcp/`) → same as bare `/mcp`", async () => {
+	it("RULE-MCP-005: Empty `:handle` segment (`/mcp/`) → same as bare `/mcp`", async () => {
 		const server = app();
 		const body = call("remember");
 
@@ -155,7 +155,7 @@ describe("mcpAuthMiddleware", () => {
 		expect(res.status).toBe(401);
 	});
 
-	it("RULE-MCP-006: A private tool call on `/mcp/:identifier` → 404", async () => {
+	it("RULE-MCP-006: A private tool call on `/mcp/:handle` → 404", async () => {
 		const server = app();
 		const body = call("remember");
 
@@ -164,7 +164,7 @@ describe("mcpAuthMiddleware", () => {
 		expect(res.status).toBe(404);
 	});
 
-	it("does not require a bearer to produce the 404 on `/mcp/:identifier`", async () => {
+	it("does not require a bearer to produce the 404 on `/mcp/:handle`", async () => {
 		const verify = vi.fn();
 		const server = app(verify);
 		const body = call("remember");

@@ -15,9 +15,9 @@ const calledTools = (body: unknown): string[] =>
 const bearerToken = (req: Request): string | undefined =>
 	req.headers.authorization?.match(/^Bearer (.+)$/i)?.[1];
 
-// True for `/mcp/:identifier`, false for bare `/mcp`. Relies on this
+// True for `/mcp/:handle`, false for bare `/mcp`. Relies on this
 // middleware being mounted at the `/mcp` prefix, so `req.path` is stripped.
-const hasIdentifier = (req: Request): boolean => req.path !== "/";
+const hasHandle = (req: Request): boolean => req.path !== "/";
 
 export const mcpAuthMiddleware = (
 	verify: (token: string) => Promise<McpPrincipal | undefined>,
@@ -31,7 +31,7 @@ export const mcpAuthMiddleware = (
 
 		// Public-read-only mount: a private tool call here gets 404, not 401.
 		// It shouldn't even reveal that auth was missing.
-		if (hasIdentifier(req)) {
+		if (hasHandle(req)) {
 			res.status(404).json({ error: "not_found" });
 			return;
 		}

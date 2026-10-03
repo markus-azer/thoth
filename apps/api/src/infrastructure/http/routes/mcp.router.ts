@@ -18,11 +18,11 @@ export class McpRouter {
 	) {}
 
 	// Body is parsed upstream in AppRouter.
-	// `/:identifier` is the shareable public-read mount. Bare `/` is the owner's.
+	// `/:handle` is the shareable public-read mount. Bare `/` is the owner's.
 	get routes(): Router {
 		const router = Router();
 		router.post("/", this.handle);
-		router.post("/:identifier", this.handle);
+		router.post("/:handle", this.handle);
 		return router;
 	}
 
@@ -51,9 +51,9 @@ export class McpRouter {
 	private buildContext(req: Request, res: Response): McpRequestContext {
 		const context: McpRequestContext = {};
 
-		const identifier = req.params["identifier"];
-		if (typeof identifier === "string" && identifier) {
-			context.identifier = identifier;
+		const handle = req.params["handle"];
+		if (typeof handle === "string" && handle) {
+			context.handle = handle;
 		}
 
 		const principal = res.locals["principal"];

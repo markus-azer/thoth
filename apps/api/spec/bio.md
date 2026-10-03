@@ -49,9 +49,9 @@ Semantic states, not the literal MCP response.
 ## Rules
 
 - [RULE-BIO-001] FOUND includes the name, headline, and about.
-- [RULE-BIO-002] `:identifier` matches a handle → FOUND for that bio.
-- [RULE-BIO-003] `:identifier` absent → NOT_FOUND.
-- [RULE-BIO-004] `:identifier` matches no handle → NOT_FOUND.
+- [RULE-BIO-002] `:handle` matches a bio → FOUND for that bio.
+- [RULE-BIO-003] `:handle` absent → NOT_FOUND.
+- [RULE-BIO-004] `:handle` matches no bio → NOT_FOUND.
 - [RULE-BIO-005] `create_bio` and `update_bio` are private.
 - [RULE-BIO-006] `create_bio`, no existing bio for the caller → CREATED.
 - [RULE-BIO-007] `create_bio`, an existing bio for the caller → ALREADY_EXISTS.

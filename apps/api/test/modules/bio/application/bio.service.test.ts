@@ -33,7 +33,7 @@ const input = {
 };
 
 describe("BioService", () => {
-	it("RULE-BIO-002: `:identifier` matches a handle → FOUND for that bio.", async () => {
+	it("RULE-BIO-002: `:handle` matches a bio → FOUND for that bio.", async () => {
 		const { service, findByHandle } = setup();
 		findByHandle.mockResolvedValue(sampleBio);
 
@@ -41,7 +41,7 @@ describe("BioService", () => {
 		expect(findByHandle).toHaveBeenCalledWith("markus-azer");
 	});
 
-	it("RULE-BIO-003: `:identifier` absent → NOT_FOUND.", async () => {
+	it("RULE-BIO-003: `:handle` absent → NOT_FOUND.", async () => {
 		const { service, findByHandle } = setup();
 
 		await expect(service.get(undefined)).rejects.toMatchObject({
@@ -50,7 +50,7 @@ describe("BioService", () => {
 		expect(findByHandle).not.toHaveBeenCalled();
 	});
 
-	it("RULE-BIO-004: `:identifier` matches no handle → NOT_FOUND.", async () => {
+	it("RULE-BIO-004: `:handle` matches no bio → NOT_FOUND.", async () => {
 		const { service, findByHandle } = setup();
 		findByHandle.mockResolvedValue(null);
 
