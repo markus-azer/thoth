@@ -37,7 +37,7 @@ const capturingTool = () => {
 };
 
 describe("McpRouter", () => {
-	it("RULE-MCP-003: `:handle`, when present, passes through to the public tool unchanged", async () => {
+	it("RULE-MCP-003: `:handle`, when present, passes through to the public tool unchanged.", async () => {
 		const { tool, context } = capturingTool();
 
 		const res = await request(appWith(tool))
@@ -49,7 +49,7 @@ describe("McpRouter", () => {
 		expect(context()?.handle).toBe("markus-azer");
 	});
 
-	it("RULE-MCP-004: Bare `/mcp` → no `:handle`", async () => {
+	it("RULE-MCP-004: Bare `/mcp` → no `:handle`.", async () => {
 		const { tool, context } = capturingTool();
 
 		const res = await request(appWith(tool))
@@ -61,7 +61,7 @@ describe("McpRouter", () => {
 		expect(context()?.handle).toBeUndefined();
 	});
 
-	it("RULE-MCP-005: Empty `:handle` segment (`/mcp/`) → same as bare `/mcp`", async () => {
+	it("RULE-MCP-005: Empty `:handle` segment (`/mcp/`) → same as bare `/mcp`.", async () => {
 		const { tool, context } = capturingTool();
 
 		const res = await request(appWith(tool))

@@ -146,7 +146,7 @@ describe("mcpAuthMiddleware", () => {
 		expect(res.status).toBe(401);
 	});
 
-	it("RULE-MCP-005: Empty `:handle` segment (`/mcp/`) → same as bare `/mcp`", async () => {
+	it("RULE-MCP-005: Empty `:handle` segment (`/mcp/`) → same as bare `/mcp`.", async () => {
 		const server = app();
 		const body = call("remember");
 
@@ -155,7 +155,7 @@ describe("mcpAuthMiddleware", () => {
 		expect(res.status).toBe(401);
 	});
 
-	it("RULE-MCP-006: A private tool call on `/mcp/:handle` → 404", async () => {
+	it("RULE-MCP-006: A private tool call on `/mcp/:handle` → 404.", async () => {
 		const server = app();
 		const body = call("remember");
 

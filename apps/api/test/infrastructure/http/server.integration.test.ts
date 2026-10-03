@@ -130,7 +130,7 @@ describe("HttpServer", () => {
 			privateTools.delete("remember");
 		});
 
-		it("RULE-MCP-001: Mounts at `POST /mcp` and `POST /mcp/:handle`", async () => {
+		it("RULE-MCP-001: Mounts at `POST /mcp` and `POST /mcp/:handle`.", async () => {
 			const bare = await request(base)
 				.post("/mcp")
 				.set("Accept", accept)
@@ -155,7 +155,7 @@ describe("HttpServer", () => {
 			expect(res.body.result.serverInfo.name).toBe("@thoth/api");
 		});
 
-		it("RULE-MCP-003: `:handle`, when present, passes through to the public tool unchanged", async () => {
+		it("RULE-MCP-003: `:handle`, when present, passes through to the public tool unchanged.", async () => {
 			await request(base)
 				.post("/mcp/markus-azer")
 				.set("Accept", accept)
@@ -164,7 +164,7 @@ describe("HttpServer", () => {
 			expect(capturedContext?.handle).toBe("markus-azer");
 		});
 
-		it("RULE-MCP-005: Empty `:handle` segment (`/mcp/`) → same as bare `/mcp`", async () => {
+		it("RULE-MCP-005: Empty `:handle` segment (`/mcp/`) → same as bare `/mcp`.", async () => {
 			await request(base).post("/mcp/").set("Accept", accept).send(initialize);
 
 			expect(capturedContext?.handle).toBeUndefined();
@@ -214,7 +214,7 @@ describe("HttpServer", () => {
 			expect(res.status).toBe(401);
 		});
 
-		it("RULE-MCP-006: A private tool call on `/mcp/:handle` → 404", async () => {
+		it("RULE-MCP-006: A private tool call on `/mcp/:handle` → 404.", async () => {
 			const privateTools = container.get<Set<string>>(PrivateToolNames);
 			privateTools.add("remember");
 
