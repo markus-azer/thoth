@@ -1,8 +1,8 @@
 import express from "express";
 import request from "supertest";
 import { describe, expect, it } from "vitest";
-import type { McpRequestContext, McpTool } from "~/infrastructure/http/mcp";
 import { McpRouter } from "~/infrastructure/http/routes/mcp.router";
+import type { McpRequestContext, McpTool } from "~/infrastructure/mcp/index";
 
 const accept = "application/json, text/event-stream";
 const initialize = {

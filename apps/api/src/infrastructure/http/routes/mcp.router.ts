@@ -3,7 +3,11 @@ import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/
 import type { Transport } from "@modelcontextprotocol/sdk/shared/transport.js";
 import { type Request, type Response, Router } from "express";
 import { injectable, multiInject, optional } from "inversify";
-import { createMcpServer, type McpRequestContext, McpTool } from "../mcp";
+import {
+	createMcpServer,
+	type McpRequestContext,
+	McpTool,
+} from "~/infrastructure/mcp/index";
 
 @injectable()
 export class McpRouter {

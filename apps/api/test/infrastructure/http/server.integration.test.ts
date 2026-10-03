@@ -3,8 +3,8 @@ import request from "supertest";
 import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 import { createContainer } from "~/di/index";
 import { env } from "~/env";
-import { McpTool, PrivateToolNames } from "~/infrastructure/http/index";
 import { HttpServer } from "~/infrastructure/http/server";
+import { McpTool, PrivateToolNames } from "~/infrastructure/mcp/index";
 
 const container = await createContainer();
 

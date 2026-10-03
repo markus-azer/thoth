@@ -7,11 +7,10 @@ import {
 	HealthRouter,
 	HttpServer,
 	McpRouter,
-	McpTool,
 	MetricsServer,
-	PrivateToolNames,
 	WelcomeRouter,
 } from "~/infrastructure/http/index";
+import { McpTool, PrivateToolNames } from "~/infrastructure/mcp/index";
 import {
 	Auth,
 	AuthController,

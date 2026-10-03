@@ -1,5 +1,5 @@
 import type { Request, RequestHandler } from "express";
-import type { McpPrincipal } from "./mcp";
+import type { McpPrincipal } from "~/infrastructure/mcp/index";
 
 // A JSON-RPC body is one message or a batch array. Collect every tools/call
 // name so a private tool hidden inside a batch still gets gated.

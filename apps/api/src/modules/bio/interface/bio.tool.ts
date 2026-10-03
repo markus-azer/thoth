@@ -1,6 +1,6 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { inject, injectable } from "inversify";
-import type { McpRequestContext, McpTool } from "~/infrastructure/http/index";
+import type { McpRequestContext, McpTool } from "~/infrastructure/mcp/index";
 import { BioInputSchema } from "../application/bio.dto";
 import { BioService } from "../application/bio.service";
 import type { Bio } from "../domain/bio";
