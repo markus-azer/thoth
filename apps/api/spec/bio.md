@@ -7,7 +7,7 @@ related: [mcp, database]
 
 # Bio
 
-Three MCP tools. `get_bio` (public) answers who a bio belongs to. `create_bio` and `update_bio` (private) let the logged-in owner write their own bio.
+Three MCP tools and one HTTP route. `get_bio` (public) answers who a bio belongs to. `create_bio` and `update_bio` (private) let the logged-in owner write their own bio. `GET /bio/:handle` (public) returns a bio as JSON.
 
 
 ## Inputs
@@ -45,6 +45,11 @@ Semantic states, not the literal MCP response.
 - HANDLE_TAKEN. Another user already owns that handle.
 - INVALID_INPUT. Schema validation rejects the call before the handler runs.
 
+`GET /bio/:handle`:
+
+- FOUND. 200 with `{ name, headline, about }`.
+- NOT_FOUND. 404 with the standard error body.
+
 
 ## Rules
 
@@ -60,3 +65,5 @@ Semantic states, not the literal MCP response.
 - [RULE-BIO-010] A `handle` already owned by a different user → HANDLE_TAKEN.
 - [RULE-BIO-011] Empty `handle`, `name`, `headline`, or `about` → INVALID_INPUT.
 - [RULE-BIO-012] A `handle` that isn't a lowercase, hyphen-separated slug → INVALID_INPUT.
+- [RULE-BIO-013] `GET /bio/:handle` with a known handle → 200 with `{ name, headline, about }`.
+- [RULE-BIO-014] `GET /bio/:handle` with an unknown handle → 404 with code `BIO_NOT_FOUND`.

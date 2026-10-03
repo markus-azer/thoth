@@ -15,3 +15,11 @@ export const BioInputSchema = z
 	.openapi("BioInput");
 
 export type BioInputDTO = z.infer<typeof BioInputSchema>;
+
+export const BioOutputSchema = BioInputSchema.omit({ handle: true }).openapi(
+	"Bio",
+);
+
+export const BioParamsSchema = BioInputSchema.pick({ handle: true });
+
+export type BioOutputDTO = z.infer<typeof BioOutputSchema>;
