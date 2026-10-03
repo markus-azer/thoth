@@ -1,6 +1,6 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { inject, injectable } from "inversify";
-import type { McpRequestContext, McpTool } from "~/infrastructure/http/index";
+import type { McpRequestContext, McpTool } from "~/infrastructure/mcp/index";
 import { BioInputSchema } from "../application/bio.dto";
 import { BioService } from "../application/bio.service";
 import type { Bio } from "../domain/bio";
@@ -16,7 +16,7 @@ export class BioTool implements McpTool {
 				description: "Who a handle's bio is about: name, headline, and about.",
 			},
 			async () => {
-				const bio = await this.service.get(context.identifier);
+				const bio = await this.service.get(context.handle);
 				return this.reply(bio);
 			},
 		);

@@ -1,8 +1,8 @@
 import express from "express";
 import request from "supertest";
 import { describe, expect, it } from "vitest";
-import type { McpRequestContext, McpTool } from "~/infrastructure/http/mcp";
 import { McpRouter } from "~/infrastructure/http/routes/mcp.router";
+import type { McpRequestContext, McpTool } from "~/infrastructure/mcp/index";
 
 const accept = "application/json, text/event-stream";
 const initialize = {
@@ -37,7 +37,7 @@ const capturingTool = () => {
 };
 
 describe("McpRouter", () => {
-	it("RULE-MCP-003: `:identifier`, when present, passes through to the public tool unchanged", async () => {
+	it("RULE-MCP-003: `:handle`, when present, passes through to the public tool unchanged.", async () => {
 		const { tool, context } = capturingTool();
 
 		const res = await request(appWith(tool))
@@ -46,10 +46,10 @@ describe("McpRouter", () => {
 			.send(initialize);
 
 		expect(res.status).toBe(200);
-		expect(context()?.identifier).toBe("markus-azer");
+		expect(context()?.handle).toBe("markus-azer");
 	});
 
-	it("RULE-MCP-004: Bare `/mcp` → no `:identifier`", async () => {
+	it("RULE-MCP-004: Bare `/mcp` → no `:handle`.", async () => {
 		const { tool, context } = capturingTool();
 
 		const res = await request(appWith(tool))
@@ -58,10 +58,10 @@ describe("McpRouter", () => {
 			.send(initialize);
 
 		expect(res.status).toBe(200);
-		expect(context()?.identifier).toBeUndefined();
+		expect(context()?.handle).toBeUndefined();
 	});
 
-	it("RULE-MCP-005: Empty `:identifier` segment (`/mcp/`) → same as bare `/mcp`", async () => {
+	it("RULE-MCP-005: Empty `:handle` segment (`/mcp/`) → same as bare `/mcp`.", async () => {
 		const { tool, context } = capturingTool();
 
 		const res = await request(appWith(tool))
@@ -70,7 +70,7 @@ describe("McpRouter", () => {
 			.send(initialize);
 
 		expect(res.status).toBe(200);
-		expect(context()?.identifier).toBeUndefined();
+		expect(context()?.handle).toBeUndefined();
 	});
 
 	it("passes through `res.locals.principal` as `context.principal`", async () => {

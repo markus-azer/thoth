@@ -4,14 +4,14 @@ import { Postgres } from "~/infrastructure/db/index";
 import {
 	AppRouter,
 	AuthRouter,
+	BioRouter,
 	HealthRouter,
 	HttpServer,
 	McpRouter,
-	McpTool,
 	MetricsServer,
-	PrivateToolNames,
 	WelcomeRouter,
 } from "~/infrastructure/http/index";
+import { McpTool, PrivateToolNames } from "~/infrastructure/mcp/index";
 import {
 	Auth,
 	AuthController,
@@ -19,7 +19,12 @@ import {
 	BetterAuthVerifier,
 	createAuth,
 } from "~/modules/auth/index";
-import { BioRepository, BioService, BioTool } from "~/modules/bio/index";
+import {
+	BioController,
+	BioRepository,
+	BioService,
+	BioTool,
+} from "~/modules/bio/index";
 import { PostgresBioRepository } from "~/modules/bio/infrastructure/bio.pg-repository";
 import {
 	FeedbackRepository,
@@ -61,6 +66,8 @@ export async function createContainer(): Promise<Container> {
 	container.bind(FeedbackService).toSelf().inSingletonScope();
 
 	// bio module
+	container.bind(BioRouter).toSelf().inSingletonScope();
+	container.bind(BioController).toSelf().inSingletonScope();
 	container.bind(McpTool).to(BioTool).inSingletonScope();
 	container.bind(BioRepository).to(PostgresBioRepository).inSingletonScope();
 	container.bind(BioService).toSelf().inSingletonScope();

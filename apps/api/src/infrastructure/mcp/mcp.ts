@@ -8,8 +8,8 @@ export interface McpPrincipal {
 
 // Per-request data passed to every tool's register() call.
 export interface McpRequestContext {
-	// Set on `/mcp/:identifier`. Undefined on bare `/mcp`.
-	identifier?: string;
+	// Set on `/mcp/:handle`. Undefined on bare `/mcp`.
+	handle?: string;
 	// Set once mcpAuthMiddleware verifies a bearer for a private tool call.
 	principal?: McpPrincipal;
 }

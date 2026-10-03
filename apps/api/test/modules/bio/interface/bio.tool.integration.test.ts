@@ -48,7 +48,7 @@ describe("BioTool", () => {
 
 	it("RULE-BIO-001: FOUND includes the name, headline, and about.", async () => {
 		const { tool } = setup();
-		const client = await connectMcp({ identifier: "markus-azer" }, tool);
+		const client = await connectMcp({ handle: "markus-azer" }, tool);
 
 		const result = await client.callTool({ name: "get_bio", arguments: {} });
 
@@ -58,9 +58,9 @@ describe("BioTool", () => {
 		expect(JSON.stringify(result.content)).toMatch(/Builds things\./);
 	});
 
-	it("get_bio passes the identifier through as the handle", async () => {
+	it("get_bio passes the handle through to the lookup", async () => {
 		const { tool, get } = setup();
-		const client = await connectMcp({ identifier: "markus-azer" }, tool);
+		const client = await connectMcp({ handle: "markus-azer" }, tool);
 
 		await client.callTool({ name: "get_bio", arguments: {} });
 

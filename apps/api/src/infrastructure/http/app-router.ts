@@ -7,14 +7,15 @@ import { inject, injectable } from "inversify";
 import { pinoHttp } from "pino-http";
 import swaggerUi from "swagger-ui-express";
 import { env } from "~/env";
+import { PrivateToolNames } from "~/infrastructure/mcp/index";
 import { AuthPort } from "~/modules/auth/index";
 import { errorHandler } from "./error-handler";
-import { PrivateToolNames } from "./mcp";
 import { mcpAuthMiddleware } from "./mcp-auth.middleware";
 import { generateOpenApiDocument } from "./openapi/registry";
 import { pinoHttpOptions } from "./pino-http-options";
 import { requestContext } from "./request-context";
 import { AuthRouter } from "./routes/auth.router";
+import { BioRouter } from "./routes/bio.router";
 import { HealthRouter } from "./routes/health.router";
 import { McpRouter } from "./routes/mcp.router";
 import { WelcomeRouter } from "./routes/welcome.router";
@@ -24,6 +25,7 @@ export class AppRouter {
 	constructor(
 		@inject(WelcomeRouter) private readonly welcomeRouter: WelcomeRouter,
 		@inject(HealthRouter) private readonly healthRouter: HealthRouter,
+		@inject(BioRouter) private readonly bioRouter: BioRouter,
 		@inject(McpRouter) private readonly mcpRouter: McpRouter,
 		@inject(AuthRouter) private readonly authRouter: AuthRouter,
 		@inject(AuthPort) private readonly authPort: AuthPort,
@@ -40,6 +42,7 @@ export class AppRouter {
 		app.use(createMiddleware({ app }));
 		app.use("/", this.welcomeRouter.routes);
 		app.use("/health", this.healthRouter.routes);
+		app.use("/bio", this.bioRouter.routes);
 		app.use("/", this.authRouter.routes);
 		app.use(
 			"/mcp",
