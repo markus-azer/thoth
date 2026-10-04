@@ -15,9 +15,7 @@
 			"project": "{src,test}/**/*.ts"
 		},
 		"packages/ui": {
-			"project": "src/**/*.{ts,tsx}",
-			// imported from globals.css, which knip does not follow
-			"ignoreDependencies": ["shadcn", "tw-animate-css"]
+			"project": "{src,test}/**/*.{ts,tsx,css}"
 		}
 	}
 }
