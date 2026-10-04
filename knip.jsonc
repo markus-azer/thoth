@@ -13,6 +13,9 @@
 		},
 		"packages/*": {
 			"project": "{src,test}/**/*.ts"
+		},
+		"packages/ui": {
+			"project": "{src,test}/**/*.{ts,tsx,css}"
 		}
 	}
 }

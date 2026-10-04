@@ -9,3 +9,9 @@ allowBuilds:
 overrides:
   esbuild: 0.28.1
   zod: 4.3.6
+
+# braces has no patched version yet. It only comes in through the shadcn CLI, a dev-time tool.
+# Remove this when a braces version above 3.0.3 is published.
+auditConfig:
+  ignoreGhsas:
+    - GHSA-vfj7-8cjw-p6xm
