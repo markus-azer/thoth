@@ -6,7 +6,9 @@
 	"type": "module",
 	"exports": {
 		"./globals.css": "./src/styles/globals.css",
-		"./components/*": "./src/components/*.tsx"
+		"./components/*": "./src/components/*.tsx",
+		"./lib/*": "./src/lib/*.ts",
+		"./hooks/*": "./src/hooks/*.ts"
 	},
 	"scripts": {
 		"typecheck": "tsc --noEmit"
