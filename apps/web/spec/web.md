@@ -2,11 +2,12 @@
 title: Web
 workspace: apps/web
 status: current
+related: [links]
 ---
 
 # Web
 
-The owner's public personal website: one page.
+The owner's public personal website: one page with their bio and links.
 
 
 ## Rules
