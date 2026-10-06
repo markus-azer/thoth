@@ -11,6 +11,9 @@
 		"apps/*": {
 			"project": "{src,test}/**/*.ts"
 		},
+		"apps/web": {
+			"project": "{src,test}/**/*.{ts,tsx,css}"
+		},
 		"packages/*": {
 			"project": "{src,test}/**/*.ts"
 		},
