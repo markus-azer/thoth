@@ -34,6 +34,10 @@ jobs:
 
       - name: Verify
         run: pnpm verify
+        env:
+          # The web build fetches the bio from a live API.
+          API_URL: ${{ vars.API_URL }}
+          SITE_HANDLE: ${{ vars.SITE_HANDLE }}
 
       - name: Audit
         run: pnpm audit --audit-level=high
