@@ -17,7 +17,7 @@
 		"@better-auth/oauth-provider": "1.6.25",
 		"@modelcontextprotocol/sdk": "1.32.1",
 		"@opentelemetry/auto-instrumentations-node": "0.81.0",
-		"@opentelemetry/sdk-node": "0.220.0",
+		"@opentelemetry/sdk-node": "0.223.0",
 		"@promster/express": "15.5.2",
 		"@thoth/core": "workspace:*",
 		"@thoth/utils": "workspace:*",
