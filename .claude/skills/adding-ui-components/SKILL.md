@@ -6,13 +6,13 @@ description: |
 
 # Adding ui components
 
-Everything in `packages/ui/src/components` is generated. Do not edit it by hand.
+Do not edit `packages/ui/src/components` by hand. The CLI generates it.
 
 ## Steps
 
 1. From the repo root, run the CLI with `pnpm dlx`:
    ```
-   pnpm dlx shadcn@4.21.0 add <component> -c packages/ui
+   pnpm dlx shadcn@<version in packages/ui/package.json> add <component> -c packages/ui
    ```
 2. Fix formatting and `import type`:
    ```
