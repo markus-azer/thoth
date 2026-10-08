@@ -18,4 +18,4 @@ The owner's public personal website: one page with their bio and links.
 - [RULE-WEB-004] The bio is missing a field → the build fails.
 - [RULE-WEB-005] The bio has a blank field → the build fails.
 - [RULE-WEB-006] A visitor opens the home page → they see the owner's name, headline, and about.
-- [RULE-WEB-007] The owner changes the bio → the home page updates within 5 minutes.
+- [RULE-WEB-007] The bio changed over 5 minutes ago → the next visit rebuilds the home page.

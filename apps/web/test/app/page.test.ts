@@ -20,7 +20,7 @@ describe("home page", () => {
 		expect(html).toContain("Wrote the first algorithm.");
 	});
 
-	it("RULE-WEB-007: The owner changes the bio → the home page updates within 5 minutes.", () => {
+	it("RULE-WEB-007: The bio changed over 5 minutes ago → the next visit rebuilds the home page.", () => {
 		expect(revalidate).toBe(300);
 	});
 });
