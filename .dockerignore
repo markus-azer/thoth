@@ -1,6 +1,8 @@
 # Build & deps
 **/node_modules
 **/dist
+**/.next
+**/.turbo
 **/coverage
 
 # Version control

@@ -1,6 +1,6 @@
 {
 	"path": ["apps", "packages"],
-	"format": ["typescript"],
+	"format": ["typescript", "tsx"],
 	"ignore": ["**/test/**"],
 	"minLines": 5,
 	"minTokens": 40,
