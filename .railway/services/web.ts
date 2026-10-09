@@ -5,7 +5,20 @@ const amsterdam = "europe-west4-drams3a";
 export function web() {
 	return service("web", {
 		source: github("markus-azer/thoth"),
-		build: { builder: "DOCKERFILE", dockerfilePath: "apps/web/Dockerfile" },
+		build: {
+			builder: "DOCKERFILE",
+			dockerfilePath: "apps/web/Dockerfile",
+			watchPatterns: [
+				"/apps/web/**",
+				"/packages/**",
+				"/package.json",
+				"/pnpm-lock.yaml",
+				"/pnpm-workspace.yaml",
+				"/turbo.json",
+				"/tsconfig.base.json",
+			],
+		},
+		deploy: { restartPolicyType: "ON_FAILURE", restartPolicyMaxRetries: 3 },
 		healthcheck: "/health",
 		healthcheckTimeout: 30,
 		replicas: { [amsterdam]: 1 },
