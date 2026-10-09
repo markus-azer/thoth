@@ -12,3 +12,9 @@ variable "required_status_checks" {
   description = "CI job names that must pass before merging into main."
   default     = []
 }
+
+variable "ci_variables" {
+  type        = map(string)
+  description = "Actions variables for CI."
+  default     = {}
+}

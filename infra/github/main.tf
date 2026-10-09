@@ -83,3 +83,10 @@ resource "github_repository_ruleset" "copilot_review" {
     }
   }
 }
+
+resource "github_actions_variable" "ci" {
+  for_each      = toset(keys(var.ci_variables))
+  repository    = github_repository.repo.name
+  variable_name = each.value
+  value         = var.ci_variables[each.value]
+}
