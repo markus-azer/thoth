@@ -3,7 +3,7 @@ resource "railway_service" "api" {
   project_id         = railway_project.main.id
   source_repo        = var.project.repo
   source_repo_branch = var.project.branch
-  config_path        = "railway.toml"
+  config_path        = "apps/api/railway.toml"
 }
 
 resource "railway_variable_collection" "api" {
