@@ -18,7 +18,10 @@ export function web() {
 				"/tsconfig.base.json",
 			],
 		},
-		deploy: { restartPolicyType: "ON_FAILURE", restartPolicyMaxRetries: 3 },
+		// restartPolicyType: "ON_FAILURE" is the default. Setting it makes the plan
+		// diff forever until https://github.com/railwayapp/cli/issues/1184 is fixed.
+		deploy: { restartPolicyMaxRetries: 3 },
+		domains: [{ domain: "markus-azer.com", port: 8080 }],
 		healthcheck: "/health",
 		healthcheckTimeout: 30,
 		replicas: { [amsterdam]: 1 },
