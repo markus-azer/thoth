@@ -18,4 +18,4 @@ No floating versions. Every dependency is pinned.
 | Terraform providers | exact in `required_providers` | Terraform |
 | Docker images | pinned tag, never `:latest` | TODO — hadolint when first Dockerfile lands |
 
-Why: surprise upstream breakage is the costliest CI failure. Pinning makes upgrades intentional and reviewable through Dependabot PRs.
+Why: surprise upstream breakage is the costliest CI failure. Pinning makes upgrades intentional and reviewable through Renovate PRs.
