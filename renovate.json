@@ -9,7 +9,8 @@
 	"postUpdateOptions": ["pnpmDedupe"],
 	"platformAutomerge": true,
 	"vulnerabilityAlerts": {
-		"automerge": false
+		"automerge": false,
+		"groupName": "security"
 	},
 	"packageRules": [
 		{
