@@ -1,0 +1,31 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": ["config:recommended", "helpers:pinGitHubActionDigests"],
+	"semanticCommits": "enabled",
+	"semanticCommitType": "build",
+	"semanticCommitScope": "deps",
+	"minimumReleaseAge": "7 days",
+	"prConcurrentLimit": 5,
+	"postUpdateOptions": ["pnpmDedupe"],
+	"platformAutomerge": true,
+	"vulnerabilityAlerts": {
+		"automerge": false
+	},
+	"packageRules": [
+		{
+			"matchUpdateTypes": ["patch"],
+			"automerge": true
+		},
+		{
+			"groupName": "dev-tools",
+			"matchPackageNames": [
+				"@biomejs/*",
+				"@commitlint/*",
+				"secretlint",
+				"@secretlint/*",
+				"husky",
+				"lint-staged"
+			]
+		}
+	]
+}
