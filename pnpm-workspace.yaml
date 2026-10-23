@@ -6,7 +6,7 @@ allowBuilds:
   esbuild: true
   protobufjs: false
   sdd-spec-check: true
-# Off on purpose. Renovate enforces the 7-day wait, see renovate.json.
+# Off for Renovate. Manual installs and transitive deps are not gated.
 minimumReleaseAge: 0
 overrides:
   esbuild: 0.28.1
