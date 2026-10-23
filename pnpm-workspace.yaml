@@ -9,7 +9,7 @@ allowBuilds:
 # Off for Renovate. Manual installs and transitive deps are not gated.
 minimumReleaseAge: 0
 overrides:
-  esbuild: 0.28.1
+  esbuild: 0.28.2
   zod: 4.3.6
   vite: 8.1.6
 
