@@ -9,6 +9,7 @@ allowBuilds:
 minimumReleaseAge: 10080
 minimumReleaseAgeExclude: []
 minimumReleaseAgeIgnoreMissingTime: true
+resolutionMode: highest
 overrides:
   esbuild: 0.28.1
   zod: 4.3.6
