@@ -6,10 +6,8 @@ allowBuilds:
   esbuild: true
   protobufjs: false
   sdd-spec-check: true
-minimumReleaseAge: 10080
-minimumReleaseAgeExclude: []
-minimumReleaseAgeIgnoreMissingTime: true
-resolutionMode: highest
+# Off for Renovate. Manual installs and transitive deps are not gated.
+minimumReleaseAge: 0
 overrides:
   esbuild: 0.28.1
   zod: 4.3.6
