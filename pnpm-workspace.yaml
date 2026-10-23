@@ -6,7 +6,7 @@ allowBuilds:
   esbuild: true
   protobufjs: false
   sdd-spec-check: true
-minimumReleaseAge: 10080
+minimumReleaseAge: 0
 minimumReleaseAgeExclude: []
 minimumReleaseAgeIgnoreMissingTime: true
 resolutionMode: highest
