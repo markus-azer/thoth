@@ -8,6 +8,8 @@
 	"prConcurrentLimit": 5,
 	"postUpdateOptions": ["pnpmDedupe"],
 	"platformAutomerge": true,
+	"fetchChangeLogs": "off",
+	"prBodyTemplate": "{{{table}}}{{{warnings}}}{{{controls}}}",
 	"vulnerabilityAlerts": {
 		"automerge": false,
 		"groupName": "security"
