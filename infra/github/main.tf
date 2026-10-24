@@ -58,7 +58,7 @@ resource "github_branch_protection" "main" {
   require_signed_commits          = true
 
   required_status_checks {
-    strict   = true
+    strict   = false
     contexts = var.required_status_checks
   }
 }
@@ -80,6 +80,32 @@ resource "github_repository_ruleset" "copilot_review" {
     copilot_code_review {
       review_on_push             = true
       review_draft_pull_requests = false
+    }
+  }
+}
+
+resource "github_repository_ruleset" "merge_queue" {
+  repository  = github_repository.repo.name
+  name        = "merge-queue"
+  target      = "branch"
+  enforcement = "active"
+
+  conditions {
+    ref_name {
+      include = ["~DEFAULT_BRANCH"]
+      exclude = []
+    }
+  }
+
+  rules {
+    merge_queue {
+      merge_method                      = "SQUASH"
+      grouping_strategy                 = "ALLGREEN"
+      min_entries_to_merge              = 1
+      max_entries_to_merge              = 5
+      min_entries_to_merge_wait_minutes = 0
+      max_entries_to_build              = 5
+      check_response_timeout_minutes    = 30
     }
   }
 }
