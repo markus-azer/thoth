@@ -1,5 +1,5 @@
 # base: Node + pnpm, shared by all stages
-FROM node:24.15.0-alpine AS base
+FROM node:24.22.0-alpine AS base
 RUN corepack enable
 WORKDIR /app
 
@@ -20,7 +20,7 @@ ARG SITE_HANDLE
 RUN pnpm exec turbo run build --filter=@thoth/web
 
 # runner: only the traced server files, no pnpm or sources
-FROM node:24.15.0-alpine AS runner
+FROM node:24.22.0-alpine AS runner
 ENV NODE_ENV=production HOSTNAME=0.0.0.0 PORT=8080
 WORKDIR /app
 COPY --from=build --chown=node:node /app/apps/web/dist/standalone ./
