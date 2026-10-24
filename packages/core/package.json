@@ -21,7 +21,7 @@
 	},
 	"dependencies": {
 		"inversify": "8.1.2",
-		"uuid": "14.0.1"
+		"uuid": "14.0.3"
 	},
 	"devDependencies": {
 		"dependency-cruiser": "18.1.0",
