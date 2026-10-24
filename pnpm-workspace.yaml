@@ -11,7 +11,7 @@ minimumReleaseAge: 0
 overrides:
   esbuild: 0.28.2
   zod: 4.3.6
-  vite: 8.1.6
+  vite: 8.3.4
 
 # braces has no patched version yet. It only comes in through the shadcn CLI, a dev-time tool.
 # Remove this when a braces version above 3.0.3 is published.
