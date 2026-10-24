@@ -20,6 +20,12 @@
 			"automerge": true
 		},
 		{
+			"description": "1.7 needs a schema migration and code changes. Revisit with GHSA-p2fr-6hmx-4528.",
+			"matchPackageNames": ["better-auth", "@better-auth/*"],
+			"matchUpdateTypes": ["minor", "major"],
+			"enabled": false
+		},
+		{
 			"groupName": "dev-tools",
 			"matchPackageNames": [
 				"@biomejs/*",
