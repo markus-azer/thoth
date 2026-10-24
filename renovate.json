@@ -9,6 +9,7 @@
 	"postUpdateOptions": ["pnpmDedupe"],
 	"platformAutomerge": true,
 	"fetchChangeLogs": "off",
+	"dependencyDashboard": false,
 	"prBodyTemplate": "{{{table}}}{{{warnings}}}{{{controls}}}",
 	"vulnerabilityAlerts": {
 		"automerge": false,
