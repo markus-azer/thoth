@@ -17,12 +17,10 @@ describe("Bio", () => {
 		expect(() => new Bio(validProps)).not.toThrow();
 	});
 
-	it.each([
-		"handle",
-		"name",
-		"headline",
-		"about",
-	] as const)("rejects a blank %s", (field) => {
-		expect(() => new Bio({ ...validProps, [field]: "  " })).toThrow();
-	});
+	it.each(["handle", "name", "headline", "about"] as const)(
+		"rejects a blank %s",
+		(field) => {
+			expect(() => new Bio({ ...validProps, [field]: "  " })).toThrow();
+		},
+	);
 });
