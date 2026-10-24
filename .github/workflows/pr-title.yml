@@ -3,12 +3,14 @@ name: PR Title
 on:
   pull_request:
     types: [opened, edited, synchronize, reopened]
+  merge_group:
 
 permissions:
   pull-requests: read
 
 jobs:
   pr-title:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-24.04
     timeout-minutes: 2
     steps:
