@@ -20,7 +20,7 @@
 		"arch": "depcruise src"
 	},
 	"dependencies": {
-		"inversify": "8.1.2",
+		"inversify": "8.2.3",
 		"uuid": "14.0.3"
 	},
 	"devDependencies": {
