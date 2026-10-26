@@ -18,3 +18,9 @@ github = {
   client_id     = ""
   client_secret = ""
 }
+
+# From openrouter.ai. Model ids are listed at openrouter.ai/models.
+llm = {
+  api_key = ""
+  model   = "google/gemma-4-31b-it:free"
+}
