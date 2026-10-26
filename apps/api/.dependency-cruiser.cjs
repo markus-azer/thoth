@@ -68,6 +68,19 @@ module.exports = {
 		},
 
 		{
+			// Domain and application know only their own module.
+			// To use another module, define a port and implement it in infrastructure.
+			name: "inner-layers-stay-in-module",
+			comment: "Domain and application must not import another module.",
+			severity: "error",
+			from: { path: "src/modules/([^/]+)/(domain|application)/" },
+			to: {
+				path: "src/modules/([^/]+)/",
+				pathNot: "src/modules/$1/",
+			},
+		},
+
+		{
 			// A second pool doubles the connections and nothing closes it.
 			name: "one-pg-pool",
 			comment: "Only the Postgres wrapper may import pg.",
