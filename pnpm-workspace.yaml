@@ -14,7 +14,7 @@ overrides:
   vite: 8.3.4
   body-parser: 2.4.0
   undici: 7.30.1
-  fast-uri: 3.1.9
+  fast-uri: 4.2.2
   ip-address: 10.7.4
 
 # braces has no patched version yet. It only comes in through the shadcn CLI, a dev-time tool.
