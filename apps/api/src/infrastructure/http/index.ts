@@ -1,5 +1,6 @@
 export { AppRouter } from "./app-router";
 export { MetricsServer } from "./metrics-server";
+export { AgentRouter } from "./routes/agent.router";
 export { AuthRouter } from "./routes/auth.router";
 export { BioRouter } from "./routes/bio.router";
 export { HealthRouter } from "./routes/health.router";
