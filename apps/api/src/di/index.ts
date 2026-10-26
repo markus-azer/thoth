@@ -2,6 +2,7 @@ import { IdGenerator, UuidGenerator } from "@thoth/core";
 import { Container } from "inversify";
 import { Postgres } from "~/infrastructure/db/index";
 import {
+	AgentRouter,
 	AppRouter,
 	AuthRouter,
 	BioRouter,
@@ -12,6 +13,18 @@ import {
 	WelcomeRouter,
 } from "~/infrastructure/http/index";
 import { McpTool, PrivateToolNames } from "~/infrastructure/mcp/index";
+import {
+	AgentController,
+	AgentModel,
+	AgentService,
+	MessageRepository,
+	ProfileRepository,
+	ThreadRepository,
+} from "~/modules/agent/index";
+import { BioProfileRepository } from "~/modules/agent/infrastructure/agent.bio-profile-repository";
+import { OpenRouterAgentModel } from "~/modules/agent/infrastructure/agent.openrouter-model";
+import { PostgresMessageRepository } from "~/modules/agent/infrastructure/agent.pg-message-repository";
+import { PostgresThreadRepository } from "~/modules/agent/infrastructure/agent.pg-thread-repository";
 import {
 	Auth,
 	AuthController,
@@ -71,6 +84,21 @@ export async function createContainer(): Promise<Container> {
 	container.bind(McpTool).to(BioTool).inSingletonScope();
 	container.bind(BioRepository).to(PostgresBioRepository).inSingletonScope();
 	container.bind(BioService).toSelf().inSingletonScope();
+
+	// agent module
+	container.bind(AgentRouter).toSelf().inSingletonScope();
+	container.bind(AgentController).toSelf().inSingletonScope();
+	container.bind(AgentModel).to(OpenRouterAgentModel).inSingletonScope();
+	container.bind(ProfileRepository).to(BioProfileRepository).inSingletonScope();
+	container
+		.bind(ThreadRepository)
+		.to(PostgresThreadRepository)
+		.inSingletonScope();
+	container
+		.bind(MessageRepository)
+		.to(PostgresMessageRepository)
+		.inSingletonScope();
+	container.bind(AgentService).toSelf().inSingletonScope();
 
 	// auth module
 	container
