@@ -47,6 +47,17 @@ export class PostgresBioRepository implements BioRepository {
 		return row ? new Bio(row) : null;
 	}
 
+	async findById(id: string): Promise<Bio | null> {
+		const [row] = await this.db.query<BioRow>(
+			`SELECT ${this.columns}
+				FROM bio
+				WHERE id = $1`,
+			[id],
+		);
+
+		return row ? new Bio(row) : null;
+	}
+
 	async insert(userId: string, bio: NewBio): Promise<Bio | null> {
 		const row = await this.write(
 			`INSERT INTO bio (id, user_id, handle, name, headline, about, created_at, updated_at)

@@ -52,6 +52,24 @@ describe("PostgresBioRepository", () => {
 		await expect(repo.findByHandle("nobody")).resolves.toBeNull();
 	});
 
+	it("findById returns the matching bio", async () => {
+		const { repo, query } = setup();
+		query.mockResolvedValue([row]);
+
+		await expect(repo.findById(row.id)).resolves.toEqual(bio);
+		expect(query).toHaveBeenCalledWith(
+			expect.stringContaining("WHERE id = $1"),
+			[row.id],
+		);
+	});
+
+	it("findById returns null when no row matches", async () => {
+		const { repo, query } = setup();
+		query.mockResolvedValue([]);
+
+		await expect(repo.findById("ghost")).resolves.toBeNull();
+	});
+
 	it("RULE-BIO-006: `create_bio`, no existing bio for the caller → CREATED.", async () => {
 		const { repo, query } = setup();
 		query.mockResolvedValue([row]);
