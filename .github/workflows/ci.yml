@@ -14,7 +14,7 @@ concurrency:
 jobs:
   verify:
     if: github.event_name != 'schedule'
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 10
     permissions:
       contents: read
@@ -43,7 +43,7 @@ jobs:
           SITE_HANDLE: ${{ vars.SITE_HANDLE }}
 
   audit:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 5
     permissions:
       contents: read
