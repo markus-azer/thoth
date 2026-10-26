@@ -8,6 +8,7 @@ export {
 	Unauthorized,
 	UnprocessableEntity,
 } from "./errors";
+export { HandleSchema } from "./handle";
 export {
 	type CreateLoggerOpts,
 	createLogger,
