@@ -13,4 +13,8 @@ export const AskInputSchema = z
 	})
 	.openapi("AskInput");
 
+export const AskParamsSchema = AskInputSchema.pick({ threadId: true });
+
+export const AskBodySchema = AskInputSchema.pick({ message: true });
+
 export type AskInput = z.infer<typeof AskInputSchema>;
