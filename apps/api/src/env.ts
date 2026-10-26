@@ -15,6 +15,8 @@ const _env = cleanEnv(process.env, {
 	GITHUB_CLIENT_SECRET: str(),
 	BETTER_AUTH_URL: str(),
 	BETTER_AUTH_SECRET: str(),
+	OPENROUTER_API_KEY: str(),
+	LLM_MODEL: str(),
 });
 
 // NODE_ENV is validated at startup but intentionally hidden from consumers.

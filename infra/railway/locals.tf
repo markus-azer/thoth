@@ -22,6 +22,8 @@ locals {
     GITHUB_CLIENT_SECRET = var.github.client_secret
     BETTER_AUTH_URL      = "https://${local.api_domain}"
     BETTER_AUTH_SECRET   = random_password.better_auth.result
+    OPENROUTER_API_KEY   = var.llm.api_key
+    LLM_MODEL            = var.llm.model
   }
 
   # service name -> its SQL dir. Add a line to onboard another service.

@@ -27,3 +27,12 @@ variable "github" {
   })
   sensitive = true
 }
+
+# The OpenRouter account and model the agent answers with.
+variable "llm" {
+  type = object({
+    api_key = string
+    model   = string
+  })
+  sensitive = true
+}
