@@ -21,6 +21,8 @@ export interface NewBio extends BioFields {
 export interface BioRepository {
 	findByHandle(handle: string): Promise<Bio | null>;
 
+	findById(id: string): Promise<Bio | null>;
+
 	// null when the caller already has a bio.
 	insert(userId: string, bio: NewBio): Promise<Bio | null>;
 

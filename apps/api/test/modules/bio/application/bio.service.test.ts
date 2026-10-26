@@ -7,11 +7,15 @@ import { Bio } from "~/modules/bio/domain/bio";
 
 const setup = () => {
 	const findByHandle = vi.fn();
+	const findById = vi.fn();
 	const insert = vi.fn();
 	const update = vi.fn();
 	const ids = { next: vi.fn().mockReturnValue("new-id") };
-	const service = new BioService({ findByHandle, insert, update }, ids);
-	return { service, findByHandle, insert, update, ids };
+	const service = new BioService(
+		{ findByHandle, findById, insert, update },
+		ids,
+	);
+	return { service, findByHandle, findById, insert, update, ids };
 };
 
 const sampleBio = new Bio({
@@ -33,6 +37,23 @@ const input = {
 };
 
 describe("BioService", () => {
+	it("getById returns the bio with that id", async () => {
+		const { service, findById } = setup();
+		findById.mockResolvedValue(sampleBio);
+
+		await expect(service.getById(sampleBio.id)).resolves.toBe(sampleBio);
+		expect(findById).toHaveBeenCalledWith(sampleBio.id);
+	});
+
+	it("getById with an unknown id → NOT_FOUND", async () => {
+		const { service, findById } = setup();
+		findById.mockResolvedValue(null);
+
+		await expect(service.getById("ghost")).rejects.toMatchObject({
+			code: ErrorCode.BIO_NOT_FOUND,
+		});
+	});
+
 	it("RULE-BIO-002: `:handle` matches a bio → FOUND for that bio.", async () => {
 		const { service, findByHandle } = setup();
 		findByHandle.mockResolvedValue(sampleBio);

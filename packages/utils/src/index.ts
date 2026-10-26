@@ -14,6 +14,7 @@ export {
 	type Log,
 	withRequestId,
 } from "./logger";
+export { parseInput } from "./parseInput";
 export { parseOrigins } from "./parseOrigins";
 export { withTimeout } from "./withTimeout";
 export { z } from "./zod";

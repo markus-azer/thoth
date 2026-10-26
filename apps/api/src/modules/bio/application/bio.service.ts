@@ -26,6 +26,14 @@ export class BioService {
 		);
 	}
 
+	async getById(id: string): Promise<Bio> {
+		const bio = await this.repo.findById(id);
+
+		if (bio) return bio;
+
+		throw new NotFound(ErrorCode.BIO_NOT_FOUND, `No bio found for id "${id}"`);
+	}
+
 	async create(userId: string, input: BioInputDTO): Promise<Bio> {
 		const bio = await this.rejectTakenHandle(input.handle, () =>
 			this.repo.insert(userId, { id: this.ids.next(), ...input }),
