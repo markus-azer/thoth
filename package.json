@@ -39,7 +39,7 @@
 		"@commitlint/config-conventional": "21.2.4",
 		"@secretlint/secretlint-rule-preset-recommend": "13.0.7",
 		"husky": "9.1.7",
-		"jscpd": "5.4.1",
+		"jscpd": "5.4.2",
 		"knip": "6.42.1",
 		"lint-staged": "17.6.0",
 		"railway": "3.16.0",
