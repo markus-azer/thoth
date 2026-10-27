@@ -13,7 +13,7 @@
 		"arch": "depcruise src"
 	},
 	"dependencies": {
-		"@asteasolutions/zod-to-openapi": "8.5.0",
+		"@asteasolutions/zod-to-openapi": "9.1.0",
 		"@better-auth/oauth-provider": "1.6.25",
 		"@langchain/core": "1.3.0",
 		"@langchain/langgraph": "1.5.2",

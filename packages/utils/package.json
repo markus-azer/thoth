@@ -19,7 +19,7 @@
 		"test": "vitest run"
 	},
 	"dependencies": {
-		"@asteasolutions/zod-to-openapi": "8.5.0",
+		"@asteasolutions/zod-to-openapi": "9.1.0",
 		"pino": "10.4.0",
 		"pino-pretty": "13.2.0",
 		"zod": "4.6.7"
