@@ -264,8 +264,8 @@ importers:
         specifier: 0.223.0
         version: 0.223.0(@opentelemetry/api@1.9.1)(supports-color@10.2.2)
       '@promster/express':
-        specifier: 15.7.0
-        version: 15.7.0(prom-client@15.1.3)
+        specifier: 16.0.1
+        version: 16.0.1(@prometheus-io/client@0.16.1)
       '@thoth/core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -2140,15 +2140,19 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
-  '@promster/express@15.7.0':
-    resolution: {integrity: sha512-E9cGOx0wTNoHTsSrXGHzCWpafaN7xtvSXhG7hV4x+Mp9hk1pnf3mMEEPLZ+kQWdHr1SeY4mRD0D24yIflWGuyA==}
-    engines: {node: '>=20', npm: '>=8'}
+  '@prometheus-io/client@0.16.1':
+    resolution: {integrity: sha512-XkFPsGFGoSs/UMg/vh0QLDpanl/tsrOV5PLHdpGe8Ho+ir/Llhytr15j6y8ZwLrpIGzK9gTVVpIalA6C4UjUZw==}
+    engines: {node: ^22 || ^24 || >=26}
 
-  '@promster/metrics@15.7.0':
-    resolution: {integrity: sha512-Ar0RGeo1f3Ha+JY0OuANKO3Rc7cLc4hsXKtwfPQJIFz+SHZCDwuaCn8lQfV/arBrul7aXZTGYyydLC/tsdSgCA==}
-    engines: {node: '>=20', npm: '>=8'}
+  '@promster/express@16.0.1':
+    resolution: {integrity: sha512-PIucFr+bVXWSsyyKhq3wRDn74bnekbMEDDrfyJtDq1cuNLf2olP11Xq+UWttEMUQq0smqJWj6kRl5TGYGC7kww==}
+    engines: {node: '>=22', npm: '>=8'}
+
+  '@promster/metrics@16.0.1':
+    resolution: {integrity: sha512-+dZv/7FhzstZdbo/GhOeCFUPZnsHoGdcsmnqAROkifNKPgORpqGTqQABscU62rglz9CfDF3M85Wpaj1PA60XpQ==}
+    engines: {node: '>=22', npm: '>=8'}
     peerDependencies:
-      prom-client: 13.x.x || 14.x || 15.x
+      '@prometheus-io/client': ^0.16.1
 
   '@protobufjs/aspromise@1.1.2':
     resolution: {integrity: sha512-j+gKExEuLmKwvz3OgROXtrJ2UG2x8Ch2YZUxahh+s1F2HZ+wAceUNLkvy6zKCPVRkU++ZWQrdxsUeQXmcg4uoQ==}
@@ -4137,8 +4141,8 @@ packages:
     resolution: {integrity: sha512-j6vWzfrGVfyXxge+O0x5sh6cvxAog0a/4Rdd2K36zCMV5eJ+/+tOAngRO8cODMNWbVRdVlmGZQL2YS3yR8bIUA==}
     engines: {node: '>= 0.4'}
 
-  es-toolkit@1.51.0:
-    resolution: {integrity: sha512-zC2lQGkM7QX+Gm6iM3+WIdZJzthsEd14LvRNJneSO2hzyz/zNBENR8+YXWo1cKxgPBtV6ksPYHELbcwBRzmdCw==}
+  es-toolkit@1.52.0:
+    resolution: {integrity: sha512-XTNEJQh1tY1ZJVcf6ayP/2n4ZPyaHlW2FWs7xvw5ddPuhUVjLD3olQVQS7kf58JbAB48iL0uL/jerTrjtV3lDA==}
 
   esbuild@0.28.2:
     resolution: {integrity: sha512-HKVLS8dvII+xoKW9kmqxbRKrnWEXfJJr/FZhhJmiqIB0e053QNYFqOBouTMO/k5sID4MvCiUCvv8b9M4h32wIA==}
@@ -6612,7 +6616,7 @@ snapshots:
   '@commitlint/ensure@21.2.4':
     dependencies:
       '@commitlint/types': 21.2.3
-      es-toolkit: 1.51.0
+      es-toolkit: 1.52.0
 
   '@commitlint/execute-rule@21.0.1': {}
 
@@ -6640,7 +6644,7 @@ snapshots:
       '@commitlint/resolve-extends': 21.2.3
       '@commitlint/types': 21.2.3
       cosmiconfig: 9.0.2(typescript@7.0.2)
-      es-toolkit: 1.51.0
+      es-toolkit: 1.52.0
       is-plain-obj: 4.1.0
       jiti: 2.7.0
       picocolors: 1.1.1
@@ -6669,7 +6673,7 @@ snapshots:
     dependencies:
       '@commitlint/config-validator': 21.2.3
       '@commitlint/types': 21.2.3
-      es-toolkit: 1.51.0
+      es-toolkit: 1.52.0
       global-directory: 5.0.0
       resolve-from: 5.0.0
 
@@ -7982,19 +7986,24 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@promster/express@15.7.0(prom-client@15.1.3)':
+  '@prometheus-io/client@0.16.1':
     dependencies:
-      '@promster/metrics': 15.7.0(prom-client@15.1.3)
+      '@opentelemetry/api': 1.9.1
+      tdigest: 0.1.2
+
+  '@promster/express@16.0.1(@prometheus-io/client@0.16.1)':
+    dependencies:
+      '@promster/metrics': 16.0.1(@prometheus-io/client@0.16.1)
       merge-options: 3.0.4
       tslib: 2.8.1
     transitivePeerDependencies:
-      - prom-client
+      - '@prometheus-io/client'
 
-  '@promster/metrics@15.7.0(prom-client@15.1.3)':
+  '@promster/metrics@16.0.1(@prometheus-io/client@0.16.1)':
     dependencies:
-      es-toolkit: 1.51.0
+      '@prometheus-io/client': 0.16.1
+      es-toolkit: 1.52.0
       merge-options: 3.0.4
-      prom-client: 15.1.3
       tslib: 2.8.1
       url-value-parser: 2.2.0
 
@@ -9815,7 +9824,7 @@ snapshots:
       has-tostringtag: 1.0.2
       hasown: 2.0.4
 
-  es-toolkit@1.51.0: {}
+  es-toolkit@1.52.0: {}
 
   esbuild@0.28.2:
     optionalDependencies:
