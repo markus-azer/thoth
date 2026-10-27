@@ -16,12 +16,3 @@ overrides:
   undici: 8.12.3
   fast-uri: 4.2.3
   ip-address: 10.7.4
-
-# braces has no patched version yet. It only comes in through the shadcn CLI, a dev-time tool.
-# Remove this when a braces version above 3.0.3 is published.
-# The better-auth oauth-provider fix only exists in a 1.7 beta.
-# Remove this after the better-auth 1.7 migration.
-auditConfig:
-  ignoreGhsas:
-    - GHSA-vfj7-8cjw-p6xm
-    - GHSA-p2fr-6hmx-4528
