@@ -57,6 +57,9 @@ ALTER TABLE "oauthAccessToken"
     ADD COLUMN "revoked" timestamptz,
     ADD COLUMN "confirmation" jsonb;
 
+CREATE INDEX "oauthRefreshToken_authorizationCodeId_idx" ON "oauthRefreshToken" ("authorizationCodeId");
+CREATE INDEX "oauthAccessToken_authorizationCodeId_idx" ON "oauthAccessToken" ("authorizationCodeId");
+
 ALTER TABLE "oauthConsent"
     ADD COLUMN "resources" jsonb,
     ADD COLUMN "requestedUserInfoClaims" jsonb;
