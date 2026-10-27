@@ -38,7 +38,7 @@ CREATE TABLE "oauthClientResource" (
     "createdAt" timestamptz
 );
 
-CREATE INDEX "oauthClientResource_clientId_idx" ON "oauthClientResource" ("clientId");
+CREATE UNIQUE INDEX "oauthClientResource_clientId_resourceId_idx" ON "oauthClientResource" ("clientId", "resourceId");
 CREATE INDEX "oauthClientResource_resourceId_idx" ON "oauthClientResource" ("resourceId");
 
 ALTER TABLE "oauthRefreshToken"
