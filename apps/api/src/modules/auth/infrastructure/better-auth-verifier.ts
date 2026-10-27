@@ -24,7 +24,7 @@ export class BetterAuthVerifier implements AuthPort {
 	async verifyBearer(token: string): Promise<Principal | undefined> {
 		try {
 			// Both default to the bare origin, which matches neither claim.
-			const payload = await this.resourceClient.verifyAccessToken(token, {
+			const payload = await this.resourceClient.verifyBearerToken(token, {
 				verifyOptions: { issuer: authIssuer, audience: authAudiences },
 			});
 			if (typeof payload.sub !== "string") return undefined;

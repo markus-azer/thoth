@@ -36,7 +36,9 @@ export function createAuth(pool: Pool) {
 				consentPage: "/auth/consent",
 				// The MCP resource is this origin, with a trailing slash. The default
 				// audience is the /api/auth path, which it won't match.
-				validAudiences: authAudiences,
+				resources: authAudiences,
+				clientRegistrationDefaultResources: authAudiences,
+				clientRegistrationDefaultApplicationType: "infer",
 				allowDynamicClientRegistration: true,
 				// MCP clients register without credentials. Slated for deprecation upstream.
 				allowUnauthenticatedClientRegistration: true,
