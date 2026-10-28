@@ -30,6 +30,9 @@ export function web() {
 			// biome-ignore lint/suspicious/noTemplateCurlyInString: Railway reference syntax
 			API_URL: "https://${{api.RAILWAY_PUBLIC_DOMAIN}}",
 			// biome-ignore lint/style/useNamingConvention: environment variable name
+			// biome-ignore lint/suspicious/noTemplateCurlyInString: Railway reference syntax
+			PUBLIC_API_URL: "https://${{api.RAILWAY_PUBLIC_DOMAIN}}",
+			// biome-ignore lint/style/useNamingConvention: environment variable name
 			SITE_HANDLE: "markus-azer",
 		},
 	});

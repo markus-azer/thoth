@@ -44,14 +44,33 @@ services:
     env_file: apps/api/.env
     environment:
       DATABASE_URL: postgres://postgres:postgres@postgres:5432/thoth
+    volumes:
+      - ./apps/api:/app/apps/api
+      - /app/apps/api/node_modules
     develop:
       watch:
-        - action: sync
-          path: apps/api
-          target: /app/apps/api
-          ignore:
-            - "**/node_modules"
-            - "**/dist"
+        - action: rebuild
+          path: pnpm-lock.yaml
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      target: dev
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    environment:
+      API_URL: http://api:3002
+      PUBLIC_API_URL: http://localhost:3002
+      SITE_HANDLE: ${SITE_HANDLE:-markus-azer}
+    volumes:
+      - ./apps/web:/app/apps/web
+      - /app/apps/web/node_modules
+      - /app/apps/web/dist
+    develop:
+      watch:
         - action: rebuild
           path: pnpm-lock.yaml
 
