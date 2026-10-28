@@ -68,7 +68,7 @@ services:
     volumes:
       - ./apps/web:/app/apps/web
       - /app/apps/web/node_modules
-      - /app/apps/web/.next
+      - /app/apps/web/dist
 
 volumes:
   pgdata:
