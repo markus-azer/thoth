@@ -2,6 +2,10 @@ import { z } from "@thoth/utils/zod";
 
 const MAX_MESSAGE_LENGTH = 500;
 
+export const ThreadSchema = z.object({ id: z.uuid() });
+
+export const ReplySchema = z.object({ reply: z.string() });
+
 const TurnSchema = z.object({
 	role: z.enum(["visitor", "agent"]),
 	text: z.string(),
