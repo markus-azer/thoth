@@ -12,6 +12,7 @@
 		"arch": "depcruise src"
 	},
 	"dependencies": {
+		"@reduxjs/toolkit": "2.13.0",
 		"@thoth/ui": "workspace:*",
 		"@thoth/utils": "workspace:*",
 		"envalid": "8.2.0",
