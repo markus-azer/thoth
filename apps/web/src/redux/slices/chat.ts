@@ -2,10 +2,15 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import {
 	type Conversation,
 	findConversation,
+	loadConversations,
 	newConversationId,
 	putFirst,
+	sendMessage,
+	ThreadNotFoundError,
 	titleOf,
+	toMessage,
 } from "~/features/chat/index";
+import type { Thunk } from "../helpers/index";
 
 type Reply = { threadId: string; reply: string };
 
@@ -135,6 +140,8 @@ const slice = createSlice({
 
 export const chatReducer = slice.reducer;
 
+const { loaded } = slice.actions;
+
 export const { draftChanged, asked, answered, failed, startedNewChat } =
 	slice.actions;
 
@@ -151,3 +158,39 @@ export const visibleTurns = (chat: ChatState) => {
 
 	return [...turns, { role: "visitor" as const, text: chat.asking.question }];
 };
+
+type ChatThunk<Result = void> = Thunk<{ chat: ChatState }, Result>;
+
+export const loadHistory =
+	(): ChatThunk =>
+	(dispatch, _getState, { getStorage }) => {
+		dispatch(loaded(loadConversations(getStorage())));
+	};
+
+export const sendQuestion =
+	(text: string): ChatThunk<Promise<void>> =>
+	async (dispatch, getState, config) => {
+		const { activeId, asking, conversations } = getState().chat;
+		const question = toMessage(text);
+
+		if (!question || asking) {
+			return;
+		}
+
+		const { threadId } = findConversation(conversations, activeId);
+
+		dispatch(asked(question));
+
+		try {
+			const reply = await sendMessage(config, threadId, question);
+
+			dispatch(answered(reply));
+		} catch (error) {
+			if (error instanceof ThreadNotFoundError) {
+				dispatch(failed("expired"));
+				return;
+			}
+
+			dispatch(failed("failed"));
+		}
+	};

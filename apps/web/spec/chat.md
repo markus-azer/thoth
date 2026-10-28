@@ -26,3 +26,4 @@ A visitor asks questions about the site owner. The agent answers from the owner'
 - [RULE-CHAT-012] A visitor sends a message → it shows in the chat at once and the input clears.
 - [RULE-CHAT-013] The reply fails → the message returns to the input and the visitor is told.
 - [RULE-CHAT-014] A visitor opens another chat while a reply is pending → the reply is saved in the chat it was asked in.
+- [RULE-CHAT-015] A visitor sends a message → it is saved in their browser once the reply arrives.
