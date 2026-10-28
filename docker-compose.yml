@@ -69,6 +69,10 @@ services:
       - ./apps/web:/app/apps/web
       - /app/apps/web/node_modules
       - /app/apps/web/dist
+    develop:
+      watch:
+        - action: rebuild
+          path: pnpm-lock.yaml
 
 volumes:
   pgdata:
