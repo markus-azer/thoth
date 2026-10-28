@@ -78,13 +78,24 @@ describe("sendMessage", () => {
 
 		await expect(attempt).rejects.toBeInstanceOf(ThreadNotFoundError);
 
-		server.use(threadCreated(), replied("Hello again"));
+		const newThreadId = "9c8b7a6d-5e4f-4a3b-8c2d-1e0f9a8b7c6d";
+		const newMessagesUrl = `${threadsUrl}/${newThreadId}/messages`;
+
+		server.use(
+			http.post(threadsUrl, () => {
+				return HttpResponse.json({ id: newThreadId }, { status: 201 });
+			}),
+			http.post(newMessagesUrl, () => {
+				return HttpResponse.json({ reply: "Hello again" });
+			}),
+		);
 		requestedUrls.length = 0;
 
 		const next = await sendMessage(config, null, "Hi again");
 
+		expect(next.threadId).toBe(newThreadId);
 		expect(next.reply).toBe("Hello again");
-		expect(requestedUrls).toEqual([threadsUrl, messagesUrl]);
+		expect(requestedUrls).toEqual([threadsUrl, newMessagesUrl]);
 	});
 
 	it("RULE-CHAT-010: The agent fails or the network drops → the visitor is asked to try again.", async () => {
