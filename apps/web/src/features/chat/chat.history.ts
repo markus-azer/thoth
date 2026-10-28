@@ -33,5 +33,9 @@ export const loadConversations = (store: Store): Conversation[] => {
 };
 
 export const saveConversations = (store: Store, list: Conversation[]) => {
-	store.setItem(STORAGE_NAME, JSON.stringify(list));
+	try {
+		store.setItem(STORAGE_NAME, JSON.stringify(list));
+	} catch {
+		// Full or blocked storage. The chat keeps working without saving.
+	}
 };

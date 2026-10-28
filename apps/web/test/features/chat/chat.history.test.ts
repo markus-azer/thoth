@@ -58,6 +58,17 @@ describe("chat history", () => {
 		expect(loadConversations(localStorage)).toEqual([]);
 	});
 
+	it("saving to full or blocked storage does not throw", () => {
+		const fullStore = {
+			getItem: () => null,
+			setItem: () => {
+				throw new Error("quota exceeded");
+			},
+		};
+
+		expect(() => saveConversations(fullStore, [])).not.toThrow();
+	});
+
 	it("RULE-CHAT-006: A visitor starts a new chat → it gets an id of its own, in any browser.", () => {
 		const first = newConversationId();
 		const second = newConversationId();
