@@ -1,4 +1,6 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { HttpResponse, http } from "msw";
+import { setupServer } from "msw/node";
+import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 import {
 	ChatFailedError,
 	sendMessage,
@@ -9,57 +11,68 @@ const threadId = "3f2b8c1e-9a4d-4e6f-8b1a-2c3d4e5f6a7b";
 
 const config = { apiUrl: "https://api.test", handle: "ada" };
 
-function stub(...responses: Array<Response | Error>) {
-	const fetchMock = vi.fn();
+const threadsUrl = `${config.apiUrl}/threads`;
+const messagesUrl = `${threadsUrl}/${threadId}/messages`;
 
-	for (const response of responses) {
-		if (response instanceof Error) {
-			fetchMock.mockRejectedValueOnce(response);
-		} else {
-			fetchMock.mockResolvedValueOnce(response);
-		}
-	}
+const server = setupServer();
+const requestedUrls: string[] = [];
 
-	vi.stubGlobal("fetch", fetchMock);
+server.events.on("request:start", ({ request }) => {
+	requestedUrls.push(request.url);
+});
 
-	return fetchMock;
-}
-
-const json = (body: unknown, status = 200) =>
-	new Response(JSON.stringify(body), { status });
+beforeAll(() => {
+	server.listen({ onUnhandledFrame: "error" });
+});
 
 afterEach(() => {
-	vi.unstubAllGlobals();
+	server.resetHandlers();
+	requestedUrls.length = 0;
 });
+
+afterAll(() => {
+	server.close();
+});
+
+const threadCreated = () => {
+	return http.post(threadsUrl, () => {
+		return HttpResponse.json({ id: threadId }, { status: 201 });
+	});
+};
+
+const replied = (reply: string) => {
+	return http.post(messagesUrl, () => {
+		return HttpResponse.json({ reply });
+	});
+};
+
+const failedWith = (status: number, code: string) => {
+	return http.post(messagesUrl, () => {
+		return HttpResponse.json({ code }, { status });
+	});
+};
 
 describe("sendMessage", () => {
 	it("RULE-CHAT-007: A visitor sends their first message → a thread is started and they get the reply.", async () => {
-		const fetchMock = stub(json({ id: threadId }, 201), json({ reply: "Hi" }));
+		server.use(threadCreated(), replied("Hi"));
 
 		const result = await sendMessage(config, null, "Who is Ada?");
-		const urls = fetchMock.mock.calls.map(([url]) => url);
 
 		expect(result).toEqual({ threadId, reply: "Hi" });
-		expect(urls).toEqual([
-			"https://api.test/threads",
-			`https://api.test/threads/${threadId}/messages`,
-		]);
+		expect(requestedUrls).toEqual([threadsUrl, messagesUrl]);
 	});
 
 	it("RULE-CHAT-008: A visitor sends a follow-up → it goes to the same thread.", async () => {
-		const fetchMock = stub(json({ reply: "Again" }));
+		server.use(replied("Again"));
 
 		const result = await sendMessage(config, threadId, "More?");
-		const [firstCall] = fetchMock.mock.calls;
-		const url = firstCall?.[0];
 
 		expect(result.threadId).toBe(threadId);
-		expect(fetchMock).toHaveBeenCalledTimes(1);
-		expect(url).toBe(`https://api.test/threads/${threadId}/messages`);
+		expect(requestedUrls).toEqual([messagesUrl]);
 	});
 
 	it("RULE-CHAT-009: The thread is not found → the visitor is told and the next message starts a new thread.", async () => {
-		stub(json({ code: "THREAD_NOT_FOUND" }, 404));
+		server.use(failedWith(404, "THREAD_NOT_FOUND"));
 
 		const attempt = sendMessage(config, threadId, "Hi");
 
@@ -67,24 +80,33 @@ describe("sendMessage", () => {
 	});
 
 	it("RULE-CHAT-010: The agent fails or the network drops → the visitor is asked to try again.", async () => {
-		stub(json({ code: "INTERNAL_ERROR" }, 500));
+		server.use(failedWith(500, "INTERNAL_ERROR"));
 		const afterServerError = sendMessage(config, threadId, "Hi");
 
 		await expect(afterServerError).rejects.toBeInstanceOf(ChatFailedError);
 
-		stub(new Error("offline"));
+		server.use(http.post(messagesUrl, () => HttpResponse.error()));
 		const afterNetworkError = sendMessage(config, threadId, "Hi");
 
 		await expect(afterNetworkError).rejects.toBeInstanceOf(ChatFailedError);
 	});
 
 	it("RULE-CHAT-011: A thread is started → it is always for the configured site handle.", async () => {
-		const fetchMock = stub(json({ id: threadId }, 201), json({ reply: "Hi" }));
+		const bodies: unknown[] = [];
+
+		server.use(
+			http.post(threadsUrl, async ({ request }) => {
+				const body = await request.json();
+
+				bodies.push(body);
+
+				return HttpResponse.json({ id: threadId }, { status: 201 });
+			}),
+			replied("Hi"),
+		);
 
 		await sendMessage(config, null, "Who is Ada?");
 
-		const [, init] = fetchMock.mock.calls[0] ?? [];
-
-		expect(JSON.parse(init.body)).toEqual({ handle: "ada" });
+		expect(bodies).toEqual([{ handle: "ada" }]);
 	});
 });
