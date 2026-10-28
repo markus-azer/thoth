@@ -77,6 +77,14 @@ describe("sendMessage", () => {
 		const attempt = sendMessage(config, threadId, "Hi");
 
 		await expect(attempt).rejects.toBeInstanceOf(ThreadNotFoundError);
+
+		server.use(threadCreated(), replied("Hello again"));
+		requestedUrls.length = 0;
+
+		const next = await sendMessage(config, null, "Hi again");
+
+		expect(next.reply).toBe("Hello again");
+		expect(requestedUrls).toEqual([threadsUrl, messagesUrl]);
 	});
 
 	it("RULE-CHAT-010: The agent fails or the network drops → the visitor is asked to try again.", async () => {
