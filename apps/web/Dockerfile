@@ -16,6 +16,7 @@ RUN pnpm install --frozen-lockfile --offline
 # build: standalone Next.js server in apps/web/dist
 FROM deps AS build
 ARG API_URL
+ARG PUBLIC_API_URL
 ARG SITE_HANDLE
 RUN pnpm exec turbo run build --filter=@thoth/web
 
