@@ -52,5 +52,23 @@ services:
         - action: rebuild
           path: pnpm-lock.yaml
 
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      target: dev
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    environment:
+      API_URL: http://api:3002
+      PUBLIC_API_URL: http://localhost:3002
+      SITE_HANDLE: ${SITE_HANDLE:-markus-azer}
+    volumes:
+      - ./apps/web:/app/apps/web
+      - /app/apps/web/node_modules
+      - /app/apps/web/.next
+
 volumes:
   pgdata:

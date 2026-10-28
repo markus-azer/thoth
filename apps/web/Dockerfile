@@ -13,6 +13,12 @@ FROM fetch AS deps
 COPY . .
 RUN pnpm install --frozen-lockfile --offline
 
+# dev: hot-reload via next dev, used by docker-compose
+FROM deps AS dev
+EXPOSE 3000
+WORKDIR /app/apps/web
+CMD ["pnpm", "dev"]
+
 # build: standalone Next.js server in apps/web/dist
 FROM deps AS build
 ARG API_URL
