@@ -90,7 +90,9 @@
 							"zod": {
 								"message": "Use `z` from @thoth/utils/zod (has .openapi())."
 							},
-							"pino": { "message": "Use `log` from @thoth/utils/logger." },
+							"pino": {
+								"message": "Use `createLogger` from @thoth/utils/logger."
+							},
 							"pino-pretty": {
 								"message": "Wired inside @thoth/utils/logger createLogger; don't import directly."
 							}
