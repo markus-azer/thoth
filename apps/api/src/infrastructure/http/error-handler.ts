@@ -1,4 +1,4 @@
-import { AppError } from "@thoth/utils";
+import { AppError } from "@thoth/utils/errors";
 import type { ErrorRequestHandler } from "express";
 import { log } from "~/logger";
 import { getRequestId } from "./get-request-id";

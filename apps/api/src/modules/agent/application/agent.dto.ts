@@ -1,4 +1,5 @@
-import { HandleSchema, z } from "@thoth/utils";
+import { HandleSchema } from "@thoth/utils/handle";
+import { z } from "@thoth/utils/zod";
 
 export const CreateThreadInputSchema = z
 	.object({ handle: HandleSchema })

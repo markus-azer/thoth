@@ -1,4 +1,5 @@
-import { AppError, ErrorCode } from "@thoth/utils";
+import { ErrorCode } from "@thoth/utils/error-codes";
+import { AppError } from "@thoth/utils/errors";
 import express from "express";
 import request from "supertest";
 import { describe, expect, it } from "vitest";

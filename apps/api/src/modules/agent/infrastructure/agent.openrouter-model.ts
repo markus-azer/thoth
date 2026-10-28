@@ -1,5 +1,6 @@
 import { ChatOpenRouter } from "@langchain/openrouter";
-import { AppError, ErrorCode } from "@thoth/utils";
+import { ErrorCode } from "@thoth/utils/error-codes";
+import { AppError } from "@thoth/utils/errors";
 import { injectable } from "inversify";
 import { env } from "~/env";
 import { log } from "~/logger";

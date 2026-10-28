@@ -1,4 +1,4 @@
-import { z } from "@thoth/utils";
+import { z } from "@thoth/utils/zod";
 
 export const NewFeedbackSchema = z
 	.object({

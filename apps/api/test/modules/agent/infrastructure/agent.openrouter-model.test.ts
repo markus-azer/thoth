@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { ErrorCode } from "@thoth/utils";
+import { ErrorCode } from "@thoth/utils/error-codes";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { ModelInput } from "~/modules/agent/application/ports/index";
 import { OpenRouterAgentModel } from "~/modules/agent/infrastructure/agent.openrouter-model";

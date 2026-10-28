@@ -1,4 +1,4 @@
-import { withTimeout } from "@thoth/utils";
+import { withTimeout } from "@thoth/utils/withTimeout";
 import { log } from "~/logger";
 import type { Lifecycle } from "./lifecycle";
 

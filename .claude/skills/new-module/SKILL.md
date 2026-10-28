@@ -38,7 +38,7 @@ Imports point inward. Outer layers may import inner ones, never the reverse.
 **New module** (`apps/api/src/modules/[name]/` doesn't exist):
 - `domain/[name].ts` for pure entities and types from the spec outputs.
 - `application/[name].service.ts` for the service stub.
-- `application/[name].dto.ts` for input schemas via `@thoth/utils` `z`. Derive the type with `z.infer`.
+- `application/[name].dto.ts` for input schemas via `@thoth/utils/zod` `z`. Derive the type with `z.infer`.
 - `interface/[name].controller.ts` (or `[name].tool.ts` for MCP) for the delivery adapter.
 
 For a volatile dependency like a database or external service:

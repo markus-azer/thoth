@@ -1,5 +1,6 @@
 import { IdGenerator } from "@thoth/core";
-import { Conflict, ErrorCode, NotFound } from "@thoth/utils";
+import { ErrorCode } from "@thoth/utils/error-codes";
+import { Conflict, NotFound } from "@thoth/utils/errors";
 import { inject, injectable } from "inversify";
 import type { Bio } from "../domain/bio";
 import type { BioInputDTO } from "./bio.dto";

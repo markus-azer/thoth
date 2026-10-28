@@ -1,4 +1,4 @@
-import { z } from "@thoth/utils";
+import { z } from "@thoth/utils/zod";
 
 export const ThreadOutputSchema = z.object({ id: z.uuid() }).openapi("Thread");
 

@@ -1,5 +1,5 @@
 import { createMiddleware } from "@promster/express";
-import { parseOrigins } from "@thoth/utils";
+import { parseOrigins } from "@thoth/utils/parseOrigins";
 import cors from "cors";
 import express, { type Application } from "express";
 import helmet from "helmet";

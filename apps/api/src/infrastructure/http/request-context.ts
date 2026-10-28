@@ -1,4 +1,4 @@
-import { withRequestId } from "@thoth/utils";
+import { withRequestId } from "@thoth/utils/logger";
 import type { RequestHandler } from "express";
 import { v7 as uuidv7 } from "uuid";
 
