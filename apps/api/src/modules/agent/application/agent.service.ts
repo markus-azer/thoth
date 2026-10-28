@@ -1,5 +1,6 @@
 import { IdGenerator } from "@thoth/core";
-import { AppError, ErrorCode, NotFound } from "@thoth/utils";
+import { ErrorCode } from "@thoth/utils/error-codes";
+import { AppError, NotFound } from "@thoth/utils/errors";
 import { inject, injectable } from "inversify";
 import { BlankMessage } from "../domain/blank-message";
 import { Message } from "../domain/message";

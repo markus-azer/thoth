@@ -1,4 +1,4 @@
-import { z } from "@thoth/utils";
+import { z } from "@thoth/utils/zod";
 
 const StatusSchema = z.enum(["ok", "degraded"]);
 

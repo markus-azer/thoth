@@ -1,4 +1,4 @@
-import { parseInput } from "@thoth/utils";
+import { parseInput } from "@thoth/utils/parseInput";
 import type { Request, Response } from "express";
 import { inject, injectable } from "inversify";
 import {

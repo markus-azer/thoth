@@ -1,5 +1,6 @@
 import "reflect-metadata";
-import { Conflict, ErrorCode } from "@thoth/utils";
+import { ErrorCode } from "@thoth/utils/error-codes";
+import { Conflict } from "@thoth/utils/errors";
 import { describe, expect, it, vi } from "vitest";
 import type { BioService } from "~/modules/bio/application/bio.service";
 import { Bio } from "~/modules/bio/domain/bio";

@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { ErrorCode } from "@thoth/utils";
+import { ErrorCode } from "@thoth/utils/error-codes";
 import { describe, expect, it, vi } from "vitest";
 import { buildInstructions } from "~/modules/agent/application/agent.instructions";
 import { AgentService } from "~/modules/agent/application/agent.service";
