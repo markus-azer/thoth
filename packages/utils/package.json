@@ -8,13 +8,17 @@
 		".": {
 			"production": "./dist/index.js",
 			"default": "./src/index.ts"
+		},
+		"./*": {
+			"production": "./dist/*.js",
+			"default": "./src/*.ts"
 		}
 	},
 	"files": [
 		"dist"
 	],
 	"scripts": {
-		"build": "tsup src/index.ts --format esm --sourcemap --clean",
+		"build": "tsup \"src/**/*.ts\" --format esm --sourcemap --clean",
 		"typecheck": "tsc --noEmit",
 		"test": "vitest run"
 	},
