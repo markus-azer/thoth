@@ -1,14 +1,14 @@
 import { describe, expect, it } from "vitest";
+import { ErrorCode } from "../src/error-codes";
 import {
 	AppError,
 	BadRequest,
 	Conflict,
-	ErrorCode,
 	Forbidden,
 	NotFound,
 	Unauthorized,
 	UnprocessableEntity,
-} from "../src";
+} from "../src/errors";
 
 describe("errors", () => {
 	it("RULE-ERRORS-001: `BadRequest` sets status 400", () => {
