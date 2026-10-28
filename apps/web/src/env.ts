@@ -5,5 +5,6 @@ import { cleanEnv, str, url } from "envalid";
 // The process exits if either is missing.
 export const env = cleanEnv(source, {
 	API_URL: url(),
+	PUBLIC_API_URL: url(),
 	SITE_HANDLE: str(),
 });
