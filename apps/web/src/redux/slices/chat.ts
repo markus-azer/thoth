@@ -130,8 +130,20 @@ const slice = createSlice({
 			state.notice = NOTICES[action.payload];
 		},
 
+		selected: (state, action: PayloadAction<string>) => {
+			openChat(state, action.payload);
+		},
+
 		startedNewChat: {
 			reducer: (state, action: PayloadAction<string>) => {
+				openChat(state, action.payload);
+			},
+			prepare: prepareNewChatId,
+		},
+
+		cleared: {
+			reducer: (state, action: PayloadAction<string>) => {
+				state.conversations = [];
 				openChat(state, action.payload);
 			},
 			prepare: prepareNewChatId,
@@ -143,8 +155,15 @@ export const chatReducer = slice.reducer;
 
 const { loaded } = slice.actions;
 
-export const { draftChanged, asked, answered, failed, startedNewChat } =
-	slice.actions;
+export const {
+	draftChanged,
+	asked,
+	answered,
+	failed,
+	selected,
+	startedNewChat,
+	cleared,
+} = slice.actions;
 
 export const isPending = (chat: ChatState) => {
 	return chat.asking?.conversationId === chat.activeId;
@@ -176,6 +195,11 @@ export const loadHistory =
 	(dispatch, _getState, { getStorage }) => {
 		dispatch(loaded(loadConversations(getStorage())));
 	};
+
+export const clearHistory = (): ChatThunk => (dispatch, getState, deps) => {
+	dispatch(cleared());
+	persist(getState().chat, deps);
+};
 
 export const sendQuestion =
 	(text: string): ChatThunk<Promise<void>> =>

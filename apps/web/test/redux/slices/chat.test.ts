@@ -4,10 +4,12 @@ import {
 	asked,
 	type ChatState,
 	chatReducer,
+	cleared,
 	draftChanged,
 	failed,
 	initialChatState,
 	isPending,
+	selected,
 	startedNewChat,
 	visibleTurns,
 } from "~/redux/slices/chat";
@@ -56,6 +58,29 @@ describe("chat slice", () => {
 		expect(state.draft).toBe("typing");
 		expect(state.notice).toBeNull();
 		expect(isPending(state)).toBe(false);
+	});
+
+	it("selecting a chat opens it with an empty input", () => {
+		const state = apply(
+			initialChatState("a"),
+			draftChanged("typing"),
+			selected("b"),
+		);
+
+		expect(state.activeId).toBe("b");
+		expect(state.draft).toBe("");
+	});
+
+	it("clearing the history empties it and opens a new chat", () => {
+		const state = apply(
+			initialChatState("a"),
+			asked("hi"),
+			answered({ threadId, reply: "Hello" }),
+			cleared(),
+		);
+
+		expect(state.conversations).toEqual([]);
+		expect(state.activeId).not.toBe("a");
 	});
 
 	it("RULE-CHAT-014: A visitor opens another chat while a reply is pending → the reply is saved in the chat it was asked in.", () => {
