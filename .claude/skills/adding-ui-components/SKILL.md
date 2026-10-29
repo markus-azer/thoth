@@ -1,7 +1,8 @@
 ---
+
 name: adding-ui-components
 description: |
-  Add or update a shadcn component in packages/ui. Use when the user asks to "add a ui component", "add a shadcn component", or "update the button".
+Add or update a shadcn component in packages/ui. Use when the user asks to "add a ui component", "add a shadcn component", or "update the button".
 ---
 
 # Adding ui components
@@ -11,10 +12,12 @@ Do not edit `packages/ui/src/components` by hand. The CLI generates it.
 ## Steps
 
 1. From the repo root, run the CLI with `pnpm dlx`:
+
    ```
    pnpm dlx shadcn@<version in packages/ui/package.json> add <component> -c packages/ui
    ```
 2. Fix formatting and `import type`:
+
    ```
    pnpm exec biome check --write packages/ui
    ```

@@ -1,7 +1,8 @@
 ---
+
 name: new-module
 description: |
-  Scaffold a thoth API module from a spec. Creates domain, application, interface, and infrastructure files with ports, DI bindings, and test stubs. Use when the user asks to "scaffold a module", "new module", or "add a feature module".
+Scaffold a thoth API module from a spec. Creates domain, application, interface, and infrastructure files with ports, DI bindings, and test stubs. Use when the user asks to "scaffold a module", "new module", or "add a feature module".
 ---
 
 # New Module
@@ -16,7 +17,6 @@ Placeholders in this doc:
 ## Layers
 
 Imports point inward. Outer layers may import inner ones, never the reverse.
-
 - `domain/` holds entities and types. It is pure, with zero imports and no validation.
 - `application/` holds use-case services, input DTOs, and ports (interfaces) for volatile deps.
 - `interface/` holds delivery adapters (HTTP controllers or MCP tools) and their response DTOs.

@@ -1,4 +1,5 @@
 ---
+
 title: Vitest for tests
 status: accepted
 date: 2026-06-16

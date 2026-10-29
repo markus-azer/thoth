@@ -1,4 +1,5 @@
 ---
+
 title: pino logger with flush-before-exit
 status: accepted
 date: 2026-06-17

@@ -1,4 +1,5 @@
 ---
+
 title: Test names quote spec rules verbatim
 status: accepted
 date: 2026-07-11

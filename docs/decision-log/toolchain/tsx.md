@@ -1,4 +1,5 @@
 ---
+
 title: tsx for dev execution
 status: accepted
 date: 2026-06-16

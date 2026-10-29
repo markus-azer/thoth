@@ -1,4 +1,5 @@
 ---
+
 title: ...
 workspace: apps/...
 status: current
@@ -6,40 +7,44 @@ related: []
 ---
 
 # [Module]
+
 <!-- What this module does in one line. -->
 
 
 ## Inputs _(if applicable)_
+
 <!-- What the module receives. -->
 - field: type
 
 
 ## Outputs _(if applicable)_
+
 <!-- All possible outcomes. Success and failures. -->
 - SUCCESS
 - ERROR_CASE
 
 
 ## Rules
+
 <!-- Each rule has a unique ID: RULE-[MODULE]-[NNN]. -->
 <!-- Referenced in test names: "RULE-XXX-001: description". -->
 - [RULE-XXX-001] rule description.
 
 
 ## Examples _(if applicable)_
+
 <!-- Concrete input → output pairs that make rules unambiguous. -->
 action("input") → OUTPUT
 
 
 ## API _(if exposed)_
+
 <!-- Only if this module has an HTTP interface. -->
 POST /route
 Body: { field: type }
 Response: 200 | 400 | 404
 
-
 ---
-
 
 # Example: Login
 

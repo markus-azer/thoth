@@ -1,4 +1,5 @@
 ---
+
 title: Conventional Commits in PR titles
 status: accepted
 date: 2026-06-14

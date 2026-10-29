@@ -1,4 +1,5 @@
 ---
+
 title: Per-tool MCP auth on a single server
 status: accepted
 date: 2026-08-16
