@@ -38,8 +38,9 @@
 			]
 		},
 		{
-			"description": "sdk-node and auto-instrumentations-node share peers, so they must move together.",
+			"description": "Peer-coupled, so they move together.",
 			"groupName": "opentelemetry",
+			"separateMajorMinor": false,
 			"matchPackageNames": ["@opentelemetry/*"]
 		}
 	]
