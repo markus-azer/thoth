@@ -3,6 +3,7 @@ import { type Conversation, ConversationSchema } from "./chat.schema";
 
 const STORAGE_NAME = "thoth.chat";
 const MAX_CONVERSATIONS = 20;
+const MAX_TITLE_LENGTH = 40;
 
 type Store = Pick<Storage, "getItem" | "setItem">;
 
@@ -10,8 +11,18 @@ export const emptyConversation = (id: string): Conversation => {
 	return { id, threadId: null, title: "", turns: [] };
 };
 
+export const findConversation = (list: Conversation[], id: string) => {
+	const found = list.find((conversation) => conversation.id === id);
+
+	return found ?? emptyConversation(id);
+};
+
 export const newConversationId = () => {
 	return `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+};
+
+export const titleOf = (message: string) => {
+	return message.slice(0, MAX_TITLE_LENGTH);
 };
 
 export const putFirst = (list: Conversation[], conversation: Conversation) => {
