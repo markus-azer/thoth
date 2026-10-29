@@ -35,6 +35,7 @@ export const createGenericSlice = <
 		name,
 		initialState,
 		reducers: {
+			...reducers,
 			started: (state) => {
 				state.status = "loading";
 				state.error = null;
@@ -45,7 +46,6 @@ export const createGenericSlice = <
 			failed: (_state, action: PayloadAction<Failure>) => {
 				return { status: "failed", data: null, error: action.payload };
 			},
-			...reducers,
 		},
 	});
 };
