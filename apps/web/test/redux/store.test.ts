@@ -29,6 +29,28 @@ describe("store", () => {
 		vi.unstubAllGlobals();
 	});
 
+	it("a blocked browser storage does not stop the chat", async () => {
+		vi.unstubAllGlobals();
+		Object.defineProperty(globalThis, "localStorage", {
+			configurable: true,
+			get: () => {
+				throw new Error("blocked");
+			},
+		});
+		const fetchMock = vi
+			.fn()
+			.mockResolvedValueOnce(json({ id: threadId }))
+			.mockResolvedValueOnce(json({ reply: "Hello" }));
+		vi.stubGlobal("fetch", fetchMock);
+
+		const store = makeStore(config);
+		store.dispatch(loadHistory());
+		await store.dispatch(sendQuestion("hi"));
+
+		expect(store.getState().chat.notice).toBeNull();
+		expect(store.getState().chat.conversations[0]?.turns).toHaveLength(2);
+	});
+
 	it("loading saved conversations does not write them back", () => {
 		localStorage.setItem("thoth.chat", "not json");
 
