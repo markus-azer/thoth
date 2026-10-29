@@ -5,12 +5,13 @@ import {
 	loadConversations,
 	newConversationId,
 	putFirst,
+	saveConversations,
 	sendMessage,
 	ThreadNotFoundError,
 	titleOf,
 	toMessage,
 } from "~/features/chat/index";
-import type { Thunk } from "../helpers/index";
+import type { Thunk, ThunkDeps } from "../helpers/index";
 
 type Reply = { threadId: string; reply: string };
 
@@ -161,6 +162,15 @@ export const visibleTurns = (chat: ChatState) => {
 
 type ChatThunk<Result = void> = Thunk<{ chat: ChatState }, Result>;
 
+// Waits for the load, so a fresh page never overwrites saved history.
+const persist = (chat: ChatState, { getStorage }: ThunkDeps) => {
+	if (!chat.loaded) {
+		return;
+	}
+
+	saveConversations(getStorage(), chat.conversations);
+};
+
 export const loadHistory =
 	(): ChatThunk =>
 	(dispatch, _getState, { getStorage }) => {
@@ -169,7 +179,7 @@ export const loadHistory =
 
 export const sendQuestion =
 	(text: string): ChatThunk<Promise<void>> =>
-	async (dispatch, getState, config) => {
+	async (dispatch, getState, deps) => {
 		const { activeId, asking, conversations } = getState().chat;
 		const question = toMessage(text);
 
@@ -182,12 +192,14 @@ export const sendQuestion =
 		dispatch(asked(question));
 
 		try {
-			const reply = await sendMessage(config, threadId, question);
+			const reply = await sendMessage(deps, threadId, question);
 
 			dispatch(answered(reply));
+			persist(getState().chat, deps);
 		} catch (error) {
 			if (error instanceof ThreadNotFoundError) {
 				dispatch(failed("expired"));
+				persist(getState().chat, deps);
 				return;
 			}
 
