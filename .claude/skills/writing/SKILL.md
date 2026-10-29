@@ -1,4 +1,5 @@
 ---
+
 name: writing
 description: How to write prose in thoth. Simple English, terse, human-readable. Use for every response, and when asked about writing style, tone, or verbosity.
 ---

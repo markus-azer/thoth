@@ -1,4 +1,5 @@
 ---
+
 title: AppError hierarchy with string enum codes
 status: accepted
 date: 2026-06-23

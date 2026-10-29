@@ -1,4 +1,5 @@
 ---
+
 title: Inversify for dependency injection
 status: accepted
 date: 2026-07-08

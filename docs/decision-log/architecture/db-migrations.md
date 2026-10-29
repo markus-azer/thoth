@@ -1,4 +1,5 @@
 ---
+
 title: Flyway for database migrations
 status: accepted
 date: 2026-07-12

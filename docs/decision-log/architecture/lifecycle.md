@@ -1,4 +1,5 @@
 ---
+
 title: Service-based lifecycle
 status: accepted
 date: 2026-06-17

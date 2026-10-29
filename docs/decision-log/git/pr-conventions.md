@@ -1,4 +1,5 @@
 ---
+
 title: PR conventions
 status: accepted
 date: 2026-06-15
@@ -8,7 +9,6 @@ related: [merge-strategy, pr-titles]
 # PR conventions
 
 PRs are small, green, and reviewable in ten minutes.
-
 - **Small.** Target under 400 LOC. Hard ceiling 800. Lockfiles and generated files don't count.
 
 - **Green.** All required CI checks must pass before requesting review.

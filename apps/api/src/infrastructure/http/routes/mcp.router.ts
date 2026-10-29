@@ -48,15 +48,18 @@ export class McpRouter {
 		await transport.handleRequest(req, res, req.body);
 	};
 
-	private buildContext(req: Request, res: Response): McpRequestContext {
+	private buildContext(
+		req: Request<{ handle?: string }>,
+		res: Response,
+	): McpRequestContext {
 		const context: McpRequestContext = {};
 
-		const handle = req.params["handle"];
+		const handle = req.params.handle;
 		if (typeof handle === "string" && handle) {
 			context.handle = handle;
 		}
 
-		const principal = res.locals["principal"];
+		const principal = res.locals.principal;
 		if (principal) context.principal = principal;
 
 		return context;

@@ -1,4 +1,5 @@
 ---
+
 title: OpenTelemetry auto-instrumentation, env-gated
 status: accepted
 date: 2026-07-09

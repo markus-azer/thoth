@@ -1,4 +1,5 @@
 ---
+
 title: Squash-only merges
 status: accepted
 date: 2026-06-14
