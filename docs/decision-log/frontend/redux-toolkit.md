@@ -9,11 +9,9 @@ related: []
 
 Web client state, starting with chat, used Redux Toolkit. A second feature, or streaming and retries, was expected to need shared state.
 
-The store was built per request and held by a client provider in the layout, so visitors never shared one on the server. Saving to the browser was a store subscription.
+The chat slice file owned its state, thunks and saving. The Redux folder held the store and the root reducer, so a new feature added a slice file and one line in the root reducer.
 
-The Redux folder held no chat knowledge. A new feature needed a slice file and one line in the root reducer.
-
-Ids were generated in action `prepare` callbacks, so reducers stayed pure.
+A generic slice helper for request status (idle, loading, succeeded, failed) was kept. The chat slice did not use it. It was kept for features that fetch data and need the same status shape.
 
 Rejected:
 
