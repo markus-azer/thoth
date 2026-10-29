@@ -52,6 +52,13 @@ const openChat = (state: ChatState, id: string) => {
 	state.notice = null;
 };
 
+const forgetThread = (state: ChatState, conversationId: string) => {
+	const conversation = findConversation(state.conversations, conversationId);
+
+	conversation.threadId = null;
+	state.conversations = putFirst(state.conversations, conversation);
+};
+
 // Ids are made here so the reducers stay pure.
 const prepareNewChatId = () => ({ payload: newConversationId() });
 
@@ -113,13 +120,7 @@ const slice = createSlice({
 			state.asking = null;
 
 			if (action.payload === "expired") {
-				const conversation = findConversation(
-					state.conversations,
-					conversationId,
-				);
-
-				conversation.threadId = null;
-				state.conversations = putFirst(state.conversations, conversation);
+				forgetThread(state, conversationId);
 			}
 
 			if (conversationId !== state.activeId) {
