@@ -58,7 +58,7 @@ const threadExpired = (id: string) => {
 };
 
 describe("store", () => {
-	it("RULE-CHAT-015: A visitor sends a message → it is saved in their browser once the reply arrives.", async () => {
+	it("RULE-CHAT-003: A visitor gets a reply → the conversation is saved in their browser, newest first.", async () => {
 		server.use(threadCreated(threadId), replied(threadId, "Hello"));
 
 		const store = makeStore(config);
