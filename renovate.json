@@ -36,6 +36,11 @@
 				"husky",
 				"lint-staged"
 			]
+		},
+		{
+			"description": "sdk-node and auto-instrumentations-node share peers, so they must move together.",
+			"groupName": "opentelemetry",
+			"matchPackageNames": ["@opentelemetry/*"]
 		}
 	]
 }
