@@ -23,7 +23,8 @@
 			"!**/node_modules",
 			"!.ignored",
 			"!.lavish",
-			"!biome-plugins"
+			"!biome-plugins",
+			"!pnpm-lock.yaml"
 		]
 	},
 	"javascript": {
