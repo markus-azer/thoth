@@ -1,5 +1,5 @@
 # base: Node + pnpm, shared by all stages
-FROM node:26.12.0-alpine AS base
+FROM node:26.12.1-alpine AS base
 RUN corepack enable
 WORKDIR /app
 
@@ -25,7 +25,7 @@ RUN pnpm exec turbo run build --filter=@thoth/api \
  && pnpm --filter @thoth/api deploy --prod --legacy /prod/api
 
 # runner: slim production image
-FROM node:26.12.0-alpine AS runner
+FROM node:26.12.1-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
