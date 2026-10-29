@@ -36,6 +36,12 @@
 				"husky",
 				"lint-staged"
 			]
+		},
+		{
+			"description": "Peer-coupled, so they move together.",
+			"groupName": "opentelemetry",
+			"separateMajorMinor": false,
+			"matchPackageNames": ["@opentelemetry/*"]
 		}
 	]
 }
