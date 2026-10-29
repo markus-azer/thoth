@@ -7,7 +7,7 @@ import { mcpAuthMiddleware } from "~/infrastructure/http/mcp-auth.middleware";
 const routes = () => {
 	const r = express.Router();
 	const handle: express.RequestHandler = (_req, res) => {
-		res.json({ ok: true, principal: res.locals["principal"] });
+		res.json({ ok: true, principal: res.locals.principal });
 	};
 	r.post("/", handle);
 	r.post("/:handle", handle);

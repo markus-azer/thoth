@@ -39,7 +39,7 @@ export const mcpAuthMiddleware = (
 		const token = bearerToken(req);
 		const principal = token ? await verify(token) : undefined;
 		if (principal) {
-			res.locals["principal"] = principal;
+			res.locals.principal = principal;
 			return next();
 		}
 

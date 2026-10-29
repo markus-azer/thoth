@@ -81,7 +81,7 @@ describe("McpRouter", () => {
 		const app = express();
 		app.use(express.json());
 		app.use((_req, res, next) => {
-			res.locals["principal"] = principal;
+			res.locals.principal = principal;
 			next();
 		});
 		app.use("/mcp", router.routes);
