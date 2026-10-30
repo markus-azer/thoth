@@ -16,7 +16,7 @@ locals {
     METRICS_PORT         = "9090"
     LOG_LEVEL            = "info"
     OTEL_ENABLED         = "false"
-    CORS_ORIGINS         = "https://${local.api_domain}"
+    CORS_ORIGINS         = "https://markus-azer.com"
     DATABASE_URL         = "$${{Postgres.DATABASE_URL}}"
     GITHUB_CLIENT_ID     = var.github.client_id
     GITHUB_CLIENT_SECRET = var.github.client_secret
