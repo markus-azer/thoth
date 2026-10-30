@@ -21,7 +21,7 @@ const EDGE_FADE =
 
 const LIST_STYLE = `flex flex-1 flex-col gap-3 overflow-y-auto overscroll-contain px-4 py-4 animate-in fade-in duration-200 motion-reduce:animate-none ${EDGE_FADE}`;
 
-const BUBBLE_STYLE = `max-w-[85%] rounded-2xl px-3.5 py-2 text-sm whitespace-pre-wrap ${ENTER_STYLE}`;
+const BUBBLE_STYLE = `max-w-[85%] rounded-2xl px-3.5 py-2 text-sm whitespace-pre-wrap [overflow-wrap:anywhere] ${ENTER_STYLE}`;
 const VISITOR_STYLE = `${BUBBLE_STYLE} self-end rounded-br-md bg-primary text-primary-foreground`;
 const AGENT_STYLE = `${BUBBLE_STYLE} w-fit rounded-bl-md bg-muted`;
 const NOTICE_STYLE =

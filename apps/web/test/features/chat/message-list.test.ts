@@ -32,8 +32,8 @@ describe("chat message list", () => {
 			],
 		});
 
-		expect(html).toContain("hi");
-		expect(html).toContain("Hello");
+		expect(html).toContain(">hi</p>");
+		expect(html).toContain(">Hello</p>");
 		expect(html).not.toContain("Not sure where to start?");
 	});
 
