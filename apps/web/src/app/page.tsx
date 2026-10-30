@@ -1,4 +1,4 @@
-import { About, getBio, Hero } from "~/features/bio/index";
+import { getBio, Hero } from "~/features/bio/index";
 import { Links, links } from "~/features/links/index";
 
 // Seconds. The page is rebuilt in the background at most this often.
@@ -11,7 +11,6 @@ export default async function Page() {
 	return (
 		<main className="mx-auto flex min-h-screen max-w-2xl flex-col justify-center gap-8 px-6 py-16">
 			<Hero bio={bio} />
-			<About bio={bio} />
 			<Links links={links} />
 		</main>
 	);

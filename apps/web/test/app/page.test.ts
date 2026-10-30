@@ -11,13 +11,13 @@ vi.mock("~/features/bio/bio.api", () => ({
 }));
 
 describe("home page", () => {
-	it("RULE-WEB-006: A visitor opens the home page → they see the owner's name, headline, and about.", async () => {
+	it("RULE-WEB-006: A visitor opens the home page → they see the owner's name and headline.", async () => {
 		const page = await Page();
 		const html = renderToStaticMarkup(page);
 
 		expect(html).toContain("Ada Lovelace");
 		expect(html).toContain("First programmer");
-		expect(html).toContain("Wrote the first algorithm.");
+		expect(html).not.toContain("Wrote the first algorithm.");
 	});
 
 	it("RULE-WEB-007: The bio changed over 5 minutes ago → the next visit rebuilds the home page.", () => {
