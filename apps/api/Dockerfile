@@ -1,6 +1,6 @@
 # base: Node + pnpm, shared by all stages
 FROM node:26.12.1-alpine AS base
-RUN corepack enable
+RUN npm install -g corepack && corepack enable
 WORKDIR /app
 
 # fetch: download all deps to pnpm store using only the lockfile
