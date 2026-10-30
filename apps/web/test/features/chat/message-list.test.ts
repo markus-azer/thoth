@@ -13,6 +13,7 @@ const render = (props: {
 			turns: [],
 			pending: false,
 			notice: null,
+			canPickStarter: true,
 			onPickStarter: () => undefined,
 			...props,
 		}),

@@ -8,6 +8,7 @@ type Props = {
 	turns: Conversation["turns"];
 	pending: boolean;
 	notice: string | null;
+	canPickStarter: boolean;
 	onPickStarter: (question: string) => void;
 };
 
@@ -31,13 +32,16 @@ export const MessageList = ({
 	turns,
 	pending,
 	notice,
+	canPickStarter,
 	onPickStarter,
 }: Props) => {
 	const list = useScrollToEnd(turns, pending);
 
 	return (
 		<div ref={list} aria-live="polite" className={LIST_STYLE}>
-			{isEmptyChat(turns, pending) && <Starters onPick={onPickStarter} />}
+			{isEmptyChat(turns, pending) && (
+				<Starters disabled={!canPickStarter} onPick={onPickStarter} />
+			)}
 
 			{turns.map((turn, index) => (
 				<p
