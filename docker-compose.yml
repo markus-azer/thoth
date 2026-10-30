@@ -16,7 +16,7 @@ services:
       retries: 10
 
   flyway:
-    image: flyway/flyway:13.10.3-alpine
+    image: flyway/flyway:13.11.1-alpine
     command: -connectRetries=10 migrate
     environment:
       FLYWAY_URL: jdbc:postgresql://postgres:5432/thoth
