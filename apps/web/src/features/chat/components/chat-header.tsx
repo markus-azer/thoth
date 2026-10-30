@@ -17,7 +17,7 @@ type Props = {
 const NEW_CHAT_STYLE = "max-sm:size-11 max-sm:px-0";
 
 const titleFor = (owner: string) => {
-	const [firstName] = owner.split(" ");
+	const [firstName] = owner.trim().split(/\s+/);
 
 	return `${firstName}'s assistant`;
 };
