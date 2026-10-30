@@ -18,7 +18,12 @@ type Reply = { threadId: string; reply: string };
 type Failure = "expired" | "failed";
 
 // The question in flight. It is saved only once the reply lands.
-type Asking = { conversationId: string; question: string };
+// Clearing the history discards it, so a late reply is dropped.
+type Asking = {
+	conversationId: string;
+	question: string;
+	discarded: boolean;
+};
 
 export type ChatState = {
 	loaded: boolean;
@@ -52,6 +57,22 @@ const openChat = (state: ChatState, id: string) => {
 	state.notice = null;
 };
 
+const forgetThread = (state: ChatState, conversationId: string) => {
+	const conversation = findConversation(state.conversations, conversationId);
+
+	conversation.threadId = null;
+	state.conversations = putFirst(state.conversations, conversation);
+};
+
+// A discarded question ends here, so its late result changes nothing.
+const pendingAsking = (state: ChatState) => {
+	if (state.asking?.discarded) {
+		state.asking = null;
+	}
+
+	return state.asking;
+};
+
 // Ids are made here so the reducers stay pure.
 const prepareNewChatId = () => ({ payload: newConversationId() });
 
@@ -75,15 +96,18 @@ const slice = createSlice({
 			state.asking = {
 				conversationId: state.activeId,
 				question: action.payload,
+				discarded: false,
 			};
 		},
 
 		answered: (state, action: PayloadAction<Reply>) => {
-			if (!state.asking) {
+			const asking = pendingAsking(state);
+
+			if (!asking) {
 				return;
 			}
 
-			const { conversationId, question } = state.asking;
+			const { conversationId, question } = asking;
 			const conversation = findConversation(
 				state.conversations,
 				conversationId,
@@ -104,22 +128,18 @@ const slice = createSlice({
 		},
 
 		failed: (state, action: PayloadAction<Failure>) => {
-			if (!state.asking) {
+			const asking = pendingAsking(state);
+
+			if (!asking) {
 				return;
 			}
 
-			const { conversationId, question } = state.asking;
+			const { conversationId, question } = asking;
 
 			state.asking = null;
 
 			if (action.payload === "expired") {
-				const conversation = findConversation(
-					state.conversations,
-					conversationId,
-				);
-
-				conversation.threadId = null;
-				state.conversations = putFirst(state.conversations, conversation);
+				forgetThread(state, conversationId);
 			}
 
 			if (conversationId !== state.activeId) {
@@ -130,8 +150,25 @@ const slice = createSlice({
 			state.notice = NOTICES[action.payload];
 		},
 
+		selected: (state, action: PayloadAction<string>) => {
+			openChat(state, action.payload);
+		},
+
 		startedNewChat: {
 			reducer: (state, action: PayloadAction<string>) => {
+				openChat(state, action.payload);
+			},
+			prepare: prepareNewChatId,
+		},
+
+		cleared: {
+			reducer: (state, action: PayloadAction<string>) => {
+				state.conversations = [];
+
+				if (state.asking) {
+					state.asking.discarded = true;
+				}
+
 				openChat(state, action.payload);
 			},
 			prepare: prepareNewChatId,
@@ -143,8 +180,15 @@ export const chatReducer = slice.reducer;
 
 const { loaded } = slice.actions;
 
-export const { draftChanged, asked, answered, failed, startedNewChat } =
-	slice.actions;
+export const {
+	draftChanged,
+	asked,
+	answered,
+	failed,
+	selected,
+	startedNewChat,
+	cleared,
+} = slice.actions;
 
 export const isPending = (chat: ChatState) => {
 	return chat.asking?.conversationId === chat.activeId;
@@ -176,6 +220,11 @@ export const loadHistory =
 	(dispatch, _getState, { getStorage }) => {
 		dispatch(loaded(loadConversations(getStorage())));
 	};
+
+export const clearHistory = (): ChatThunk => (dispatch, getState, deps) => {
+	dispatch(cleared());
+	persist(getState().chat, deps);
+};
 
 export const sendQuestion =
 	(text: string): ChatThunk<Promise<void>> =>

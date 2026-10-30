@@ -12,7 +12,7 @@ import {
 	vi,
 } from "vitest";
 import { loadConversations } from "~/features/chat/chat.history";
-import { loadHistory, sendQuestion } from "~/redux/slices/chat";
+import { clearHistory, loadHistory, sendQuestion } from "~/redux/slices/chat";
 import { makeStore } from "~/redux/store";
 
 const threadId = "3f2b8c1e-9a4d-4e6f-8b1a-2c3d4e5f6a7b";
@@ -95,6 +95,17 @@ describe("store", () => {
 		await store.dispatch(sendQuestion("still there?"));
 
 		expect(store.getState().chat.conversations[0]?.threadId).toBe(newThreadId);
+	});
+
+	it("clearing the history empties the saved conversations", async () => {
+		server.use(threadCreated(threadId), replied(threadId, "Hello"));
+
+		const store = makeStore(config);
+		store.dispatch(loadHistory());
+		await store.dispatch(sendQuestion("hi"));
+		store.dispatch(clearHistory());
+
+		expect(loadConversations(localStorage)).toEqual([]);
 	});
 
 	it("a blocked browser storage does not stop the chat", async () => {
