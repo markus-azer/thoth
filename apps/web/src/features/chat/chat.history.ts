@@ -17,6 +17,10 @@ export const findConversation = (list: Conversation[], id: string) => {
 	return found ?? emptyConversation(id);
 };
 
+export const isEmptyChat = (turns: Conversation["turns"], pending: boolean) => {
+	return turns.length === 0 && !pending;
+};
+
 export const newConversationId = () => {
 	return `${Date.now()}-${Math.random().toString(36).slice(2)}`;
 };
