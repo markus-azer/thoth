@@ -32,6 +32,7 @@ export const useChat = () => {
 		notice,
 		turns: visibleTurns(chat),
 		pending: isPending(chat),
+		isIdle,
 		canSend: hasText && isIdle,
 		send: (text: string) => dispatch(sendQuestion(text)),
 		changeDraft: (value: string) => dispatch(draftChanged(value)),

@@ -34,6 +34,7 @@ export const Chat = ({ owner }: { owner: string }) => {
 				turns={chat.turns}
 				pending={chat.pending}
 				notice={chat.notice}
+				canPickStarter={chat.isIdle}
 				onPickStarter={chat.send}
 			/>
 

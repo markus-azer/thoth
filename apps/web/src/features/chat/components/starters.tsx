@@ -1,6 +1,7 @@
 import { Button } from "@thoth/ui/components/button";
 
 type Props = {
+	disabled: boolean;
 	onPick: (question: string) => void;
 };
 
@@ -20,7 +21,7 @@ const INVITATION_STYLE = `${CHIP_STYLE} col-span-full`;
 // Two chips side by side. Stacked only below 22rem.
 const GRID_STYLE = "grid w-full grid-cols-2 gap-2 max-[22rem]:grid-cols-1";
 
-export const Starters = ({ onPick }: Props) => {
+export const Starters = ({ disabled, onPick }: Props) => {
 	return (
 		<div className="my-auto flex animate-in flex-col items-center gap-4 text-center fade-in duration-300 motion-reduce:animate-none">
 			<p className="text-sm text-muted-foreground">Not sure where to start?</p>
@@ -31,6 +32,7 @@ export const Starters = ({ onPick }: Props) => {
 						key={topic.label}
 						variant="outline"
 						className={CHIP_STYLE}
+						disabled={disabled}
 						onClick={() => onPick(topic.question)}
 					>
 						{topic.label}
@@ -40,6 +42,7 @@ export const Starters = ({ onPick }: Props) => {
 				<Button
 					variant="secondary"
 					className={INVITATION_STYLE}
+					disabled={disabled}
 					onClick={() => onPick(INVITATION.question)}
 				>
 					{INVITATION.label}
