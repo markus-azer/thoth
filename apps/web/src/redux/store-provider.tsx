@@ -1,9 +1,21 @@
 "use client";
 
 import { type ReactNode, useRef } from "react";
-import { Provider } from "react-redux";
+import {
+	Provider,
+	useDispatch as useReduxDispatch,
+	useSelector as useReduxSelector,
+} from "react-redux";
 import type { AppConfig } from "./helpers/index";
-import { type AppStore, makeStore } from "./store";
+import {
+	type AppDispatch,
+	type AppStore,
+	makeStore,
+	type RootState,
+} from "./store";
+
+export const useDispatch = useReduxDispatch.withTypes<AppDispatch>();
+export const useSelector = useReduxSelector.withTypes<RootState>();
 
 type Props = { config: AppConfig; children: ReactNode };
 
