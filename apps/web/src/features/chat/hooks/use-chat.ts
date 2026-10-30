@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import {
 	clearHistory,
 	draftChanged,
@@ -20,6 +20,9 @@ export const useChat = () => {
 
 	const hasText = toMessage(draft) !== null;
 	const isIdle = asking === null;
+	const turns = useMemo(() => {
+		return visibleTurns({ conversations, activeId, asking });
+	}, [conversations, activeId, asking]);
 
 	useEffect(() => {
 		dispatch(loadHistory());
@@ -30,7 +33,7 @@ export const useChat = () => {
 		activeId,
 		draft,
 		notice,
-		turns: visibleTurns(chat),
+		turns,
 		pending: isPending(chat),
 		isIdle,
 		canSend: hasText && isIdle,

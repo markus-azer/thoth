@@ -190,11 +190,13 @@ export const {
 	cleared,
 } = slice.actions;
 
-export const isPending = (chat: ChatState) => {
+export const isPending = (chat: Pick<ChatState, "activeId" | "asking">) => {
 	return chat.asking?.conversationId === chat.activeId;
 };
 
-export const visibleTurns = (chat: ChatState) => {
+export const visibleTurns = (
+	chat: Pick<ChatState, "conversations" | "activeId" | "asking">,
+) => {
 	const { turns } = findConversation(chat.conversations, chat.activeId);
 
 	if (!chat.asking || !isPending(chat)) {
