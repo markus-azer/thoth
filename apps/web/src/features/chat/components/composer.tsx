@@ -28,6 +28,12 @@ export const Composer = ({
 	const input = useRef<HTMLTextAreaElement>(null);
 
 	const submit = (event: FormEvent) => {
+		event.preventDefault();
+
+		if (!canSend) {
+			return;
+		}
+
 		onSubmit(event);
 		input.current?.focus();
 	};
