@@ -1,5 +1,6 @@
 # base: Node + pnpm, shared by all stages
 FROM node:26.12.1-alpine AS base
+RUN npm install -g --ignore-scripts corepack@0.36.0
 RUN corepack enable
 WORKDIR /app
 
