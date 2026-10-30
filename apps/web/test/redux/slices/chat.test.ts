@@ -83,6 +83,30 @@ describe("chat slice", () => {
 		expect(state.activeId).not.toBe("a");
 	});
 
+	it("clearing the history while a reply is pending drops the late reply", () => {
+		const state = apply(
+			initialChatState("a"),
+			asked("hi"),
+			cleared(),
+			answered({ threadId, reply: "Hello" }),
+		);
+
+		expect(state.conversations).toEqual([]);
+		expect(state.asking).toBeNull();
+	});
+
+	it("clearing the history while a reply is pending drops the late failure", () => {
+		const state = apply(
+			initialChatState("a"),
+			asked("hi"),
+			cleared(),
+			failed("expired"),
+		);
+
+		expect(state.conversations).toEqual([]);
+		expect(state.asking).toBeNull();
+	});
+
 	it("RULE-CHAT-014: A visitor opens another chat while a reply is pending → the reply is saved in the chat it was asked in.", () => {
 		const state = apply(
 			initialChatState("a"),

@@ -18,7 +18,12 @@ type Reply = { threadId: string; reply: string };
 type Failure = "expired" | "failed";
 
 // The question in flight. It is saved only once the reply lands.
-type Asking = { conversationId: string; question: string };
+// Clearing the history discards it, so a late reply is dropped.
+type Asking = {
+	conversationId: string;
+	question: string;
+	discarded: boolean;
+};
 
 export type ChatState = {
 	loaded: boolean;
@@ -59,6 +64,15 @@ const forgetThread = (state: ChatState, conversationId: string) => {
 	state.conversations = putFirst(state.conversations, conversation);
 };
 
+// A discarded question ends here, so its late result changes nothing.
+const pendingAsking = (state: ChatState) => {
+	if (state.asking?.discarded) {
+		state.asking = null;
+	}
+
+	return state.asking;
+};
+
 // Ids are made here so the reducers stay pure.
 const prepareNewChatId = () => ({ payload: newConversationId() });
 
@@ -82,15 +96,18 @@ const slice = createSlice({
 			state.asking = {
 				conversationId: state.activeId,
 				question: action.payload,
+				discarded: false,
 			};
 		},
 
 		answered: (state, action: PayloadAction<Reply>) => {
-			if (!state.asking) {
+			const asking = pendingAsking(state);
+
+			if (!asking) {
 				return;
 			}
 
-			const { conversationId, question } = state.asking;
+			const { conversationId, question } = asking;
 			const conversation = findConversation(
 				state.conversations,
 				conversationId,
@@ -111,11 +128,13 @@ const slice = createSlice({
 		},
 
 		failed: (state, action: PayloadAction<Failure>) => {
-			if (!state.asking) {
+			const asking = pendingAsking(state);
+
+			if (!asking) {
 				return;
 			}
 
-			const { conversationId, question } = state.asking;
+			const { conversationId, question } = asking;
 
 			state.asking = null;
 
@@ -145,6 +164,11 @@ const slice = createSlice({
 		cleared: {
 			reducer: (state, action: PayloadAction<string>) => {
 				state.conversations = [];
+
+				if (state.asking) {
+					state.asking.discarded = true;
+				}
+
 				openChat(state, action.payload);
 			},
 			prepare: prepareNewChatId,
