@@ -17,7 +17,7 @@
 		"@better-auth/oauth-provider": "1.7.14",
 		"@langchain/core": "1.3.0",
 		"@langchain/langgraph": "1.5.3",
-		"@langchain/openrouter": "0.4.19",
+		"@langchain/openrouter": "0.4.20",
 		"@modelcontextprotocol/sdk": "1.32.2",
 		"@opentelemetry/auto-instrumentations-node": "0.82.0",
 		"@opentelemetry/sdk-node": "0.300.0",
