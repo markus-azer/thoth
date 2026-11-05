@@ -41,7 +41,7 @@ describe("agent graph", () => {
 		expect(reply.text).toBe("Markus is an engineer.");
 	});
 
-	it("RULE-AGENT-004: A tool failure or a runaway tool loop still ends in REPLIED.", async () => {
+	it("RULE-AGENT-004: Tool failures and the five-round tool cap still end in REPLIED.", async () => {
 		const failing = makeTool(async () => {
 			throw new Error("db down");
 		});
