@@ -156,7 +156,9 @@ describe("AgentService", () => {
 			const { service, answer, close } = setup();
 			answer.mockRejectedValue(new Error("model down"));
 
-			await service.ask({ threadId, message: "and now?" }).catch(() => {});
+			await expect(
+				service.ask({ threadId, message: "and now?" }),
+			).rejects.toThrow("model down");
 
 			expect(close).toHaveBeenCalledOnce();
 		});
