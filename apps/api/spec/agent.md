@@ -13,7 +13,7 @@ The chat agent answers a visitor's message on behalf of the thread owner. It can
 
 ## Inputs
 
-- `context: AgentContext`. The thread history and the owner's `handle`.
+- `threadId` and `message`. The agent loads the thread, the owner's `handle` and the history itself.
 
 
 ## Outputs
