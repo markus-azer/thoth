@@ -9,5 +9,5 @@ export const makeAnswerNode =
 
 		const reply = await model.answer(input);
 
-		return { reply };
+		return { reply: reply.text };
 	};

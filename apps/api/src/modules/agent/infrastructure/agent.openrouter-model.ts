@@ -1,3 +1,4 @@
+import { type AIMessage, SystemMessage } from "@langchain/core/messages";
 import { ChatOpenRouter } from "@langchain/openrouter";
 import { ErrorCode } from "@thoth/utils/error-codes";
 import { AppError } from "@thoth/utils/errors";
@@ -16,17 +17,15 @@ export class OpenRouterAgentModel implements AgentModel {
 		apiKey: env.OPENROUTER_API_KEY,
 	});
 
-	async answer({ system, messages }: ModelInput): Promise<string> {
-		const systemMessage = { role: "system", content: system };
+	async answer({ system, messages, tools }: ModelInput): Promise<AIMessage> {
+		const conversation = [new SystemMessage(system), ...messages];
 
-		const conversation = [systemMessage, ...messages];
+		const chat = tools.length > 0 ? this.model.bindTools(tools) : this.model;
 
 		try {
-			const reply = await this.model.invoke(conversation, {
+			return await chat.invoke(conversation, {
 				signal: AbortSignal.timeout(MODEL_TIMEOUT_MS),
 			});
-
-			return reply.text;
 		} catch (err) {
 			log.error("Model call failed", { err });
 

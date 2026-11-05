@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { AIMessage, type BaseMessage } from "@langchain/core/messages";
 import { ErrorCode } from "@thoth/utils/error-codes";
 import { describe, expect, it, vi } from "vitest";
 import { buildInstructions } from "~/modules/agent/application/agent.instructions";
@@ -35,7 +36,7 @@ const history = [
 ];
 
 const setup = () => {
-	const answer = vi.fn().mockResolvedValue("fine");
+	const answer = vi.fn().mockResolvedValue(new AIMessage("fine"));
 	const profilesRepo = {
 		getByHandle: vi.fn().mockResolvedValue(profile),
 		getById: vi.fn().mockResolvedValue(profile),
@@ -106,14 +107,19 @@ describe("AgentService", () => {
 			await service.ask({ threadId, message: "and now?" });
 
 			expect(profilesRepo.getById).toHaveBeenCalledWith(profile.id);
-			expect(answer).toHaveBeenCalledWith({
-				system: buildInstructions(profile),
-				messages: [
-					{ role: "user", content: "hi" },
-					{ role: "assistant", content: "hello" },
-					{ role: "user", content: "and now?" },
-				],
-			});
+			const [input] = answer.mock.calls[0] ?? [];
+			expect(input.system).toBe(buildInstructions(profile));
+			expect(input.tools).toEqual([]);
+			expect(
+				input.messages.map((message: BaseMessage) => [
+					message.getType(),
+					message.text,
+				]),
+			).toEqual([
+				["human", "hi"],
+				["ai", "hello"],
+				["human", "and now?"],
+			]);
 		});
 
 		it("saves the question, then the reply", async () => {
@@ -173,7 +179,7 @@ describe("AgentService", () => {
 
 		it("fails with a 502 when the model replies with blank text, saving nothing", async () => {
 			const { service, answer, messagesRepo } = setup();
-			answer.mockResolvedValue("  ");
+			answer.mockResolvedValue(new AIMessage("  "));
 
 			const result = service.ask({ threadId, message: "and now?" });
 
