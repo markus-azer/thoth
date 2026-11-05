@@ -70,6 +70,7 @@ export class AgentService {
 
 		const past = await this.messagesRepo.list(threadId);
 
+		// TODO: a failed final model call drops the turn, so a retry can repeat write tools like submit_feedback.
 		const reply = await this.runAgent(profile.handle, [...past, question]);
 
 		try {
