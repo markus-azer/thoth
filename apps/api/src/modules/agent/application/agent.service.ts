@@ -6,10 +6,13 @@ import { BlankMessage } from "../domain/blank-message";
 import { Message } from "../domain/message";
 import { Thread } from "../domain/thread";
 import type { AskInput, CreateThreadInput } from "./agent.dto";
+import { buildInstructions } from "./agent.instructions";
+import { buildMessages } from "./agent.messages";
 import { buildGraph } from "./graph/graph";
 import {
 	AgentModel,
 	MessageRepository,
+	type Profile,
 	ProfileRepository,
 	ThreadRepository,
 } from "./ports/index";
@@ -18,10 +21,8 @@ const BAD_GATEWAY = 502;
 
 @injectable()
 export class AgentService {
-	private readonly graph: ReturnType<typeof buildGraph>;
-
 	constructor(
-		@inject(AgentModel) model: AgentModel,
+		@inject(AgentModel) private readonly model: AgentModel,
 		@inject(ProfileRepository)
 		private readonly profilesRepo: ProfileRepository,
 		@inject(ThreadRepository)
@@ -29,9 +30,7 @@ export class AgentService {
 		@inject(MessageRepository)
 		private readonly messagesRepo: MessageRepository,
 		@inject(IdGenerator) private readonly ids: IdGenerator,
-	) {
-		this.graph = buildGraph(model);
-	}
+	) {}
 
 	async createThread({ handle }: CreateThreadInput): Promise<Thread> {
 		const profile = await this.profilesRepo.getByHandle(handle);
@@ -69,9 +68,7 @@ export class AgentService {
 
 		const past = await this.messagesRepo.list(threadId);
 
-		const { reply } = await this.graph.invoke({
-			context: { profile, history: [...past, question] },
-		});
+		const reply = await this.runAgent(profile, [...past, question]);
 
 		try {
 			const answer = new Message({
@@ -97,5 +94,18 @@ export class AgentService {
 		}
 
 		return reply;
+	}
+
+	private async runAgent(
+		profile: Profile,
+		history: Message[],
+	): Promise<string> {
+		const graph = buildGraph(this.model, [], buildInstructions(profile));
+
+		const { reply } = await graph.invoke({
+			messages: buildMessages(history),
+		});
+
+		return reply.text;
 	}
 }
