@@ -1,3 +1,4 @@
+import { AIMessage } from "@langchain/core/messages";
 import type { StructuredToolInterface } from "@langchain/core/tools";
 import type { AgentModel } from "~/modules/agent/application/ports/index";
 import { INSTRUCTIONS } from "../instructions";
@@ -17,13 +18,22 @@ export const makeModelNode =
 			? INSTRUCTIONS
 			: `${INSTRUCTIONS}\n${TOOLS_EXHAUSTED_NOTICE}`;
 
-		const offeredTools = toolsLeft ? tools : [];
+		const reply = await model.answer({
+			system,
+			messages,
+			tools,
+			allowTools: toolsLeft,
+		});
 
-		const reply = await model.answer({ system, messages, tools: offeredTools });
+		const askedForTools = Boolean(reply.tool_calls?.length);
 
-		const update = { messages: [reply], reply };
+		if (!askedForTools) return { messages: [reply], reply };
 
-		if (!reply.tool_calls?.length) return update;
+		if (!toolsLeft) {
+			const textOnly = new AIMessage(reply.text);
 
-		return { ...update, toolRounds: toolRounds + 1 };
+			return { messages: [textOnly], reply: textOnly };
+		}
+
+		return { messages: [reply], reply, toolRounds: toolRounds + 1 };
 	};

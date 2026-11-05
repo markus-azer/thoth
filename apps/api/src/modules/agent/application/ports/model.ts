@@ -7,6 +7,7 @@ export type ModelInput = {
 	system: string;
 	messages: BaseMessage[];
 	tools: StructuredToolInterface[];
+	allowTools: boolean;
 };
 
 export interface AgentModel {

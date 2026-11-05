@@ -19,6 +19,7 @@ const input: ModelInput = {
 	system: "You are Markus.",
 	messages: [new HumanMessage("hi")],
 	tools: [],
+	allowTools: true,
 };
 
 describe("OpenRouterAgentModel", () => {
@@ -48,9 +49,23 @@ describe("OpenRouterAgentModel", () => {
 
 		await new OpenRouterAgentModel().answer({ ...input, tools });
 
-		expect(bindTools).toHaveBeenCalledWith(tools);
+		expect(bindTools).toHaveBeenCalledWith(tools, {});
 		expect(bound.invoke).toHaveBeenCalled();
 		expect(invoke).not.toHaveBeenCalled();
+	});
+
+	it("keeps the tools bound but forbids calls when tools are not allowed", async () => {
+		const tools = [{ name: "get_bio" }] as ModelInput["tools"];
+		const bound = { invoke: vi.fn().mockResolvedValue(new AIMessage("ok")) };
+		bindTools.mockReturnValue(bound);
+
+		await new OpenRouterAgentModel().answer({
+			...input,
+			tools,
+			allowTools: false,
+		});
+
+		expect(bindTools).toHaveBeenCalledWith(tools, { tool_choice: "none" });
 	});
 
 	it("fails with a 502 when the model call fails", async () => {

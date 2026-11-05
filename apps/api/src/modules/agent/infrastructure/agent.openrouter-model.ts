@@ -17,10 +17,18 @@ export class OpenRouterAgentModel implements AgentModel {
 		apiKey: env.OPENROUTER_API_KEY,
 	});
 
-	async answer({ system, messages, tools }: ModelInput): Promise<AIMessage> {
+	async answer({
+		system,
+		messages,
+		tools,
+		allowTools,
+	}: ModelInput): Promise<AIMessage> {
 		const conversation = [new SystemMessage(system), ...messages];
 
-		const chat = tools.length > 0 ? this.model.bindTools(tools) : this.model;
+		const bindOptions = allowTools ? {} : { ["tool_choice"]: "none" as const };
+
+		const chat =
+			tools.length > 0 ? this.model.bindTools(tools, bindOptions) : this.model;
 
 		try {
 			return await chat.invoke(conversation, {

@@ -57,8 +57,8 @@ describe("agent graph", () => {
 		expect(afterFailure.reply.text).toBe("Sorry, that failed.");
 
 		let id = 0;
-		const loopAnswer = vi.fn(async ({ tools }: ModelInput) =>
-			tools.length > 0 ? callsTool(++id) : new AIMessage("Enough tools."),
+		const loopAnswer = vi.fn(async ({ allowTools }: ModelInput) =>
+			allowTools ? callsTool(++id) : new AIMessage("Enough tools."),
 		);
 
 		const afterLoop = await run(loopAnswer);
