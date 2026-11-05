@@ -23,7 +23,7 @@ const run = (
 	answer: (input: ModelInput) => Promise<AIMessage>,
 	tool = makeTool(async () => "bio"),
 ) =>
-	buildGraph({ answer }, [tool], "You answer questions.").invoke({
+	buildGraph({ answer }, [tool]).invoke({
 		messages: [new HumanMessage("who?")],
 	});
 

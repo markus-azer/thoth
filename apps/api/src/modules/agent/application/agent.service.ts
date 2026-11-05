@@ -6,13 +6,12 @@ import { BlankMessage } from "../domain/blank-message";
 import { Message } from "../domain/message";
 import { Thread } from "../domain/thread";
 import type { AskInput, CreateThreadInput } from "./agent.dto";
-import { buildInstructions } from "./agent.instructions";
 import { buildMessages } from "./agent.messages";
 import { buildGraph } from "./graph/graph";
 import {
 	AgentModel,
+	AgentTools,
 	MessageRepository,
-	type Profile,
 	ProfileRepository,
 	ThreadRepository,
 } from "./ports/index";
@@ -22,7 +21,10 @@ const BAD_GATEWAY = 502;
 @injectable()
 export class AgentService {
 	constructor(
-		@inject(AgentModel) private readonly model: AgentModel,
+		@inject(AgentModel)
+		private readonly model: AgentModel,
+		@inject(AgentTools)
+		private readonly tools: AgentTools,
 		@inject(ProfileRepository)
 		private readonly profilesRepo: ProfileRepository,
 		@inject(ThreadRepository)
@@ -68,7 +70,7 @@ export class AgentService {
 
 		const past = await this.messagesRepo.list(threadId);
 
-		const reply = await this.runAgent(profile, [...past, question]);
+		const reply = await this.runAgent(profile.handle, [...past, question]);
 
 		try {
 			const answer = new Message({
@@ -96,16 +98,19 @@ export class AgentService {
 		return reply;
 	}
 
-	private async runAgent(
-		profile: Profile,
-		history: Message[],
-	): Promise<string> {
-		const graph = buildGraph(this.model, [], buildInstructions(profile));
+	private async runAgent(handle: string, history: Message[]): Promise<string> {
+		const toolbox = await this.tools.open(handle);
 
-		const { reply } = await graph.invoke({
-			messages: buildMessages(history),
-		});
+		try {
+			const graph = buildGraph(this.model, toolbox.tools);
 
-		return reply.text;
+			const { reply } = await graph.invoke({
+				messages: buildMessages(history),
+			});
+
+			return reply.text;
+		} finally {
+			await toolbox.close();
+		}
 	}
 }

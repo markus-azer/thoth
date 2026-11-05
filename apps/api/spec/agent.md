@@ -27,4 +27,5 @@ Semantic states, not the literal HTTP response.
 
 - [RULE-AGENT-001] The agent can call the public tools on the thread owner's behalf.
 - [RULE-AGENT-002] Private tools are never available to the agent.
+- [RULE-AGENT-003] The owner's bio reaches the agent through tools, not the prompt.
 - [RULE-AGENT-004] A tool failure or a runaway tool loop still ends in REPLIED.

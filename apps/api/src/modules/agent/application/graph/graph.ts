@@ -8,10 +8,9 @@ import { AgentState } from "./state";
 export const buildGraph = (
 	model: AgentModel,
 	tools: StructuredToolInterface[],
-	instructions: string,
 ) =>
 	new StateGraph(AgentState)
-		.addNode("model", makeModelNode(model, tools, instructions))
+		.addNode("model", makeModelNode(model, tools))
 		.addNode("tools", new ToolNode(tools))
 		.addEdge(START, "model")
 		.addConditionalEdges("model", toolsCondition, ["tools", END])
