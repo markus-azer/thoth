@@ -72,4 +72,15 @@ describe("agent graph", () => {
 			expect.stringContaining(TOOLS_EXHAUSTED_NOTICE),
 		);
 	});
+
+	it("RULE-AGENT-005: A model that ignores the tool cap is stopped.", async () => {
+		let id = 0;
+		const stubborn = vi.fn(async () => callsTool(++id));
+
+		const { reply } = await run(stubborn);
+
+		expect(stubborn).toHaveBeenCalledTimes(6);
+		expect(reply.tool_calls).toHaveLength(0);
+		expect(reply.text).toBe("");
+	});
 });
