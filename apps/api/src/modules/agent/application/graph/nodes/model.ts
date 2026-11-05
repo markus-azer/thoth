@@ -7,7 +7,7 @@ import type { AgentState } from "../state";
 const MAX_TOOL_ROUNDS = 5;
 
 export const TOOLS_EXHAUSTED_NOTICE =
-	"You have no tools left. Only say an action succeeded if a tool result confirmed it. Tell the visitor what failed.";
+	"No tools left. Claim success only if a tool confirmed it. Report any action that did not complete.";
 
 export const makeModelNode =
 	(model: AgentModel, tools: StructuredToolInterface[]) =>
