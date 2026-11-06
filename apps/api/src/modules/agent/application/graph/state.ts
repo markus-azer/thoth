@@ -1,9 +1,16 @@
-import { Annotation } from "@langchain/langgraph";
-import type { AgentContext } from "../agent.context";
+import type { AIMessage, BaseMessage } from "@langchain/core/messages";
+import { Annotation, messagesStateReducer } from "@langchain/langgraph";
 
 export const AgentState = Annotation.Root({
-	context: Annotation<AgentContext>(),
-	reply: Annotation<string>(),
+	messages: Annotation<BaseMessage[]>({
+		reducer: messagesStateReducer,
+		default: () => [],
+	}),
+	reply: Annotation<AIMessage>(),
+	toolRounds: Annotation<number>({
+		reducer: (_current, next) => next,
+		default: () => 0,
+	}),
 });
 
 export type AgentState = typeof AgentState.State;

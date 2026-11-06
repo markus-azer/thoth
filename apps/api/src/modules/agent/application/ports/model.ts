@@ -1,12 +1,15 @@
-import type { Message } from "~/modules/agent/domain/index";
+import type { AIMessage, BaseMessage } from "@langchain/core/messages";
+import type { StructuredToolInterface } from "@langchain/core/tools";
 
 export const AgentModel = Symbol("AgentModel");
 
 export type ModelInput = {
 	system: string;
-	messages: Pick<Message, "role" | "content">[];
+	messages: BaseMessage[];
+	tools: StructuredToolInterface[];
+	allowTools: boolean;
 };
 
 export interface AgentModel {
-	answer(input: ModelInput): Promise<string>;
+	answer(input: ModelInput): Promise<AIMessage>;
 }

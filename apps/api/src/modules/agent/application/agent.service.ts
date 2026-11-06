@@ -6,9 +6,11 @@ import { BlankMessage } from "../domain/blank-message";
 import { Message } from "../domain/message";
 import { Thread } from "../domain/thread";
 import type { AskInput, CreateThreadInput } from "./agent.dto";
+import { buildMessages } from "./agent.messages";
 import { buildGraph } from "./graph/graph";
 import {
 	AgentModel,
+	AgentTools,
 	MessageRepository,
 	ProfileRepository,
 	ThreadRepository,
@@ -18,10 +20,11 @@ const BAD_GATEWAY = 502;
 
 @injectable()
 export class AgentService {
-	private readonly graph: ReturnType<typeof buildGraph>;
-
 	constructor(
-		@inject(AgentModel) model: AgentModel,
+		@inject(AgentModel)
+		private readonly model: AgentModel,
+		@inject(AgentTools)
+		private readonly tools: AgentTools,
 		@inject(ProfileRepository)
 		private readonly profilesRepo: ProfileRepository,
 		@inject(ThreadRepository)
@@ -29,9 +32,7 @@ export class AgentService {
 		@inject(MessageRepository)
 		private readonly messagesRepo: MessageRepository,
 		@inject(IdGenerator) private readonly ids: IdGenerator,
-	) {
-		this.graph = buildGraph(model);
-	}
+	) {}
 
 	async createThread({ handle }: CreateThreadInput): Promise<Thread> {
 		const profile = await this.profilesRepo.getByHandle(handle);
@@ -69,9 +70,8 @@ export class AgentService {
 
 		const past = await this.messagesRepo.list(threadId);
 
-		const { reply } = await this.graph.invoke({
-			context: { profile, history: [...past, question] },
-		});
+		// TODO: a failed final model call drops the turn, so a retry can repeat write tools like submit_feedback.
+		const reply = await this.runAgent(profile.handle, [...past, question]);
 
 		try {
 			const answer = new Message({
@@ -97,5 +97,21 @@ export class AgentService {
 		}
 
 		return reply;
+	}
+
+	private async runAgent(handle: string, history: Message[]): Promise<string> {
+		const toolbox = await this.tools.open(handle);
+
+		try {
+			const graph = buildGraph(this.model, toolbox.tools);
+
+			const { reply } = await graph.invoke({
+				messages: buildMessages(history),
+			});
+
+			return reply.text;
+		} finally {
+			await toolbox.close();
+		}
 	}
 }

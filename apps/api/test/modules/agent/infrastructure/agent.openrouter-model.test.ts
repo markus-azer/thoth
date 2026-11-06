@@ -1,47 +1,71 @@
 import "reflect-metadata";
+import { AIMessage, HumanMessage } from "@langchain/core/messages";
 import { ErrorCode } from "@thoth/utils/error-codes";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { ModelInput } from "~/modules/agent/application/ports/index";
 import { OpenRouterAgentModel } from "~/modules/agent/infrastructure/agent.openrouter-model";
 
 const invoke = vi.hoisted(() => vi.fn());
+const bindTools = vi.hoisted(() => vi.fn());
 
 vi.mock("@langchain/openrouter", () => ({
 	ChatOpenRouter: class {
 		invoke = invoke;
+		bindTools = bindTools;
 	},
 }));
 
 const input: ModelInput = {
 	system: "You are Markus.",
-	messages: [{ role: "user", content: "hi" }],
+	messages: [new HumanMessage("hi")],
+	tools: [],
+	allowTools: true,
 };
 
 describe("OpenRouterAgentModel", () => {
 	beforeEach(() => {
 		invoke.mockReset();
+		bindTools.mockReset();
 	});
 
-	it("returns the text of the model reply", async () => {
-		invoke.mockResolvedValue({ text: "hello" });
+	it("sends the system prompt first, then the conversation, and returns the reply", async () => {
+		const reply = new AIMessage("hello");
+		invoke.mockResolvedValue(reply);
 
-		const reply = await new OpenRouterAgentModel().answer(input);
+		const result = await new OpenRouterAgentModel().answer(input);
 
-		expect(reply).toBe("hello");
+		const [conversation] = invoke.mock.calls[0] ?? [];
+		expect(
+			conversation.map((message: { text: string }) => message.text),
+		).toEqual(["You are Markus.", "hi"]);
+		expect(conversation[0].getType()).toBe("system");
+		expect(result).toBe(reply);
 	});
 
-	it("sends the system prompt first, then the conversation", async () => {
-		invoke.mockResolvedValue({ text: "hello" });
+	it("binds the tools when there are any", async () => {
+		const tools = [{ name: "get_bio" }] as ModelInput["tools"];
+		const bound = { invoke: vi.fn().mockResolvedValue(new AIMessage("ok")) };
+		bindTools.mockReturnValue(bound);
 
-		await new OpenRouterAgentModel().answer(input);
+		await new OpenRouterAgentModel().answer({ ...input, tools });
 
-		expect(invoke).toHaveBeenCalledWith(
-			[
-				{ role: "system", content: "You are Markus." },
-				{ role: "user", content: "hi" },
-			],
-			expect.anything(),
-		);
+		expect(bindTools).toHaveBeenCalledWith(tools, {});
+		expect(bound.invoke).toHaveBeenCalled();
+		expect(invoke).not.toHaveBeenCalled();
+	});
+
+	it("keeps the tools bound but forbids calls when tools are not allowed", async () => {
+		const tools = [{ name: "get_bio" }] as ModelInput["tools"];
+		const bound = { invoke: vi.fn().mockResolvedValue(new AIMessage("ok")) };
+		bindTools.mockReturnValue(bound);
+
+		await new OpenRouterAgentModel().answer({
+			...input,
+			tools,
+			allowTools: false,
+		});
+
+		expect(bindTools).toHaveBeenCalledWith(tools, { tool_choice: "none" });
 	});
 
 	it("fails with a 502 when the model call fails", async () => {

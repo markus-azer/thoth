@@ -1,8 +1,9 @@
 import "reflect-metadata";
+import { AIMessage, type BaseMessage } from "@langchain/core/messages";
 import { ErrorCode } from "@thoth/utils/error-codes";
 import { describe, expect, it, vi } from "vitest";
-import { buildInstructions } from "~/modules/agent/application/agent.instructions";
 import { AgentService } from "~/modules/agent/application/agent.service";
+import { INSTRUCTIONS } from "~/modules/agent/application/graph/instructions";
 import type { Profile } from "~/modules/agent/application/ports/index";
 import { Message } from "~/modules/agent/domain/message";
 import { Thread } from "~/modules/agent/domain/thread";
@@ -35,7 +36,10 @@ const history = [
 ];
 
 const setup = () => {
-	const answer = vi.fn().mockResolvedValue("fine");
+	const answer = vi.fn().mockResolvedValue(new AIMessage("fine"));
+	const close = vi.fn().mockResolvedValue(undefined);
+	const toolbox = { tools: [], close };
+	const open = vi.fn().mockResolvedValue(toolbox);
 	const profilesRepo = {
 		getByHandle: vi.fn().mockResolvedValue(profile),
 		getById: vi.fn().mockResolvedValue(profile),
@@ -59,12 +63,22 @@ const setup = () => {
 	};
 	const service = new AgentService(
 		{ answer },
+		{ open },
 		profilesRepo,
 		threadsRepo,
 		messagesRepo,
 		ids,
 	);
-	return { service, answer, profilesRepo, threadsRepo, messagesRepo };
+	return {
+		service,
+		answer,
+		open,
+		toolbox,
+		close,
+		profilesRepo,
+		threadsRepo,
+		messagesRepo,
+	};
 };
 
 describe("AgentService", () => {
@@ -100,20 +114,53 @@ describe("AgentService", () => {
 			expect(reply).toBe("fine");
 		});
 
-		it("gives the model instructions about the thread's bio, the thread history and the new question", async () => {
-			const { service, answer, profilesRepo } = setup();
+		it("RULE-AGENT-003: The owner's bio reaches the agent through tools, not the prompt.", async () => {
+			const { service, answer } = setup();
+
+			await service.ask({ threadId, message: "and now?" });
+
+			const [input] = answer.mock.calls[0] ?? [];
+			expect(input.system).toBe(INSTRUCTIONS);
+			expect(input.system).not.toContain(profile.about);
+		});
+
+		it("gives the model the toolbox, the thread history and the new question", async () => {
+			const { service, answer, toolbox } = setup();
+
+			await service.ask({ threadId, message: "and now?" });
+
+			const [input] = answer.mock.calls[0] ?? [];
+			expect(input.tools).toBe(toolbox.tools);
+			expect(
+				input.messages.map((message: BaseMessage) => [
+					message.getType(),
+					message.text,
+				]),
+			).toEqual([
+				["human", "hi"],
+				["ai", "hello"],
+				["human", "and now?"],
+			]);
+		});
+
+		it("opens the tools for the handle of the thread's bio", async () => {
+			const { service, open, profilesRepo } = setup();
 
 			await service.ask({ threadId, message: "and now?" });
 
 			expect(profilesRepo.getById).toHaveBeenCalledWith(profile.id);
-			expect(answer).toHaveBeenCalledWith({
-				system: buildInstructions(profile),
-				messages: [
-					{ role: "user", content: "hi" },
-					{ role: "assistant", content: "hello" },
-					{ role: "user", content: "and now?" },
-				],
-			});
+			expect(open).toHaveBeenCalledWith("markus-azer");
+		});
+
+		it("closes the tools even when the model fails", async () => {
+			const { service, answer, close } = setup();
+			answer.mockRejectedValue(new Error("model down"));
+
+			await expect(
+				service.ask({ threadId, message: "and now?" }),
+			).rejects.toThrow("model down");
+
+			expect(close).toHaveBeenCalledOnce();
 		});
 
 		it("saves the question, then the reply", async () => {
@@ -173,7 +220,7 @@ describe("AgentService", () => {
 
 		it("fails with a 502 when the model replies with blank text, saving nothing", async () => {
 			const { service, answer, messagesRepo } = setup();
-			answer.mockResolvedValue("  ");
+			answer.mockResolvedValue(new AIMessage("  "));
 
 			const result = service.ask({ threadId, message: "and now?" });
 

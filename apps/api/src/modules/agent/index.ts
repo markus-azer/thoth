@@ -6,6 +6,7 @@ export {
 export { AgentService } from "./application/agent.service";
 export {
 	AgentModel,
+	AgentTools,
 	MessageRepository,
 	ProfileRepository,
 	ThreadRepository,
