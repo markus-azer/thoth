@@ -41,7 +41,7 @@ describe("agent graph", () => {
 		expect(reply.text).toBe("Markus is an engineer.");
 	});
 
-	it("RULE-AGENT-004: Tool failures and the five-round tool cap still end in REPLIED.", async () => {
+	it("RULE-AGENT-004: A tool failure still ends in REPLIED.", async () => {
 		const failing = makeTool(async () => {
 			throw new Error("db down");
 		});
@@ -73,7 +73,7 @@ describe("agent graph", () => {
 		);
 	});
 
-	it("RULE-AGENT-005: A model that ignores the tool cap is stopped.", async () => {
+	it("RULE-AGENT-005: A model that ignores the five-round tool cap is stopped.", async () => {
 		let id = 0;
 		const stubborn = vi.fn(async () => callsTool(++id));
 
