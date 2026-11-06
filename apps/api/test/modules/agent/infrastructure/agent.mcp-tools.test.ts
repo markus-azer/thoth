@@ -1,6 +1,7 @@
 import "reflect-metadata";
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { describe, expect, it } from "vitest";
+import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { describe, expect, it, vi } from "vitest";
 import type { McpRequestContext, McpTool } from "~/infrastructure/mcp/index";
 import { McpAgentTools } from "~/modules/agent/infrastructure/agent.mcp-tools";
 
@@ -63,5 +64,19 @@ describe("McpAgentTools", () => {
 
 		await expect(broken?.invoke({})).rejects.toThrow("boom");
 		await toolbox.close();
+	});
+
+	it("closes the client and server when listing the tools fails", async () => {
+		vi.spyOn(Client.prototype, "listTools").mockRejectedValueOnce(
+			new Error("list failed"),
+		);
+		const closeClient = vi.spyOn(Client.prototype, "close");
+		const closeServer = vi.spyOn(McpServer.prototype, "close");
+
+		await expect(setup().open("markus-azer")).rejects.toThrow("list failed");
+
+		expect(closeClient).toHaveBeenCalledOnce();
+		expect(closeServer).toHaveBeenCalledOnce();
+		vi.restoreAllMocks();
 	});
 });

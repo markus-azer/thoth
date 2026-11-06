@@ -9,6 +9,7 @@ import {
 	McpTool,
 	PrivateToolNames,
 } from "~/infrastructure/mcp/index";
+import { log } from "~/logger";
 import type { AgentTools, Toolbox } from "../application/ports/index";
 
 const CLIENT_INFO = { name: "thoth-agent", version: "0.0.0" };
@@ -25,9 +26,19 @@ export class McpAgentTools implements AgentTools {
 	async open(handle: string): Promise<Toolbox> {
 		const server = this.buildServer(handle);
 		const client = await this.connect(server);
-		const tools = await this.listPublicTools(client);
+		const close = () => this.disconnect(client, server);
 
-		return { tools, close: () => this.disconnect(client, server) };
+		try {
+			const tools = await this.listPublicTools(client);
+
+			return { tools, close };
+		} catch (err) {
+			await close().catch((closeError) => {
+				log.error("Closing the mcp endpoints failed", { err: closeError });
+			});
+
+			throw err;
+		}
 	}
 
 	private buildServer(handle: string): McpServer {
