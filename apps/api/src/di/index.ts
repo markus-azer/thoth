@@ -45,7 +45,9 @@ import {
 	FeedbackRepository,
 	FeedbackService,
 	FeedbackTool,
+	OwnerRepository,
 } from "~/modules/feedback/index";
+import { BioOwnerRepository } from "~/modules/feedback/infrastructure/feedback.bio-owner-repository";
 import { PostgresFeedbackRepository } from "~/modules/feedback/infrastructure/feedback.pg-repository";
 import {
 	DbProbe,
@@ -78,6 +80,7 @@ export async function createContainer(): Promise<Container> {
 		.bind(FeedbackRepository)
 		.to(PostgresFeedbackRepository)
 		.inSingletonScope();
+	container.bind(OwnerRepository).to(BioOwnerRepository).inSingletonScope();
 	container.bind(FeedbackService).toSelf().inSingletonScope();
 
 	// bio module
