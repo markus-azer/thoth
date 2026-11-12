@@ -1,6 +1,6 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { inject, injectable } from "inversify";
-import type { McpTool } from "~/infrastructure/mcp/index";
+import type { McpRequestContext, McpTool } from "~/infrastructure/mcp/index";
 import { NewFeedbackSchema } from "../application/feedback.dto";
 import { FeedbackService } from "../application/feedback.service";
 
@@ -10,7 +10,7 @@ export class FeedbackTool implements McpTool {
 		@inject(FeedbackService) private readonly service: FeedbackService,
 	) {}
 
-	register(server: McpServer): void {
+	register(server: McpServer, context: McpRequestContext): void {
 		server.registerTool(
 			"submit_feedback",
 			{
@@ -18,7 +18,7 @@ export class FeedbackTool implements McpTool {
 				inputSchema: NewFeedbackSchema.shape,
 			},
 			async (args) => {
-				await this.service.submit(args);
+				await this.service.submit(context.handle, args);
 
 				return {
 					content: [{ type: "text", text: "Thanks for the feedback." }],

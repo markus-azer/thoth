@@ -9,9 +9,9 @@ export class PostgresFeedbackRepository implements FeedbackRepository {
 
 	async save(f: Feedback): Promise<void> {
 		await this.db.query(
-			`INSERT INTO feedback (id, message, name, topic, email, created_at)
-				VALUES ($1, $2, $3, $4, $5, $6)`,
-			[f.id, f.message, f.name, f.topic, f.email, f.createdAt],
+			`INSERT INTO feedback (id, user_id, message, name, topic, email, created_at)
+				VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+			[f.id, f.userId, f.message, f.name, f.topic, f.email, f.createdAt],
 		);
 	}
 }
