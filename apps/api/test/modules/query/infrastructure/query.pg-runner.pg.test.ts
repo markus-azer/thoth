@@ -64,6 +64,15 @@ describe("PostgresQueryRunner", () => {
 		await expect(forging).rejects.toThrow(/permission denied/);
 	});
 
+	it("a DO block cannot change the owner", async () => {
+		const forge = `do $$ begin set local app.user_id = '${bob}'; end $$`;
+		const forging = runner.run(alice, forge);
+
+		await expect(forging).rejects.toThrow(
+			/permission denied for language plpgsql/,
+		);
+	});
+
 	it("RULE-QRY-006: The transaction is read-only.", async () => {
 		const writing = runner.run(alice, "create temp table t (x int)");
 
