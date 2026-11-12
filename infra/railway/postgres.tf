@@ -3,6 +3,12 @@ resource "random_password" "postgres" {
   special = false # URL-safe inside DATABASE_URL
 }
 
+# The api's own login, created by V12__api-role.sql.
+resource "random_password" "api_db" {
+  length  = 40
+  special = false # URL-safe inside DATABASE_URL
+}
+
 resource "railway_service" "postgres" {
   name         = "Postgres"
   project_id   = railway_project.main.id
