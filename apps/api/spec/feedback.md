@@ -37,3 +37,4 @@ Semantic states, not the literal MCP response.
 - [RULE-FB-006] Bare `/mcp` → NOT_FOUND, nothing persisted.
 - [RULE-FB-007] An unknown `:handle` → NOT_FOUND, nothing persisted.
 - [RULE-FB-008] No sign-in needed.
+- [RULE-FB-009] Deleting a user deletes their feedbacks.
