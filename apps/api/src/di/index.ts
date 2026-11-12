@@ -55,6 +55,8 @@ import {
 	HealthService,
 } from "~/modules/health/index";
 import { PostgresDbProbe } from "~/modules/health/infrastructure/health.pg-probe";
+import { QueryRunner, QueryTool } from "~/modules/query/index";
+import { PostgresQueryRunner } from "~/modules/query/infrastructure/query.pg-runner";
 
 export async function createContainer(): Promise<Container> {
 	const container = new Container();
@@ -82,6 +84,10 @@ export async function createContainer(): Promise<Container> {
 		.inSingletonScope();
 	container.bind(OwnerRepository).to(BioOwnerRepository).inSingletonScope();
 	container.bind(FeedbackService).toSelf().inSingletonScope();
+
+	// query module
+	container.bind(McpTool).to(QueryTool).inSingletonScope();
+	container.bind(QueryRunner).to(PostgresQueryRunner).inSingletonScope();
 
 	// bio module
 	container.bind(BioRouter).toSelf().inSingletonScope();
@@ -118,7 +124,7 @@ export async function createContainer(): Promise<Container> {
 	// The tool names that require auth. Each module registers its own.
 	container
 		.bind(PrivateToolNames)
-		.toConstantValue(new Set<string>(["create_bio", "update_bio"]));
+		.toConstantValue(new Set<string>(["create_bio", "update_bio", "query"]));
 
 	return container;
 }

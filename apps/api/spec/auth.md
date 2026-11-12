@@ -16,7 +16,7 @@ Public tools stay anonymous. A private tool called without a valid token returns
 ## Surfaces
 
 - Public: `GET /`, `GET /health`, everything under `/api/auth`, the sign-in and consent pages.
-- Private: any MCP tool that needs a `Principal`, e.g. `memory` (`remember`, `recall`).
+- Private: any MCP tool that needs a `Principal`, e.g. `memory` (`remember`, `recall`) and `query`.
 - `POST /mcp` is one endpoint. Auth is decided per call from the JSON-RPC body.
 
 
