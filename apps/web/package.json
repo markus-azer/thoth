@@ -29,7 +29,7 @@
 		"@types/react-dom": "19.3.0",
 		"dependency-cruiser": "18.7.2",
 		"happy-dom": "21.0.4",
-		"msw": "3.0.3",
+		"msw": "3.0.4",
 		"postcss": "8.5.32",
 		"typescript": "7.0.2",
 		"vitest": "5.1.0"
