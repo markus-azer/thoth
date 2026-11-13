@@ -67,7 +67,7 @@ resource "github_repository_ruleset" "copilot_review" {
   repository  = github_repository.repo.name
   name        = "copilot-review"
   target      = "branch"
-  enforcement = "active"
+  enforcement = "disabled"
 
   conditions {
     ref_name {
