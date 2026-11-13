@@ -1,0 +1,5 @@
+pnpm arch
+pnpm deadcode
+pnpm dupes
+pnpm peers check
+pnpm spec-check

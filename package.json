@@ -26,6 +26,7 @@
 		"compose:up": "docker compose up -d --wait",
 		"compose:watch": "docker compose watch",
 		"compose:down": "docker compose down -v",
+		"db:tunnel": "env -u RAILWAY_TOKEN railway connect Postgres --tunnel-only --port 15432",
 		"prepare": "husky"
 	},
 	"lint-staged": {
@@ -37,6 +38,7 @@
 		"@biomejs/biome": "2.6.4",
 		"@commitlint/cli": "21.2.4",
 		"@commitlint/config-conventional": "21.2.4",
+		"@railway/cli": "5.74.0",
 		"@secretlint/secretlint-rule-preset-recommend": "13.1.0",
 		"dependency-cruiser": "18.7.2",
 		"husky": "9.1.7",
