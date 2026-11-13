@@ -17,7 +17,7 @@
 		"build": "tsup src/index.ts --format esm --sourcemap --clean",
 		"typecheck": "tsc --noEmit",
 		"test": "vitest run --passWithNoTests",
-		"arch": "depcruise src"
+		"arch": "node ../../scripts/arch.ts"
 	},
 	"dependencies": {
 		"inversify": "8.2.4",

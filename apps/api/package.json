@@ -11,7 +11,7 @@
 		"test:integration": "vitest run --project integration",
 		"test:pg": "vitest run --project pg",
 		"build": "tsup",
-		"arch": "depcruise src"
+		"arch": "node ../../scripts/arch.ts"
 	},
 	"dependencies": {
 		"@asteasolutions/zod-to-openapi": "9.1.0",

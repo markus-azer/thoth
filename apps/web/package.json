@@ -9,7 +9,7 @@
 		"build": "next build",
 		"typecheck": "tsc --noEmit",
 		"test": "vitest run",
-		"arch": "depcruise src"
+		"arch": "node ../../scripts/arch.ts"
 	},
 	"dependencies": {
 		"@reduxjs/toolkit": "2.13.0",
