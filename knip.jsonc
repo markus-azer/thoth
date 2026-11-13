@@ -2,6 +2,8 @@
 	"ignoreDependencies": [
 		// referenced by rule id in .secretlintrc.json, not imported
 		"@secretlint/secretlint-rule-preset-recommend",
+		// provides the railway binary for the db:tunnel script, which knip can't parse through env
+		"@railway/cli",
 		// peer dependency @promster/metrics imports at runtime for the /metrics endpoint
 		"prom-client"
 	],
