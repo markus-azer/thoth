@@ -6,7 +6,7 @@ import type { Lifecycle } from "~/lifecycle/index";
 import { log } from "~/logger";
 
 // Re-exported so nothing else has to import `pg`.
-export type { Pool } from "pg";
+export type { Pool, PoolClient } from "pg";
 
 @injectable()
 export class Postgres implements Lifecycle {

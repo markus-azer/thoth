@@ -13,9 +13,10 @@ resource "railway_variable_collection" "migrate" {
   environment_id = local.environment_id
   service_id     = railway_service.migrate[each.key].id
   variables = [for name, value in {
-    MIGRATIONS      = each.value
-    FLYWAY_URL      = "jdbc:postgresql://$${{Postgres.RAILWAY_PRIVATE_DOMAIN}}:5432/${var.db.name}"
-    FLYWAY_USER     = var.db.name
-    FLYWAY_PASSWORD = "$${{Postgres.POSTGRES_PASSWORD}}"
+    MIGRATIONS                       = each.value
+    FLYWAY_URL                       = "jdbc:postgresql://$${{Postgres.RAILWAY_PRIVATE_DOMAIN}}:5432/${var.db.name}"
+    FLYWAY_USER                      = var.db.name
+    FLYWAY_PASSWORD                  = "$${{Postgres.POSTGRES_PASSWORD}}"
+    FLYWAY_PLACEHOLDERS_API_PASSWORD = random_password.api_db.result
   } : { name = name, value = value }]
 }

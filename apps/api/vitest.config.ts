@@ -30,7 +30,14 @@ export default defineConfig({
 				test: {
 					name: "unit",
 					include: ["test/**/*.test.ts"],
-					exclude: ["test/**/*.integration.test.ts"],
+					exclude: ["test/**/*.integration.test.ts", "test/**/*.pg.test.ts"],
+				},
+			},
+			{
+				extends: true,
+				test: {
+					name: "pg",
+					include: ["test/**/*.pg.test.ts"],
 				},
 			},
 			{

@@ -17,7 +17,7 @@ locals {
     LOG_LEVEL            = "info"
     OTEL_ENABLED         = "false"
     CORS_ORIGINS         = "https://markus-azer.com"
-    DATABASE_URL         = "$${{Postgres.DATABASE_URL}}"
+    DATABASE_URL         = "postgresql://api:${random_password.api_db.result}@$${{Postgres.RAILWAY_PRIVATE_DOMAIN}}:5432/${var.db.name}"
     GITHUB_CLIENT_ID     = var.github.client_id
     GITHUB_CLIENT_SECRET = var.github.client_secret
     BETTER_AUTH_URL      = "https://${local.api_domain}"

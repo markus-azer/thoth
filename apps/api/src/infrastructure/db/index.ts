@@ -1,3 +1,3 @@
 export { isUniqueViolation } from "./pg-error";
-export type { Pool } from "./postgres";
+export type { Pool, PoolClient } from "./postgres";
 export { Postgres } from "./postgres";

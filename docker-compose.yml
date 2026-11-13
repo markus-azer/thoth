@@ -22,6 +22,7 @@ services:
       FLYWAY_URL: jdbc:postgresql://postgres:5432/thoth
       FLYWAY_USER: postgres
       FLYWAY_PASSWORD: postgres
+      FLYWAY_PLACEHOLDERS_API_PASSWORD: api
     volumes:
       - ./apps/api/sql:/flyway/sql:ro
     depends_on:
@@ -43,7 +44,7 @@ services:
         condition: service_completed_successfully
     env_file: apps/api/.env
     environment:
-      DATABASE_URL: postgres://postgres:postgres@postgres:5432/thoth
+      DATABASE_URL: postgres://api:api@postgres:5432/thoth
     volumes:
       - ./apps/api:/app/apps/api
       - /app/apps/api/node_modules
