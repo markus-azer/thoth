@@ -35,7 +35,7 @@
 		"*.{tf,tfvars}": "terraform fmt -write=true"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.6.4",
+		"@biomejs/biome": "2.6.6",
 		"@commitlint/cli": "21.2.4",
 		"@commitlint/config-conventional": "21.2.4",
 		"@railway/cli": "5.74.0",
