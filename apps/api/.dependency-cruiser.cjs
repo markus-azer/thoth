@@ -83,9 +83,9 @@ module.exports = {
 		{
 			// A second pool doubles the connections and nothing closes it.
 			name: "one-pg-pool",
-			comment: "Only the Postgres wrapper may import pg.",
+			comment: "Only the db folder may import pg.",
 			severity: "error",
-			from: { pathNot: "src/infrastructure/db/postgres\\.ts$" },
+			from: { pathNot: "^src/infrastructure/db/" },
 			// A type-only import resolves to @types/pg.
 			to: { path: "node_modules/(@types/)?pg/" },
 		},

@@ -9,7 +9,7 @@
 		"build": "next build",
 		"typecheck": "tsc --noEmit",
 		"test": "vitest run",
-		"arch": "depcruise src"
+		"arch": "node ../../scripts/arch.ts"
 	},
 	"dependencies": {
 		"@reduxjs/toolkit": "2.13.0",
@@ -27,7 +27,6 @@
 		"@types/node": "26.6.6",
 		"@types/react": "19.3.0",
 		"@types/react-dom": "19.3.0",
-		"dependency-cruiser": "18.7.2",
 		"happy-dom": "21.0.4",
 		"msw": "3.0.4",
 		"postcss": "8.5.32",

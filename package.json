@@ -38,6 +38,7 @@
 		"@commitlint/cli": "21.2.4",
 		"@commitlint/config-conventional": "21.2.4",
 		"@secretlint/secretlint-rule-preset-recommend": "13.1.0",
+		"dependency-cruiser": "18.7.2",
 		"husky": "9.1.7",
 		"jscpd": "5.4.2",
 		"knip": "6.44.1",
@@ -45,6 +46,7 @@
 		"railway": "3.16.0",
 		"sdd-spec-check": "0.1.1",
 		"secretlint": "13.1.0",
-		"turbo": "2.11.10"
+		"turbo": "2.11.10",
+		"typescript": "6.0.3"
 	}
 }
