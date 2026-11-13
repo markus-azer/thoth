@@ -10,7 +10,6 @@ related: []
 
 Parses a CORS origin config string into a value the `cors` middleware understands.
 
-
 ## Rules
 
 - [RULE-ORIGINS-001] `"*"` returns `true` (allow any origin).

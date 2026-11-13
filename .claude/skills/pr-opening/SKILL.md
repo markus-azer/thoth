@@ -12,12 +12,10 @@ Open a PR in thoth. Branch from main, stage explicitly, commit with Conventional
 - `git checkout main && git pull --ff-only origin main`.
 - `git checkout -b <type>/<topic>` (type per Conventional Commits).
 
-
 ## Commit
 
 - Stage explicitly: `git add <files>`. Review `git status` first.
 - Subject: `<type>(<scope>): <subject>`. Lowercase, no period.
-
 
 ## Push & PR
 

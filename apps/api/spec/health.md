@@ -10,7 +10,6 @@ related: []
 
 Kubernetes-style probes. `/health/live` reports the process is alive. `/health/ready` reports whether the service can accept traffic (dependencies reachable, lifecycle started).
 
-
 ## Rules
 
 - [RULE-HEALTH-001] `/health/live` returns 200 with `{ status: "ok" }`.

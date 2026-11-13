@@ -10,7 +10,6 @@ related: []
 
 Manages startup and shutdown of long-lived resources (HTTP server, database, metrics, workers). Each resource implements a `Lifecycle` interface with `start()` and `stop()`. A `LifecycleManager` owns registration order and drives the process.
 
-
 ## Rules
 
 - [RULE-LIFECYCLE-001] Services start in registration order.

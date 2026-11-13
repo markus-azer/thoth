@@ -10,7 +10,6 @@ related: []
 
 `AppError` is the base class for domain errors. It carries an `ErrorCode` (string enum), an HTTP `status`, a `message`, and optional `fieldErrors`. HTTP subclasses lock their status.
 
-
 ## Rules
 
 - [RULE-ERRORS-001] `BadRequest` sets status 400.

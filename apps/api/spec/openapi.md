@@ -10,7 +10,6 @@ related: []
 
 Serves the generated OpenAPI 3.1 document and a Swagger UI for it. Both are gated to non-prod.
 
-
 ## Rules
 
 - [RULE-OAS-001] serves the OpenAPI document at /openapi.json

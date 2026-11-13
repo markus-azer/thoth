@@ -10,6 +10,7 @@ Expose a thoth API module via HTTP. Creates the injectable router, wires DI, exp
 Expose a module via HTTP.
 
 Placeholders in this doc:
+
 - `[name]` — module name, lowercase (e.g. `auth`).
 - `[Name]` — PascalCase form (e.g. `Auth`).
 
@@ -23,17 +24,21 @@ Run `new-module` first if the module doesn't exist yet.
 ## Steps
 
 **Router** (`apps/api/src/infrastructure/http/routes/[name].router.ts`):
+
 - If exists → add new routes from spec.
 - If not → create with `@injectable()` class, inject controller, register OpenAPI paths and schemas from spec.
 
 **Barrel** (`apps/api/src/infrastructure/http/index.ts`):
+
 - Add `export { [Name]Router } from "./routes/[name].router";` alongside the existing router exports.
 
 **DI** (`apps/api/src/di/index.ts`):
+
 - Under `// [name] module`, bind the router first, above the controller and service. Final order: Router, Controller, Service. Same as health.
 - If the comment is not there (module was set up by hand), add it first, then bind.
 
 **App router** (`apps/api/src/infrastructure/http/app-router.ts`):
+
 - Inject new router in constructor.
 - Mount at `app.use("/[name]", this.[name]Router.routes);` — match existing double-quote + semicolon style.
 - If already mounted → skip.

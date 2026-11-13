@@ -10,13 +10,11 @@ related: [auth]
 
 MCP over streamable HTTP. Auth is per tool call, not per mount.
 
-
 ## Outputs
 
 - A tool call returns a tool result or a tool-level error (e.g. NOT_FOUND, INVALID_ARGUMENT), always over 200.
 - A private tool call on bare `/mcp` with no valid bearer returns 401.
 - A private tool call on `/mcp/:handle` returns 404.
-
 
 ## Rules
 

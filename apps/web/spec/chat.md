@@ -10,7 +10,6 @@ related: [web]
 
 A visitor asks questions about the site owner. The agent answers from the owner's bio.
 
-
 ## Rules
 
 - [RULE-CHAT-001] A visitor sends a long message → it is trimmed and cut to 500 characters.

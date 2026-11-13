@@ -10,10 +10,10 @@ related: [mcp, database]
 
 Three MCP tools and one HTTP route. `get_bio` (public) answers who a bio belongs to. `create_bio` and `update_bio` (private) let the logged-in owner write their own bio. `GET /bio/:handle` (public) returns a bio as JSON.
 
-
 ## Inputs
 
 `create_bio` and `update_bio`:
+
 - `handle: string`, max 60 characters, lowercase letters and digits, with hyphens only between them (not leading or trailing)
 - `name: string`, max 100 characters
 - `headline: string`, max 200 characters
@@ -21,31 +21,33 @@ Three MCP tools and one HTTP route. `get_bio` (public) answers who a bio belongs
 
 Each field is trimmed before checks.
 
-
 ## Outputs
 
 Semantic states, not the literal MCP response.
 
 `get_bio`:
+
 - FOUND. The tool returns the bio: name, headline, and about.
 - NOT_FOUND. No bio matches the lookup.
 
 `create_bio`:
+
 - CREATED. The tool returns a confirmation.
 - ALREADY_EXISTS. The caller already owns a bio.
 - HANDLE_TAKEN. Another user already owns that handle.
 - INVALID_INPUT. Schema validation rejects the call before the handler runs.
 
 `update_bio`:
+
 - UPDATED. The tool returns a confirmation.
 - NOT_FOUND. The caller owns no bio yet.
 - HANDLE_TAKEN. Another user already owns that handle.
 - INVALID_INPUT. Schema validation rejects the call before the handler runs.
 
 `GET /bio/:handle`:
+
 - FOUND. 200 with `{ name, headline, about }`.
 - NOT_FOUND. 404 with the standard error body.
-
 
 ## Rules
 

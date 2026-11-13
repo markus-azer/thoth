@@ -10,7 +10,6 @@ related: [mcp, bio, query, database]
 
 A public MCP tool `submit_feedback` on `/mcp/:handle`. Anyone leaves a message for the bio's owner, who reads it through [query](query.md).
 
-
 ## Inputs
 
 - `message: string`
@@ -18,14 +17,13 @@ A public MCP tool `submit_feedback` on `/mcp/:handle`. Anyone leaves a message f
 - `topic: string` _(optional)_
 - `email: string` _(optional)_
 
-
 ## Outputs
 
 Semantic states, not the literal MCP response.
+
 - ACKNOWLEDGED. A text confirmation.
 - INVALID_INPUT. Schema validation rejects the call.
 - NOT_FOUND. No handle, or the handle matches no bio.
-
 
 ## Rules
 

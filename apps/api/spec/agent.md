@@ -10,18 +10,16 @@ related: [mcp, feedback, bio]
 
 The chat agent answers a visitor's message on behalf of the thread owner. It can call the public MCP tools in-process.
 
-
 ## Inputs
 
 - `threadId` and `message`. The agent loads the thread, the owner's `handle` and the history itself.
 
-
 ## Outputs
 
 Semantic states, not the literal HTTP response.
+
 - REPLIED. The agent returns a text reply.
 - MODEL_UNAVAILABLE. The model call failed.
-
 
 ## Rules
 

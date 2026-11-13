@@ -2,7 +2,6 @@
 
 Records what each workspace does. Source of truth for behavior. See [doc-types](../decision-log/doc-types.md) for boundaries.
 
-
 ## Rules
 
 - One spec per module.
@@ -20,7 +19,6 @@ Records what each workspace does. Source of truth for behavior. See [doc-types](
 - `Inputs`, `Outputs`, `Examples`, `API` sections are optional.
 - Drop the sections a module doesn't need.
 
-
 ## Frontmatter
 
 ```yaml
@@ -34,11 +32,9 @@ related: [other-spec]
 
 `status`: `current | draft | deprecated`.
 
-
 ## Template
 
 See [TEMPLATE.md](TEMPLATE.md).
-
 
 ## Check
 

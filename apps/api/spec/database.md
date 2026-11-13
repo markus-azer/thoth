@@ -10,7 +10,6 @@ related: []
 
 Owns the Postgres `pg.Pool`.
 
-
 ## Rules
 
 - [RULE-DB-001] `start()` runs `SELECT 1`. If it errors, start fails.
