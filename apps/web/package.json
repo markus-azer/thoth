@@ -12,7 +12,7 @@
 		"arch": "node ../../scripts/arch.ts"
 	},
 	"dependencies": {
-		"@reduxjs/toolkit": "2.13.0",
+		"@reduxjs/toolkit": "2.14.0",
 		"@thoth/ui": "workspace:*",
 		"@thoth/utils": "workspace:*",
 		"envalid": "9.0.0",
