@@ -13,6 +13,7 @@ Each module was exposed as its own subpath, such as `@thoth/utils/zod`. The root
 The reason: the root barrel pulled pino into every importer. Browser code that only needed `z` failed to bundle.
 
 Rejected:
+
 - Moving only the logger out of the root. The next server-only dependency would bring the problem back.
 - A separate package for `z`. It would add a package for one re-export.
 - `zod` directly in web. It would give two sources of `z`.

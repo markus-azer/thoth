@@ -9,6 +9,7 @@ related: [merge-strategy, pr-titles]
 # Branch protection on main
 
 Main is protected. The following must hold before any merge:
+
 - Linear history.
 - All PR conversations resolved.
 - Signed commits.

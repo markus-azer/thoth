@@ -10,18 +10,16 @@ related: [mcp, auth, feedback, database]
 
 A private MCP tool `query` on bare `/mcp`. A signed-in owner runs read-only SQL over their own data. The database enforces isolation, since an LLM writes the SQL.
 
-
 ## Inputs
 
 - `sql: string`
 
-
 ## Outputs
 
 Semantic states, not the literal MCP response.
+
 - ROWS. The result rows.
 - QUERY_ERROR. A tool-level error with the database message.
-
 
 ## Rules
 
@@ -37,7 +35,6 @@ Semantic states, not the literal MCP response.
 - [RULE-QRY-010] A table that is not exposed → QUERY_ERROR.
 - [RULE-QRY-011] Any database error → QUERY_ERROR, still 200.
 - [RULE-QRY-012] The app connects as a non-superuser role.
-
 
 ## Exposed
 

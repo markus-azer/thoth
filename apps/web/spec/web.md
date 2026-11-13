@@ -10,7 +10,6 @@ related: [links]
 
 The owner's public personal website: one page with their bio and links.
 
-
 ## Rules
 
 - [RULE-WEB-001] The platform checks `/health` → it gets 200 with `{ status: "ok" }`.
