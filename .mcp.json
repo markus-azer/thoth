@@ -39,6 +39,10 @@
 		"thoth-remote": {
 			"type": "http",
 			"url": "https://markus.up.railway.app/mcp"
+		},
+		"cubic": {
+			"type": "http",
+			"url": "https://www.cubic.dev/api/mcp"
 		}
 	}
 }
