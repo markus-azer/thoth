@@ -26,6 +26,7 @@
 		"compose:up": "docker compose up -d --wait",
 		"compose:watch": "docker compose watch",
 		"compose:down": "docker compose down -v",
+		"db:tunnel": "env -u RAILWAY_TOKEN railway connect Postgres --tunnel-only --port 15432",
 		"prepare": "husky"
 	},
 	"lint-staged": {
