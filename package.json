@@ -43,7 +43,7 @@
 		"dependency-cruiser": "18.7.2",
 		"husky": "9.1.7",
 		"jscpd": "5.4.2",
-		"knip": "6.44.1",
+		"knip": "6.44.2",
 		"lint-staged": "17.6.0",
 		"railway": "3.16.0",
 		"sdd-spec-check": "0.1.1",
