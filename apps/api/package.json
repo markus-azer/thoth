@@ -21,7 +21,7 @@
 		"@langchain/openrouter": "0.4.23",
 		"@modelcontextprotocol/sdk": "1.32.2",
 		"@opentelemetry/auto-instrumentations-node": "0.83.0",
-		"@opentelemetry/sdk-node": "0.301.0",
+		"@opentelemetry/sdk-node": "0.301.1",
 		"@promster/express": "16.0.1",
 		"@thoth/core": "workspace:*",
 		"@thoth/utils": "workspace:*",
