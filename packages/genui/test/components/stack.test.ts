@@ -8,6 +8,22 @@ const accepts = (children: unknown[]) => {
 };
 
 describe("Stack component", () => {
+	it("accepts a Suggestions and a Link", () => {
+		const link = { label: "Site", url: "https://example.com" };
+
+		const valid = accepts([suggestions, link]);
+
+		expect(valid).toBe(true);
+	});
+
+	it("accepts the most children it allows", () => {
+		const children = Array.from({ length: MAX_CHILDREN }, () => suggestions);
+
+		const valid = accepts(children);
+
+		expect(valid).toBe(true);
+	});
+
 	it("RULE-STACK-001: A `Stack` with no children is invalid", () => {
 		const valid = accepts([]);
 

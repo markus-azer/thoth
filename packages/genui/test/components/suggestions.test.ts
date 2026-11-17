@@ -10,6 +10,22 @@ const accepts = (questions: string[]) => {
 };
 
 describe("Suggestions component", () => {
+	it("accepts the most questions it allows", () => {
+		const questions = Array.from({ length: MAX_QUESTIONS }, () => "Q?");
+
+		const valid = accepts(questions);
+
+		expect(valid).toBe(true);
+	});
+
+	it("accepts a question of the longest length it allows", () => {
+		const longest = "x".repeat(MAX_QUESTION_LENGTH);
+
+		const valid = accepts([longest]);
+
+		expect(valid).toBe(true);
+	});
+
 	it("RULE-SUGGESTIONS-001: A `Suggestions` with no questions is invalid", () => {
 		const valid = accepts([]);
 

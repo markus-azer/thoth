@@ -8,6 +8,20 @@ const accepts = (label: string, url: string) => {
 };
 
 describe("Link component", () => {
+	it("accepts a short label and an https url", () => {
+		const valid = accepts("Site", HTTPS_URL);
+
+		expect(valid).toBe(true);
+	});
+
+	it("accepts a label of the longest length it allows", () => {
+		const longest = "x".repeat(MAX_LABEL_LENGTH);
+
+		const valid = accepts(longest, HTTPS_URL);
+
+		expect(valid).toBe(true);
+	});
+
 	it("RULE-LINK-001: A `Link` url must be https", () => {
 		const urls = ["http://example.com", "javascript:alert(1)", "example.com"];
 
