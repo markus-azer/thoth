@@ -12,11 +12,11 @@ A program is the text the model writes. It is checked against the library.
 
 ## Rules
 
-- [RULE-VALIDATE-001] A program that uses only library components is valid.
+- [RULE-VALIDATE-001] A program that uses only library components with valid props is valid.
 - [RULE-VALIDATE-002] A program that uses an unknown component is invalid.
 - [RULE-VALIDATE-003] An empty program is invalid.
 - [RULE-VALIDATE-004] A program without a `root` is invalid.
-- [RULE-VALIDATE-005] A program whose `root` is not a `Stack` is invalid.
+- [RULE-VALIDATE-005] A program whose `root` is not the library's root component is invalid.
 - [RULE-VALIDATE-006] A prop of the wrong type is invalid.
 - [RULE-VALIDATE-007] A program that refers to a statement it never defines is invalid.
 - [RULE-VALIDATE-008] A program with a statement that nothing uses is invalid.
@@ -26,3 +26,4 @@ A program is the text the model writes. It is checked against the library.
 - [RULE-VALIDATE-012] A problem inside a child is reported once.
 - [RULE-VALIDATE-013] A truncated program is invalid.
 - [RULE-VALIDATE-014] A library without a root component accepts any root.
+- [RULE-VALIDATE-015] A prop that breaks a schema limit is invalid.

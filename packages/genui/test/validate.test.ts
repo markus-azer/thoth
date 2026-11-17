@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { createValidator, isValidProgram, programProblems } from "../src/index";
 
 describe("generated UI validation", () => {
-	it("RULE-VALIDATE-001: A program that uses only library components is valid", () => {
+	it("RULE-VALIDATE-001: A program that uses only library components with valid props is valid", () => {
 		const program = [
 			"root = Stack([next])",
 			'next = Suggestions(["What is thoth?", "Who is the owner?"])',
@@ -35,7 +35,7 @@ describe("generated UI validation", () => {
 		expect(valid).toBe(false);
 	});
 
-	it("RULE-VALIDATE-005: A program whose `root` is not a `Stack` is invalid", () => {
+	it("RULE-VALIDATE-005: A program whose `root` is not the library's root component is invalid", () => {
 		const valid = isValidProgram('root = Suggestions(["Q?"])');
 
 		expect(valid).toBe(false);
@@ -152,5 +152,19 @@ describe("generated UI validation", () => {
 
 		expect(noteProblems).toEqual([]);
 		expect(emptyProblems).not.toEqual([]);
+	});
+
+	it("RULE-VALIDATE-015: A prop that breaks a schema limit is invalid", () => {
+		const tooManyQuestions = ["1?", "2?", "3?", "4?", "5?"];
+		const programs = [
+			`root = Stack([a])\na = Suggestions(${JSON.stringify(tooManyQuestions)})`,
+			'root = Stack([a])\na = Link("Site", "http://example.com")',
+		];
+
+		for (const program of programs) {
+			const valid = isValidProgram(program);
+
+			expect(valid).toBe(false);
+		}
 	});
 });
