@@ -126,4 +126,15 @@ describe("generated UI validation", () => {
 
 		expect(problems).toEqual(["Link/url: A url must start with https"]);
 	});
+
+	it("RULE-VALIDATE-013: A truncated program is invalid", () => {
+		const program = [
+			"root = Stack([next])",
+			'next = Suggestions(["What is thoth?"]',
+		].join("\n");
+
+		const problems = programProblems(program);
+
+		expect(problems).toContain("program is incomplete");
+	});
 });

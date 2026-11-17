@@ -4,6 +4,7 @@ import { schemaProblems } from "./schema-problems";
 
 const UNDEFINED_MESSAGE = "is used but never defined";
 const UNUSED_MESSAGE = "is defined but never used";
+const INCOMPLETE_MESSAGE = "program is incomplete";
 
 export const createValidator = (library: Library) => {
 	const parser = createParser(library.toJSONSchema(), library.root);
@@ -15,6 +16,7 @@ export const createValidator = (library: Library) => {
 
 		const isRoot = root?.typeName === library.root;
 		const rootProblems = isRoot ? [] : [`root must be a ${library.root}`];
+		const incompleteProblems = meta.incomplete ? [INCOMPLETE_MESSAGE] : [];
 
 		const parseProblems = meta.errors.map(({ component, path, message }) =>
 			line(`${component}${path}`, message),
@@ -28,6 +30,7 @@ export const createValidator = (library: Library) => {
 
 		return [
 			...rootProblems,
+			...incompleteProblems,
 			...parseProblems,
 			...undefinedProblems,
 			...unusedProblems,
