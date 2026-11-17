@@ -2,6 +2,7 @@ packages:
   - apps/*
   - packages/*
 allowBuilds:
+  "@openuidev/lang-core": false
   "@railway/cli": true
   "@scarf/scarf": false
   esbuild: true

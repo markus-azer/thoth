@@ -1,0 +1,30 @@
+{
+	"name": "@thoth/genui",
+	"version": "0.0.0",
+	"private": true,
+	"license": "MIT",
+	"type": "module",
+	"exports": {
+		".": {
+			"production": "./dist/index.js",
+			"default": "./src/index.ts"
+		}
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "tsup src/index.ts --format esm --sourcemap --clean",
+		"typecheck": "tsc --noEmit",
+		"test": "vitest run"
+	},
+	"dependencies": {
+		"@openuidev/lang-core": "1.1.1",
+		"@thoth/utils": "workspace:*"
+	},
+	"devDependencies": {
+		"tsup": "9.0.0",
+		"typescript": "7.0.2",
+		"vitest": "5.1.0"
+	}
+}
