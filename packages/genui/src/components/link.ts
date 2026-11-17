@@ -7,6 +7,7 @@ const HTTPS_ONLY = /^https$/;
 
 const LabelSchema = z
 	.string()
+	.trim()
 	.min(1, "A label cannot be empty")
 	.max(MAX_LABEL_LENGTH, `A label has at most ${MAX_LABEL_LENGTH} characters`);
 

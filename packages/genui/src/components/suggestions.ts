@@ -6,6 +6,7 @@ export const MAX_QUESTION_LENGTH = 80;
 
 const QuestionSchema = z
 	.string()
+	.trim()
 	.min(1, "A question cannot be empty")
 	.max(
 		MAX_QUESTION_LENGTH,

@@ -24,10 +24,14 @@ describe("Suggestions component", () => {
 		expect(valid).toBe(false);
 	});
 
-	it("RULE-SUGGESTIONS-003: An empty question is invalid", () => {
-		const valid = accepts([""]);
+	it("RULE-SUGGESTIONS-003: An empty or blank question is invalid", () => {
+		const questions = ["", "   "];
 
-		expect(valid).toBe(false);
+		for (const question of questions) {
+			const valid = accepts([question]);
+
+			expect(valid).toBe(false);
+		}
 	});
 
 	it("RULE-SUGGESTIONS-004: A question longer than 80 characters is invalid", () => {

@@ -18,10 +18,14 @@ describe("Link component", () => {
 		}
 	});
 
-	it("RULE-LINK-002: An empty label is invalid", () => {
-		const valid = accepts("", HTTPS_URL);
+	it("RULE-LINK-002: An empty or blank label is invalid", () => {
+		const labels = ["", "   "];
 
-		expect(valid).toBe(false);
+		for (const label of labels) {
+			const valid = accepts(label, HTTPS_URL);
+
+			expect(valid).toBe(false);
+		}
 	});
 
 	it("RULE-LINK-003: A label longer than 40 characters is invalid", () => {
