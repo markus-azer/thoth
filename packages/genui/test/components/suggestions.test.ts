@@ -1,0 +1,40 @@
+import { describe, expect, it } from "vitest";
+import {
+	MAX_QUESTION_LENGTH,
+	MAX_QUESTIONS,
+	Suggestions,
+} from "../../src/components/suggestions";
+
+const accepts = (questions: string[]) => {
+	return Suggestions.props.safeParse({ questions }).success;
+};
+
+describe("Suggestions component", () => {
+	it("RULE-SUGGESTIONS-001: A `Suggestions` with no questions is invalid", () => {
+		const valid = accepts([]);
+
+		expect(valid).toBe(false);
+	});
+
+	it("RULE-SUGGESTIONS-002: A `Suggestions` with more than 4 questions is invalid", () => {
+		const questions = Array.from({ length: MAX_QUESTIONS + 1 }, () => "Q?");
+
+		const valid = accepts(questions);
+
+		expect(valid).toBe(false);
+	});
+
+	it("RULE-SUGGESTIONS-003: An empty question is invalid", () => {
+		const valid = accepts([""]);
+
+		expect(valid).toBe(false);
+	});
+
+	it("RULE-SUGGESTIONS-004: A question longer than 80 characters is invalid", () => {
+		const tooLong = "x".repeat(MAX_QUESTION_LENGTH + 1);
+
+		const valid = accepts([tooLong]);
+
+		expect(valid).toBe(false);
+	});
+});
