@@ -137,4 +137,20 @@ describe("generated UI validation", () => {
 
 		expect(problems).toContain("program is incomplete");
 	});
+
+	it("RULE-VALIDATE-014: A library without a root component accepts any root", () => {
+		const Note = defineComponent({
+			name: "Note",
+			description: "A note.",
+			props: z.object({ text: z.string() }),
+			component: null,
+		});
+		const validate = createValidator(createLibrary({ components: [Note] }));
+
+		const noteProblems = validate('root = Note("hi")');
+		const emptyProblems = validate("");
+
+		expect(noteProblems).toEqual([]);
+		expect(emptyProblems).not.toEqual([]);
+	});
 });

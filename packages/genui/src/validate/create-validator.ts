@@ -1,5 +1,6 @@
 import { createParser, type Library } from "@openuidev/lang-core";
 import { line } from "./line";
+import { rootProblems } from "./root-problems";
 import { schemaProblems } from "./schema-problems";
 
 const UNDEFINED_MESSAGE = "is used but never defined";
@@ -14,8 +15,6 @@ export const createValidator = (library: Library) => {
 	return (program: string): string[] => {
 		const { root, meta } = parser.parse(program);
 
-		const isRoot = root?.typeName === library.root;
-		const rootProblems = isRoot ? [] : [`root must be a ${library.root}`];
 		const incompleteProblems = meta.incomplete ? [INCOMPLETE_MESSAGE] : [];
 
 		const parseProblems = meta.errors.map(({ component, path, message }) =>
@@ -29,7 +28,7 @@ export const createValidator = (library: Library) => {
 		);
 
 		return [
-			...rootProblems,
+			...rootProblems(library, root),
 			...incompleteProblems,
 			...parseProblems,
 			...undefinedProblems,

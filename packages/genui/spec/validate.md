@@ -25,3 +25,4 @@ A program is the text the model writes. It is checked against the library.
 - [RULE-VALIDATE-011] Each problem names what is wrong.
 - [RULE-VALIDATE-012] A problem inside a child is reported once.
 - [RULE-VALIDATE-013] A truncated program is invalid.
+- [RULE-VALIDATE-014] A library without a root component accepts any root.
