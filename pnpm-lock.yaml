@@ -205,7 +205,7 @@ overrides:
   undici: 8.12.4
   fast-uri: 4.2.3
   ip-address: 10.7.6
-  systeminformation: 5.33.19
+  systeminformation: 5.33.21
 
 importers:
 
@@ -6086,8 +6086,8 @@ packages:
     peerDependencies:
       express: '>=4.0.0 || >=5.0.0-beta'
 
-  systeminformation@5.33.19:
-    resolution: {integrity: sha512-Zm7wGeCG7PqfvzegMJIzrxICopWqYCeLATVmvxOOci1isLcNVKgY4Fr0hhYQzvc7cgtK3377jQVChTFAnznOiA==}
+  systeminformation@5.33.21:
+    resolution: {integrity: sha512-bkG5ftzjV7XahdI5tTHReUeJYSJLxJOGU3QDFhTvJDBKgEOCDehcsVXYPW/NY60QqQYGv5OI+izJ6uGTVCpK2w==}
     engines: {node: '>=10.0.0'}
     os: [darwin, linux, win32, freebsd, openbsd, netbsd, sunos, android]
     hasBin: true
@@ -6983,7 +6983,7 @@ snapshots:
       object-treeify: 1.1.33
       open: 8.4.2
       picomatch: 4.0.7
-      systeminformation: 5.33.19
+      systeminformation: 5.33.21
       undici: 8.12.4
       which: 4.0.0
       yocto-spinner: 1.2.2
@@ -7799,7 +7799,7 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.10.0
       '@opentelemetry/instrumentation': 0.301.2(@opentelemetry/api@1.10.0)(supports-color@10.2.2)
-      systeminformation: 5.33.19
+      systeminformation: 5.33.21
     transitivePeerDependencies:
       - supports-color
 
@@ -12079,7 +12079,7 @@ snapshots:
       express: 5.3.0(supports-color@10.2.2)
       swagger-ui-dist: 5.32.8
 
-  systeminformation@5.33.19: {}
+  systeminformation@5.33.21: {}
 
   table@6.9.0:
     dependencies:
