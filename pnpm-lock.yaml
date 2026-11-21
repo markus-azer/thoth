@@ -242,8 +242,8 @@ importers:
         specifier: 17.6.0
         version: 17.6.0
       railway:
-        specifier: 3.16.0
-        version: 3.16.0
+        specifier: 3.17.0
+        version: 3.17.0
       sdd-spec-check:
         specifier: 0.1.1
         version: 0.1.1
@@ -5653,8 +5653,8 @@ packages:
       '@types/react-dom':
         optional: true
 
-  railway@3.16.0:
-    resolution: {integrity: sha512-//vKXubZpO07iJgNyoS+9Ee3pKk+3wE+0KAJPI28GuSKqXG30UeWT4xBkkd6TYuZ4HNh7QPvkVR72Swbmq5kXw==}
+  railway@3.17.0:
+    resolution: {integrity: sha512-bVyzBcLUJfKuSvYT+8MFg0p2AUzylSdjJoCWpx2uk05p6DoAnhrq0Xm4VIoJ+gZ7BGI8YddYlEpp4rgsZIr8Ww==}
     engines: {node: '>=22'}
     hasBin: true
 
@@ -11521,7 +11521,7 @@ snapshots:
       '@types/react': 19.3.0
       '@types/react-dom': 19.3.0(@types/react@19.3.0)
 
-  railway@3.16.0:
+  railway@3.17.0:
     dependencies:
       '@graphql-typed-document-node/core': 3.2.0(graphql@16.14.2)
       graphql: 16.14.2
