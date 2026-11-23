@@ -30,7 +30,9 @@ describe("chat slice", () => {
 
 		expect(sent.draft).toBe("");
 		expect(isPending(sent)).toBe(true);
-		expect(visibleTurns(sent)).toEqual([{ role: "visitor", text: "hi" }]);
+		expect(visibleTurns(sent)).toEqual([
+			{ id: expect.any(String), role: "visitor", text: "hi" },
+		]);
 	});
 
 	it("RULE-CHAT-013: The reply fails → the message returns to the input and the visitor is told.", () => {
@@ -121,8 +123,8 @@ describe("chat slice", () => {
 		expect(saved?.id).toBe("a");
 		expect(saved?.threadId).toBe(threadId);
 		expect(saved?.turns).toEqual([
-			{ role: "visitor", text: "hi" },
-			{ role: "agent", text: "Hello" },
+			{ id: expect.any(String), role: "visitor", text: "hi" },
+			{ id: expect.any(String), role: "agent", text: "Hello" },
 		]);
 	});
 });
