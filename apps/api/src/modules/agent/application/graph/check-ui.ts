@@ -10,6 +10,7 @@ const urlsIn = (text: string): string[] => {
 	return found.map((url) => url.replace(TRAILING_PUNCTUATION, ""));
 };
 
+// TODO: compare parsed Link.url values. Regex over the program truncates URLs.
 const unknownLinks = (program: UiProgram, answer: string): string[] => {
 	const allowed = new Set(urlsIn(answer));
 
