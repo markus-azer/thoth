@@ -16,7 +16,8 @@ const NO_UI_PATTERN = new RegExp(`^${NO_UI}\\.?$`, "i");
 
 const UI_TASK = `Write small UI to show under the answer, only if it clearly helps. If no UI helps, output exactly the single word ${NO_UI}.`;
 
-const FIX_REQUEST = "Fix these problems in your last program:";
+const LAST_PROGRAM = "Your last program:";
+const FIX_REQUEST = "Fix these problems in it:";
 
 const WRITE_SYSTEM = genuiPrompt(
 	"You write small UI for a chat. Output only OpenUI Lang.",
@@ -32,8 +33,13 @@ const writeUi = async (
 		UI_TASK,
 	];
 
-	if (uiDraft.problems.length > 0) {
-		prompt.push(FIX_REQUEST, ...uiDraft.problems);
+	if (uiDraft.rejected) {
+		prompt.push(
+			LAST_PROGRAM,
+			uiDraft.rejected,
+			FIX_REQUEST,
+			...uiDraft.problems,
+		);
 	}
 
 	const text = await ui.write({
@@ -53,10 +59,12 @@ export const makeComposeNode = (ui: UiModel) => async (state: AgentState) => {
 	if (wantsNoUi) return { uiDraft: { problems: [], attempts } };
 
 	const problems = uiProblems(program, state.reply.text);
+	const valid = problems.length === 0;
 
 	return {
 		uiDraft: {
-			program: problems.length === 0 ? program : undefined,
+			program: valid ? program : undefined,
+			rejected: valid ? undefined : program,
 			problems,
 			attempts,
 		},

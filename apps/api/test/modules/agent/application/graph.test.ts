@@ -141,7 +141,9 @@ describe("agent graph", () => {
 
 			const { uiDraft } = await run(answers(), undefined, makeUi(write));
 
-			expect(write.mock.calls[1]?.[0].prompt).toContain("Fix these problems");
+			const retryPrompt = write.mock.calls[1]?.[0].prompt;
+			expect(retryPrompt).toContain("Your last program:\nnot a program");
+			expect(retryPrompt).toContain("Fix these problems");
 			expect(uiDraft.program).toBe(SUGGESTIONS);
 		});
 
