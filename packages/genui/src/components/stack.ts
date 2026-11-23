@@ -1,13 +1,14 @@
 import { defineComponent } from "@openuidev/lang-core";
 import { z } from "@thoth/utils/zod";
-import { Link } from "./link";
-import { Suggestions } from "./suggestions";
+import { CONTENT_COMPONENTS } from "./content";
 
 export const MAX_CHILDREN = 6;
 
+const CHILD_NAMES = CONTENT_COMPONENTS.map(({ name }) => name).join(" or ");
+
 const ChildSchema = z.union(
-	[Suggestions.ref, Link.ref],
-	"A child must be a valid Suggestions or Link",
+	CONTENT_COMPONENTS.map(({ ref }) => ref),
+	`A child must be a valid ${CHILD_NAMES}`,
 );
 
 const ChildrenSchema = z
