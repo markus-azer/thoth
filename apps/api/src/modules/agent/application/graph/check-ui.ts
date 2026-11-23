@@ -2,7 +2,7 @@ import { programProblems } from "@thoth/genui";
 import type { UiProgram } from "~/modules/agent/application/ports/index";
 
 const URL_PATTERN = /https:\/\/[^\s)\]>"']+/g;
-const TRAILING_PUNCTUATION = /[.,;:!?]+$/;
+const TRAILING_PUNCTUATION = /(?<![.,;:!?])[.,;:!?]+$/;
 
 const urlsIn = (text: string): string[] => {
 	const found = text.match(URL_PATTERN) ?? [];
