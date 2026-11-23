@@ -289,6 +289,9 @@ importers:
       '@thoth/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@thoth/genui':
+        specifier: workspace:*
+        version: link:../../packages/genui
       '@thoth/utils':
         specifier: workspace:*
         version: link:../../packages/utils
