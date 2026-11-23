@@ -45,7 +45,7 @@
 		"jscpd": "5.4.3",
 		"knip": "6.45.1",
 		"lint-staged": "17.6.0",
-		"railway": "3.16.0",
+		"railway": "3.17.0",
 		"sdd-spec-check": "0.1.1",
 		"secretlint": "13.1.0",
 		"turbo": "2.11.11",
