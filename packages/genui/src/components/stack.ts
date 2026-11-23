@@ -18,7 +18,8 @@ const ChildrenSchema = z
 
 export const Stack = defineComponent({
 	name: "Stack",
-	description: "Vertical layout that holds the other components.",
+	description:
+		"Vertical layout that holds the other components. Use it as the root of every program.",
 	props: z.object({
 		children: ChildrenSchema,
 	}),
