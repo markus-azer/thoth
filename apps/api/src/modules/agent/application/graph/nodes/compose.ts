@@ -11,8 +11,10 @@ import type { AgentState } from "../state";
 const MAX_UI_ATTEMPTS = 2;
 const CODE_FENCE = /```[a-z]*\n?/g;
 
-const UI_TASK =
-	"Write small UI to show under the answer, only if it clearly helps. If no UI helps, output nothing.";
+const NO_UI = "NONE";
+const NO_UI_PATTERN = new RegExp(`^${NO_UI}\\.?$`, "i");
+
+const UI_TASK = `Write small UI to show under the answer, only if it clearly helps. If no UI helps, output exactly the single word ${NO_UI}.`;
 
 const FIX_REQUEST = "Fix these problems in your last program:";
 
@@ -46,7 +48,9 @@ export const makeComposeNode = (ui: UiModel) => async (state: AgentState) => {
 	const program = await writeUi(ui, state);
 	const attempts = state.uiDraft.attempts + 1;
 
-	if (program === "") return { uiDraft: { problems: [], attempts } };
+	const wantsNoUi = program === "" || NO_UI_PATTERN.test(program);
+
+	if (wantsNoUi) return { uiDraft: { problems: [], attempts } };
 
 	const problems = uiProblems(program, state.reply.text);
 

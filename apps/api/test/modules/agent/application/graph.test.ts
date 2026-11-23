@@ -104,6 +104,15 @@ describe("agent graph", () => {
 			expect(uiDraft.program).toBeUndefined();
 		});
 
+		it("adds no ui and does not retry when the model says NONE", async () => {
+			const write = vi.fn().mockResolvedValue("NONE");
+
+			const { uiDraft } = await run(answers(), undefined, makeUi(write));
+
+			expect(uiDraft.program).toBeUndefined();
+			expect(write).toHaveBeenCalledTimes(1);
+		});
+
 		it("uses a valid program that mixes components", async () => {
 			const write = vi.fn().mockResolvedValue(`\`\`\`\n${MIXED}\n\`\`\``);
 
