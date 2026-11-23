@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { MessageList } from "~/features/chat/components/message-list";
 
 const render = (props: {
-	turns?: { role: "visitor" | "agent"; text: string }[];
+	turns?: { id: string; role: "visitor" | "agent"; text: string }[];
 	pending?: boolean;
 	notice?: string | null;
 }) => {
@@ -28,8 +28,8 @@ describe("chat message list", () => {
 	it("shows the turns in place of the starters", () => {
 		const html = render({
 			turns: [
-				{ role: "visitor", text: "hi" },
-				{ role: "agent", text: "Hello" },
+				{ id: "1", role: "visitor", text: "hi" },
+				{ id: "2", role: "agent", text: "Hello" },
 			],
 		});
 
