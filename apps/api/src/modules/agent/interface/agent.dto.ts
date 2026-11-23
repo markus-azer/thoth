@@ -3,7 +3,7 @@ import { z } from "@thoth/utils/zod";
 export const ThreadOutputSchema = z.object({ id: z.uuid() }).openapi("Thread");
 
 export const ReplyOutputSchema = z
-	.object({ reply: z.string() })
+	.object({ reply: z.string(), ui: z.string().optional() })
 	.openapi("Reply");
 
 export type ThreadOutputDTO = z.infer<typeof ThreadOutputSchema>;
