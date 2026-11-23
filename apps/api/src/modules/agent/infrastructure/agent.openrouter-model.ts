@@ -15,6 +15,7 @@ export class OpenRouterAgentModel implements AgentModel {
 	private readonly model = new ChatOpenRouter({
 		model: env.LLM_MODEL,
 		apiKey: env.OPENROUTER_API_KEY,
+		modelKwargs: { reasoning: { effort: "none" } },
 	});
 
 	async answer({

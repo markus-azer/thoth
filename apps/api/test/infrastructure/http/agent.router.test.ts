@@ -18,7 +18,7 @@ const setup = () => {
 			.mockResolvedValue(
 				new Thread({ id: threadId, bioId, createdAt: new Date() }),
 			),
-		ask: vi.fn().mockResolvedValue("fine"),
+		ask: vi.fn().mockResolvedValue({ reply: "fine" }),
 	};
 	const app = express();
 	app.use(express.json());

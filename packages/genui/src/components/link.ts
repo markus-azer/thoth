@@ -18,7 +18,8 @@ const UrlSchema = z.url({
 
 export const Link = defineComponent({
 	name: "Link",
-	description: "A link to a web page, shown with a short label.",
+	description:
+		"A link to a web page, shown with a short label. Only for a URL that appears in the answer.",
 	props: z.object({
 		label: LabelSchema,
 		url: UrlSchema,

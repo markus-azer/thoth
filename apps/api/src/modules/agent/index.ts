@@ -10,6 +10,7 @@ export {
 	MessageRepository,
 	ProfileRepository,
 	ThreadRepository,
+	UiModel,
 } from "./application/ports/index";
 export { AgentController } from "./interface/agent.controller";
 export { ReplyOutputSchema, ThreadOutputSchema } from "./interface/agent.dto";

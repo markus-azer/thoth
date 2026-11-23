@@ -31,9 +31,7 @@ export class AgentController {
 			message: req.body?.message,
 		});
 
-		const reply = await this.service.ask(input);
-
-		const body: ReplyOutputDTO = { reply };
+		const body: ReplyOutputDTO = await this.service.ask(input);
 
 		res.json(body);
 	};

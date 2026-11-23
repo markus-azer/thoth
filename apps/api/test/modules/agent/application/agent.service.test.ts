@@ -39,6 +39,9 @@ const setup = () => {
 	const answer = vi.fn().mockResolvedValue(new AIMessage("fine"));
 	const close = vi.fn().mockResolvedValue(undefined);
 	const toolbox = { tools: [], close };
+	const ui = {
+		write: vi.fn().mockResolvedValue(""),
+	};
 	const open = vi.fn().mockResolvedValue(toolbox);
 	const profilesRepo = {
 		getByHandle: vi.fn().mockResolvedValue(profile),
@@ -63,6 +66,7 @@ const setup = () => {
 	};
 	const service = new AgentService(
 		{ answer },
+		ui,
 		{ open },
 		profilesRepo,
 		threadsRepo,
@@ -111,7 +115,7 @@ describe("AgentService", () => {
 
 			const reply = await service.ask({ threadId, message: "and now?" });
 
-			expect(reply).toBe("fine");
+			expect(reply).toEqual({ reply: "fine", ui: undefined });
 		});
 
 		it("RULE-AGENT-003: The owner's bio reaches the agent through tools, not the prompt.", async () => {

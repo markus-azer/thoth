@@ -3,3 +3,4 @@ export { AgentModel, type ModelInput } from "./model";
 export { type Profile, ProfileRepository } from "./profile.repository";
 export { ThreadRepository } from "./thread.repository";
 export { AgentTools, type Toolbox } from "./tools";
+export { UiModel, type UiProgram, type WriteInput } from "./ui-model";

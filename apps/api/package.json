@@ -24,6 +24,7 @@
 		"@opentelemetry/sdk-node": "0.301.2",
 		"@promster/express": "16.0.1",
 		"@thoth/core": "workspace:*",
+		"@thoth/genui": "workspace:*",
 		"@thoth/utils": "workspace:*",
 		"better-auth": "1.7.23",
 		"cors": "2.8.6",

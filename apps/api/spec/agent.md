@@ -18,7 +18,7 @@ The chat agent answers a visitor's message on behalf of the thread owner. It can
 
 Semantic states, not the literal HTTP response.
 
-- REPLIED. The agent returns a text reply.
+- REPLIED. The agent returns a text reply and, sometimes, a UI program.
 - MODEL_UNAVAILABLE. The model call failed.
 
 ## Rules
@@ -28,3 +28,7 @@ Semantic states, not the literal HTTP response.
 - [RULE-AGENT-003] The owner's bio reaches the agent through tools, not the prompt.
 - [RULE-AGENT-004] A tool failure still ends in REPLIED.
 - [RULE-AGENT-005] A model that ignores the five-round tool cap is stopped.
+- [RULE-AGENT-006] The model writes the UI as one program, or none when no UI helps.
+- [RULE-AGENT-007] Written UI is checked and retried once with the problems.
+- [RULE-AGENT-008] A UI that stays invalid is dropped and the reply is text only.
+- [RULE-AGENT-009] A link must point to a URL in the answer.

@@ -1,5 +1,6 @@
 import { AIMessage } from "@langchain/core/messages";
 import type { StructuredToolInterface } from "@langchain/core/tools";
+import { toolsCondition } from "@langchain/langgraph/prebuilt";
 import type { AgentModel } from "~/modules/agent/application/ports/index";
 import { INSTRUCTIONS } from "../instructions";
 import type { AgentState } from "../state";
@@ -37,3 +38,7 @@ export const makeModelNode =
 
 		return { messages: [reply], reply, toolRounds: toolRounds + 1 };
 	};
+
+export const afterModel = (state: AgentState) => {
+	return toolsCondition(state) === "tools" ? "tools" : "compose";
+};

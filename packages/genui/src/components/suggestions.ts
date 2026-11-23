@@ -20,7 +20,8 @@ const QuestionsSchema = z
 
 export const Suggestions = defineComponent({
 	name: "Suggestions",
-	description: "Short questions the visitor can click to ask next.",
+	description:
+		"2 or 3 short follow-up questions the visitor can click to ask next. Use when the answer invites a next step.",
 	props: z.object({
 		questions: QuestionsSchema,
 	}),

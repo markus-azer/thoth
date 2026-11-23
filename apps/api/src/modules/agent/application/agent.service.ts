@@ -14,15 +14,21 @@ import {
 	MessageRepository,
 	ProfileRepository,
 	ThreadRepository,
+	UiModel,
+	type UiProgram,
 } from "./ports/index";
 
 const BAD_GATEWAY = 502;
+
+export type Answer = { reply: string; ui?: UiProgram | undefined };
 
 @injectable()
 export class AgentService {
 	constructor(
 		@inject(AgentModel)
 		private readonly model: AgentModel,
+		@inject(UiModel)
+		private readonly uiModel: UiModel,
 		@inject(AgentTools)
 		private readonly tools: AgentTools,
 		@inject(ProfileRepository)
@@ -48,7 +54,7 @@ export class AgentService {
 		return thread;
 	}
 
-	async ask({ threadId, message }: AskInput): Promise<string> {
+	async ask({ threadId, message }: AskInput): Promise<Answer> {
 		const thread = await this.threadsRepo.find(threadId);
 
 		if (!thread) {
@@ -71,7 +77,10 @@ export class AgentService {
 		const past = await this.messagesRepo.list(threadId);
 
 		// TODO: a failed final model call drops the turn, so a retry can repeat write tools like submit_feedback.
-		const reply = await this.runAgent(profile.handle, [...past, question]);
+		const { reply, ui } = await this.runAgent(profile.handle, [
+			...past,
+			question,
+		]);
 
 		try {
 			const answer = new Message({
@@ -96,20 +105,20 @@ export class AgentService {
 			);
 		}
 
-		return reply;
+		return { reply, ui };
 	}
 
-	private async runAgent(handle: string, history: Message[]): Promise<string> {
+	private async runAgent(handle: string, history: Message[]): Promise<Answer> {
 		const toolbox = await this.tools.open(handle);
 
 		try {
-			const graph = buildGraph(this.model, toolbox.tools);
+			const graph = buildGraph(this.model, toolbox.tools, this.uiModel);
 
-			const { reply } = await graph.invoke({
+			const { reply, uiDraft } = await graph.invoke({
 				messages: buildMessages(history),
 			});
 
-			return reply.text;
+			return { reply: reply.text, ui: uiDraft.program };
 		} finally {
 			await toolbox.close();
 		}
