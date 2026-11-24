@@ -17,7 +17,7 @@
 		"@asteasolutions/zod-to-openapi": "9.1.0",
 		"@better-auth/oauth-provider": "1.7.25",
 		"@langchain/core": "1.4.1",
-		"@langchain/langgraph": "1.7.4",
+		"@langchain/langgraph": "1.7.5",
 		"@langchain/openrouter": "0.4.25",
 		"@modelcontextprotocol/sdk": "1.32.2",
 		"@opentelemetry/auto-instrumentations-node": "0.83.1",
