@@ -16,7 +16,11 @@ const QuestionSchema = z
 const QuestionsSchema = z
 	.array(QuestionSchema)
 	.min(1, "Give at least 1 question")
-	.max(MAX_QUESTIONS, `Give at most ${MAX_QUESTIONS} questions`);
+	.max(MAX_QUESTIONS, `Give at most ${MAX_QUESTIONS} questions`)
+	.refine(
+		(questions) => new Set(questions).size === questions.length,
+		"Give each question once",
+	);
 
 export const Suggestions = defineComponent({
 	name: "Suggestions",

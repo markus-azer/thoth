@@ -16,3 +16,4 @@ Questions the visitor can click to ask next.
 - [RULE-SUGGESTIONS-002] A `Suggestions` with more than 4 questions is invalid.
 - [RULE-SUGGESTIONS-003] An empty or blank question is invalid.
 - [RULE-SUGGESTIONS-004] A question longer than 80 characters is invalid.
+- [RULE-SUGGESTIONS-005] A `Suggestions` with the same question twice is invalid.
