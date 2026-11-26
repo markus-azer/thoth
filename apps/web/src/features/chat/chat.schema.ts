@@ -4,11 +4,16 @@ export const MAX_MESSAGE_LENGTH = 500;
 
 export const ThreadSchema = z.object({ id: z.uuid() });
 
-export const ReplySchema = z.object({ reply: z.string() });
+export const ReplySchema = z.object({
+	reply: z.string(),
+	ui: z.string().optional(),
+});
 
 const TurnSchema = z.object({
+	id: z.string().min(1),
 	role: z.enum(["visitor", "agent"]),
 	text: z.string(),
+	ui: z.string().optional(),
 });
 
 export const ConversationSchema = z.object({

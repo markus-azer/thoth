@@ -5,13 +5,17 @@ import {
 	Suggestions,
 } from "../../src/components/suggestions";
 
+const distinctQuestions = (count: number) => {
+	return Array.from({ length: count }, (_, index) => `Question ${index}?`);
+};
+
 const accepts = (questions: string[]) => {
 	return Suggestions.props.safeParse({ questions }).success;
 };
 
 describe("Suggestions component", () => {
 	it("accepts the most questions it allows", () => {
-		const questions = Array.from({ length: MAX_QUESTIONS }, () => "Q?");
+		const questions = distinctQuestions(MAX_QUESTIONS);
 
 		const valid = accepts(questions);
 
@@ -33,7 +37,7 @@ describe("Suggestions component", () => {
 	});
 
 	it("RULE-SUGGESTIONS-002: A `Suggestions` with more than 4 questions is invalid", () => {
-		const questions = Array.from({ length: MAX_QUESTIONS + 1 }, () => "Q?");
+		const questions = distinctQuestions(MAX_QUESTIONS + 1);
 
 		const valid = accepts(questions);
 
@@ -54,6 +58,12 @@ describe("Suggestions component", () => {
 		const tooLong = "x".repeat(MAX_QUESTION_LENGTH + 1);
 
 		const valid = accepts([tooLong]);
+
+		expect(valid).toBe(false);
+	});
+
+	it("RULE-SUGGESTIONS-005: A `Suggestions` with the same question twice is invalid", () => {
+		const valid = accepts(["What next?", "What next?"]);
 
 		expect(valid).toBe(false);
 	});

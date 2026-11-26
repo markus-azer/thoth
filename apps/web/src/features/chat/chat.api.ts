@@ -54,11 +54,11 @@ export const sendMessage = async (
 ) => {
 	const thread = threadId ? { id: threadId } : await createThread(config);
 
-	const { reply } = await post(
+	const { reply, ui } = await post(
 		`${config.apiUrl}/threads/${thread.id}/messages`,
 		{ message },
 		ReplySchema,
 	);
 
-	return { threadId: thread.id, reply };
+	return { threadId: thread.id, reply, ui };
 };

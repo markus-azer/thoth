@@ -3,7 +3,7 @@ import {
 	type Conversation,
 	findConversation,
 	loadConversations,
-	newConversationId,
+	newId,
 	putFirst,
 	saveConversations,
 	sendMessage,
@@ -13,7 +13,9 @@ import {
 } from "~/features/chat/index";
 import type { Thunk, ThunkDeps } from "../helpers/index";
 
-type Reply = { threadId: string; reply: string };
+type Reply = { threadId: string; reply: string; ui?: string | undefined };
+
+type Answer = Reply & { visitorTurnId: string; agentTurnId: string };
 
 type Failure = "expired" | "failed";
 
@@ -33,6 +35,8 @@ export type ChatState = {
 	asking: Asking | null;
 	notice: string | null;
 };
+
+const PENDING_TURN_ID = "pending";
 
 const NOTICES: Record<Failure, string> = {
 	expired:
@@ -74,12 +78,12 @@ const pendingAsking = (state: ChatState) => {
 };
 
 // Ids are made here so the reducers stay pure.
-const prepareNewChatId = () => ({ payload: newConversationId() });
+const prepareNewChatId = () => ({ payload: newId() });
 
 const slice = createSlice({
 	name: "chat",
 	// Lazy, so each store gets its own chat id.
-	initialState: () => initialChatState(newConversationId()),
+	initialState: () => initialChatState(newId()),
 	reducers: {
 		loaded: (state, action: PayloadAction<Conversation[]>) => {
 			state.loaded = true;
@@ -100,31 +104,42 @@ const slice = createSlice({
 			};
 		},
 
-		answered: (state, action: PayloadAction<Reply>) => {
-			const asking = pendingAsking(state);
+		answered: {
+			reducer: (state, action: PayloadAction<Answer>) => {
+				const asking = pendingAsking(state);
 
-			if (!asking) {
-				return;
-			}
+				if (!asking) {
+					return;
+				}
 
-			const { conversationId, question } = asking;
-			const conversation = findConversation(
-				state.conversations,
-				conversationId,
-			);
+				const { conversationId, question } = asking;
+				const { threadId, reply, ui, visitorTurnId, agentTurnId } =
+					action.payload;
+				const conversation = findConversation(
+					state.conversations,
+					conversationId,
+				);
 
-			if (!conversation.title) {
-				conversation.title = titleOf(question);
-			}
+				if (!conversation.title) {
+					conversation.title = titleOf(question);
+				}
 
-			conversation.threadId = action.payload.threadId;
-			conversation.turns.push(
-				{ role: "visitor", text: question },
-				{ role: "agent", text: action.payload.reply },
-			);
+				conversation.threadId = threadId;
+				conversation.turns.push(
+					{ id: visitorTurnId, role: "visitor", text: question },
+					{ id: agentTurnId, role: "agent", text: reply, ui },
+				);
 
-			state.conversations = putFirst(state.conversations, conversation);
-			state.asking = null;
+				state.conversations = putFirst(state.conversations, conversation);
+				state.asking = null;
+			},
+			prepare: (reply: Reply) => ({
+				payload: {
+					...reply,
+					visitorTurnId: newId(),
+					agentTurnId: newId(),
+				},
+			}),
 		},
 
 		failed: (state, action: PayloadAction<Failure>) => {
@@ -203,7 +218,14 @@ export const visibleTurns = (
 		return turns;
 	}
 
-	return [...turns, { role: "visitor" as const, text: chat.asking.question }];
+	return [
+		...turns,
+		{
+			id: PENDING_TURN_ID,
+			role: "visitor" as const,
+			text: chat.asking.question,
+		},
+	];
 };
 
 type ChatThunk<Result = void> = Thunk<{ chat: ChatState }, Result>;

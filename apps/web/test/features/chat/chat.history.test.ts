@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import {
 	emptyConversation,
 	loadConversations,
-	newConversationId,
+	newId,
 	putFirst,
 	saveConversations,
 } from "~/features/chat/chat.history";
@@ -70,8 +70,8 @@ describe("chat history", () => {
 	});
 
 	it("RULE-CHAT-006: A visitor starts a new chat → it gets an id of its own, in any browser.", () => {
-		const first = newConversationId();
-		const second = newConversationId();
+		const first = newId();
+		const second = newId();
 
 		expect(first).not.toBe(second);
 	});

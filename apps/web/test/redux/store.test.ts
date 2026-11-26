@@ -68,8 +68,8 @@ describe("store", () => {
 		const saved = loadConversations(localStorage);
 
 		expect(saved[0]?.turns).toEqual([
-			{ role: "visitor", text: "hi" },
-			{ role: "agent", text: "Hello" },
+			{ id: expect.any(String), role: "visitor", text: "hi" },
+			{ id: expect.any(String), role: "agent", text: "Hello" },
 		]);
 	});
 

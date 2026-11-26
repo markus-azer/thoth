@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
 	answered,
 	asked,
@@ -23,6 +23,10 @@ const apply = (state: ChatState, ...actions: ChatAction[]) => {
 };
 
 describe("chat slice", () => {
+	afterEach(() => {
+		vi.unstubAllGlobals();
+	});
+
 	it("RULE-CHAT-012: A visitor sends a message → it shows in the chat at once and the input clears.", () => {
 		const typing = apply(initialChatState("a"), draftChanged("hi"));
 
@@ -30,7 +34,9 @@ describe("chat slice", () => {
 
 		expect(sent.draft).toBe("");
 		expect(isPending(sent)).toBe(true);
-		expect(visibleTurns(sent)).toEqual([{ role: "visitor", text: "hi" }]);
+		expect(visibleTurns(sent)).toEqual([
+			{ id: expect.any(String), role: "visitor", text: "hi" },
+		]);
 	});
 
 	it("RULE-CHAT-013: The reply fails → the message returns to the input and the visitor is told.", () => {
@@ -69,6 +75,18 @@ describe("chat slice", () => {
 
 		expect(state.activeId).toBe("b");
 		expect(state.draft).toBe("");
+	});
+
+	it("a reply is saved in a browser without crypto.randomUUID", () => {
+		vi.stubGlobal("crypto", {});
+
+		const state = apply(
+			initialChatState("a"),
+			asked("hi"),
+			answered({ threadId, reply: "Hello" }),
+		);
+
+		expect(state.conversations[0]?.turns).toHaveLength(2);
 	});
 
 	it("clearing the history empties it and opens a new chat", () => {
@@ -121,8 +139,8 @@ describe("chat slice", () => {
 		expect(saved?.id).toBe("a");
 		expect(saved?.threadId).toBe(threadId);
 		expect(saved?.turns).toEqual([
-			{ role: "visitor", text: "hi" },
-			{ role: "agent", text: "Hello" },
+			{ id: expect.any(String), role: "visitor", text: "hi" },
+			{ id: expect.any(String), role: "agent", text: "Hello" },
 		]);
 	});
 });

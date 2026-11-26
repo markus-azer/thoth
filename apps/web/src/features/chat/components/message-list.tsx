@@ -1,5 +1,6 @@
 import { isEmptyChat } from "../chat.history";
 import type { Conversation } from "../chat.schema";
+import { GenuiView } from "../genui/genui-view";
 import { useScrollToEnd } from "../hooks/use-scroll-to-end";
 import { Starters } from "./starters";
 import { ThinkingBubble } from "./thinking-bubble";
@@ -24,7 +25,7 @@ const LIST_STYLE = `flex flex-1 flex-col gap-3 overflow-y-auto overscroll-contai
 
 const BUBBLE_STYLE = `max-w-[85%] rounded-2xl px-3.5 py-2 text-sm whitespace-pre-wrap [overflow-wrap:anywhere] ${ENTER_STYLE}`;
 const VISITOR_STYLE = `${BUBBLE_STYLE} self-end rounded-br-md bg-primary text-primary-foreground`;
-const AGENT_STYLE = `${BUBBLE_STYLE} w-fit rounded-bl-md bg-muted`;
+const AGENT_STYLE = `${BUBBLE_STYLE} flex w-fit flex-col gap-2 rounded-bl-md bg-muted`;
 const NOTICE_STYLE =
 	"rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive";
 
@@ -43,15 +44,28 @@ export const MessageList = ({
 				<Starters disabled={!canPickStarter} onPick={onPickStarter} />
 			)}
 
-			{turns.map((turn, index) => (
-				<p
-					// biome-ignore lint/suspicious/noArrayIndexKey: turns are append-only
-					key={index}
-					className={turn.role === "visitor" ? VISITOR_STYLE : AGENT_STYLE}
-				>
-					{turn.text}
-				</p>
-			))}
+			{turns.map((turn) => {
+				if (turn.role === "visitor") {
+					return (
+						<p key={turn.id} className={VISITOR_STYLE}>
+							{turn.text}
+						</p>
+					);
+				}
+
+				return (
+					<div key={turn.id} className={AGENT_STYLE}>
+						<p>{turn.text}</p>
+						{turn.ui && (
+							<GenuiView
+								program={turn.ui}
+								interactive={canPickStarter}
+								onContinue={onPickStarter}
+							/>
+						)}
+					</div>
+				);
+			})}
 
 			{pending && <ThinkingBubble />}
 

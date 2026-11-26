@@ -7,7 +7,7 @@ const config: NextConfig = {
 	distDir: "dist",
 	// The repo root, so the standalone build includes the workspace packages.
 	outputFileTracingRoot: fileURLToPath(new URL("../..", import.meta.url)),
-	transpilePackages: ["@thoth/ui", "@thoth/utils"],
+	transpilePackages: ["@thoth/genui", "@thoth/ui", "@thoth/utils"],
 };
 
 export default config;
