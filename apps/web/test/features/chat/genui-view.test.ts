@@ -57,6 +57,14 @@ describe("generated UI", () => {
 		expect(html).toContain('href="https://github.com/markus"');
 	});
 
+	it("shows an uppercase HTTPS link", () => {
+		const html = renderHtml(
+			'root = Stack([site])\nsite = Link("GitHub", "HTTPS://github.com/markus")',
+		);
+
+		expect(html).toContain('href="HTTPS://github.com/markus"');
+	});
+
 	it("does not link a non-https url", () => {
 		const html = renderHtml(
 			'root = Stack([site])\nsite = Link("Bad", "javascript:alert(1)")',
