@@ -10,7 +10,7 @@ export const ReplySchema = z.object({
 });
 
 const TurnSchema = z.object({
-	id: z.string().default(() => crypto.randomUUID()),
+	id: z.string().min(1),
 	role: z.enum(["visitor", "agent"]),
 	text: z.string(),
 	ui: z.string().optional(),

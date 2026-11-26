@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import {
 	emptyConversation,
 	loadConversations,
-	newConversationId,
+	newId,
 	putFirst,
 	saveConversations,
 } from "~/features/chat/chat.history";
@@ -69,28 +69,9 @@ describe("chat history", () => {
 		expect(() => saveConversations(fullStore, [])).not.toThrow();
 	});
 
-	it("a saved turn without an id gets one when it loads", () => {
-		const store = {
-			getItem: () =>
-				JSON.stringify([
-					{
-						id: "a",
-						threadId: null,
-						title: "hi",
-						turns: [{ role: "visitor", text: "hi" }],
-					},
-				]),
-			setItem: () => undefined,
-		};
-
-		const [conversation] = loadConversations(store);
-
-		expect(conversation?.turns[0]?.id).toEqual(expect.any(String));
-	});
-
 	it("RULE-CHAT-006: A visitor starts a new chat → it gets an id of its own, in any browser.", () => {
-		const first = newConversationId();
-		const second = newConversationId();
+		const first = newId();
+		const second = newId();
 
 		expect(first).not.toBe(second);
 	});

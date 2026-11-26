@@ -3,7 +3,7 @@ import {
 	type Conversation,
 	findConversation,
 	loadConversations,
-	newConversationId,
+	newId,
 	putFirst,
 	saveConversations,
 	sendMessage,
@@ -78,12 +78,12 @@ const pendingAsking = (state: ChatState) => {
 };
 
 // Ids are made here so the reducers stay pure.
-const prepareNewChatId = () => ({ payload: newConversationId() });
+const prepareNewChatId = () => ({ payload: newId() });
 
 const slice = createSlice({
 	name: "chat",
 	// Lazy, so each store gets its own chat id.
-	initialState: () => initialChatState(newConversationId()),
+	initialState: () => initialChatState(newId()),
 	reducers: {
 		loaded: (state, action: PayloadAction<Conversation[]>) => {
 			state.loaded = true;
@@ -136,8 +136,8 @@ const slice = createSlice({
 			prepare: (reply: Reply) => ({
 				payload: {
 					...reply,
-					visitorTurnId: crypto.randomUUID(),
-					agentTurnId: crypto.randomUUID(),
+					visitorTurnId: newId(),
+					agentTurnId: newId(),
 				},
 			}),
 		},

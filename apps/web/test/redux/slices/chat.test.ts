@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
 	answered,
 	asked,
@@ -23,6 +23,10 @@ const apply = (state: ChatState, ...actions: ChatAction[]) => {
 };
 
 describe("chat slice", () => {
+	afterEach(() => {
+		vi.unstubAllGlobals();
+	});
+
 	it("RULE-CHAT-012: A visitor sends a message → it shows in the chat at once and the input clears.", () => {
 		const typing = apply(initialChatState("a"), draftChanged("hi"));
 
@@ -71,6 +75,18 @@ describe("chat slice", () => {
 
 		expect(state.activeId).toBe("b");
 		expect(state.draft).toBe("");
+	});
+
+	it("a reply is saved in a browser without crypto.randomUUID", () => {
+		vi.stubGlobal("crypto", {});
+
+		const state = apply(
+			initialChatState("a"),
+			asked("hi"),
+			answered({ threadId, reply: "Hello" }),
+		);
+
+		expect(state.conversations[0]?.turns).toHaveLength(2);
 	});
 
 	it("clearing the history empties it and opens a new chat", () => {

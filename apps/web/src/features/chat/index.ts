@@ -2,7 +2,7 @@ export { sendMessage, ThreadNotFoundError } from "./chat.api";
 export {
 	findConversation,
 	loadConversations,
-	newConversationId,
+	newId,
 	putFirst,
 	saveConversations,
 	titleOf,
