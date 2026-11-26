@@ -101,6 +101,8 @@ describe("generated UI", () => {
 		const onContinue = vi.fn();
 		const buttons = mountSuggestions(false, onContinue);
 
+		expect(buttons).toHaveLength(2);
+
 		act(() => buttons[0]?.click());
 
 		expect(buttons.every((button) => button.disabled)).toBe(true);
