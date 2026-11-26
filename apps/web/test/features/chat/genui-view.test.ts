@@ -6,6 +6,8 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { GenuiView } from "~/features/chat/genui/genui-view";
 
+Reflect.set(globalThis, "IS_REACT_ACT_ENVIRONMENT", true);
+
 const FIRST_QUESTION = "What is thoth?";
 
 const SUGGESTIONS_PROGRAM = `root = Stack([next])\nnext = Suggestions(["${FIRST_QUESTION}", "Who is the owner?"])`;
