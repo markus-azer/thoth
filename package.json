@@ -38,7 +38,7 @@
 		"@biomejs/biome": "2.6.8",
 		"@commitlint/cli": "21.2.4",
 		"@commitlint/config-conventional": "21.2.4",
-		"@railway/cli": "5.74.1",
+		"@railway/cli": "5.75.0",
 		"@secretlint/secretlint-rule-preset-recommend": "13.1.0",
 		"dependency-cruiser": "18.8.0",
 		"husky": "9.1.7",
