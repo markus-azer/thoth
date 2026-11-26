@@ -16,7 +16,7 @@
 	"dependencies": {
 		"@asteasolutions/zod-to-openapi": "9.1.0",
 		"@better-auth/oauth-provider": "1.7.26",
-		"@langchain/core": "1.4.1",
+		"@langchain/core": "1.4.2",
 		"@langchain/langgraph": "1.7.5",
 		"@langchain/openrouter": "0.4.25",
 		"@modelcontextprotocol/sdk": "1.32.2",
