@@ -13,7 +13,7 @@
 	},
 	"dependencies": {
 		"@openuidev/react-lang": "1.1.1",
-		"@reduxjs/toolkit": "2.14.0",
+		"@reduxjs/toolkit": "2.15.0",
 		"@thoth/genui": "workspace:*",
 		"@thoth/ui": "workspace:*",
 		"@thoth/utils": "workspace:*",
